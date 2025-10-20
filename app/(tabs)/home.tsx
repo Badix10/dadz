@@ -1,5 +1,6 @@
 import { SearchBar } from '@/components';
 import CategoryList from '@/components/CategoryList';
+import { FilterDrawer, type FilterConfig, type SelectedFilters } from '@/components/FilterDrawer';
 import Header from '@/components/Header';
 import PromoCard from '@/components/PromoCard';
 import RestaurantGrid from '@/components/RestaurantGrid';
@@ -22,6 +23,44 @@ export default function HomeScreen() {
   const [favorites, setFavorites] = useState<FavoritesMap>(() =>
     RESTAURANTS.reduce((acc, rest) => ({ ...acc, [rest.id]: rest.isFavorite }), {})
   );
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({});
+
+  // Filter configuration (YAGNI - Start simple)
+  const filterConfig: FilterConfig[] = useMemo(() => [
+    {
+      id: 'rating',
+      title: 'Rating',
+      type: 'radio',
+      options: [
+        { id: 'rating-1', label: '4.5+ Stars', value: '4.5' },
+        { id: 'rating-2', label: '4.0+ Stars', value: '4.0' },
+        { id: 'rating-3', label: '3.5+ Stars', value: '3.5' },
+        { id: 'rating-4', label: 'All Ratings', value: 'all' },
+      ],
+    },
+    {
+      id: 'price',
+      title: 'Price Range',
+      type: 'checkbox',
+      options: [
+        { id: 'price-1', label: '$', value: 'low' },
+        { id: 'price-2', label: '$$', value: 'medium' },
+        { id: 'price-3', label: '$$$', value: 'high' },
+      ],
+    },
+    {
+      id: 'delivery',
+      title: 'Delivery Time',
+      type: 'radio',
+      options: [
+        { id: 'delivery-1', label: 'Under 30 min', value: '30' },
+        { id: 'delivery-2', label: 'Under 45 min', value: '45' },
+        { id: 'delivery-3', label: 'Under 60 min', value: '60' },
+        { id: 'delivery-4', label: 'Any Time', value: 'any' },
+      ],
+    },
+  ], []);
 
   // Memoized handlers to prevent unnecessary re-renders
   const handleFavoriteToggle = useCallback((id: string) => {
@@ -34,8 +73,17 @@ export default function HomeScreen() {
   }, []);
 
   const handleFilterPress = useCallback(() => {
-    // TODO: Implement filter functionality
-    console.log('Filter pressed');
+    setFilterVisible(true);
+  }, []);
+
+  const handleCloseFilter = useCallback(() => {
+    setFilterVisible(false);
+  }, []);
+
+  const handleApplyFilters = useCallback((filters: SelectedFilters) => {
+    setSelectedFilters(filters);
+    console.log('Applied filters:', filters);
+    // TODO: Filter restaurants based on selected filters
   }, []);
 
   const handleCartPress = useCallback(() => {
@@ -108,6 +156,14 @@ export default function HomeScreen() {
           title="Fastest Near You"
         />
       </ScrollView>
+
+      <FilterDrawer
+        visible={filterVisible}
+        onClose={handleCloseFilter}
+        filters={filterConfig}
+        selectedFilters={selectedFilters}
+        onApply={handleApplyFilters}
+      />
     </SafeAreaView>
   );
 }
