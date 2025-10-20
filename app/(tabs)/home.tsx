@@ -1,8 +1,8 @@
+import { SearchBar } from '@/components';
 import CategoryList from '@/components/CategoryList';
 import Header from '@/components/Header';
 import PromoCard from '@/components/PromoCard';
 import RestaurantGrid from '@/components/RestaurantGrid';
-import { SearchBar } from '@/components';
 import {
   CATEGORIES,
   DEFAULT_LOCATION,
@@ -11,7 +11,8 @@ import {
 } from '@/constants';
 import type { Category, FavoritesMap, Restaurant } from '@/types';
 import React, { useCallback, useMemo, useState } from 'react';
-import { SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { ScrollView, StatusBar } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 /**
  * Home Screen - Main Food Delivery Page

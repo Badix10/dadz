@@ -24,8 +24,8 @@ const CategoryList: React.FC<CategoryListProps> = memo(({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      className="px-4 py-4"
-      contentContainerStyle={{ gap: 16 }}
+      className="py-4"
+      contentContainerStyle={{ gap: 16, paddingHorizontal: 16 }}
       accessibilityLabel="Categories list"
     >
       {categories.map((category) => (

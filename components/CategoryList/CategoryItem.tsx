@@ -1,5 +1,6 @@
 import React, { memo, useCallback } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import type { Category } from '@/types';
 
 interface CategoryItemProps {
@@ -26,11 +27,11 @@ const CategoryItem: React.FC<CategoryItemProps> = memo(({
       accessibilityLabel={`${category.name} category`}
       accessibilityRole="button"
     >
-      <View className="w-16 h-16 rounded-full overflow-hidden mb-2 shadow-md">
-        <Image
-          source={{ uri: category.image }}
-          className="w-full h-full"
-          resizeMode="cover"
+      <View className="w-16 h-16 rounded-full bg-primary items-center justify-center mb-2 shadow-md">
+        <Ionicons
+          name={category.icon as any}
+          size={32}
+          color="white"
           accessibilityLabel={category.name}
         />
       </View>

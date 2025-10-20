@@ -1,4 +1,4 @@
-import { Alert, AlertVariant, Checkbox, CustomInput, Divider, Logo, PasswordInput, PrimaryButton, SocialButton, TextLink } from '@/components/ui';
+import { Alert, AlertVariant, CustomInput, Divider, Logo, PasswordInput, PrimaryButton, SocialButton, TextLink } from '@/components/ui';
 import { supabase } from '@/lib/supabase';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
@@ -76,6 +76,17 @@ const SignScreen = () => {
     variant: 'info',
   });
 
+  // Check if user is already logged in
+  React.useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.replace('/(tabs)/home');
+      }
+    };
+    checkSession();
+  }, []);
+
   // Form pour Login
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -115,6 +126,8 @@ const SignScreen = () => {
       if (error) throw error;
 
       showAlertFun('Success!', 'You have been logged in successfully', 'success');
+      router.replace('/(tabs)/home');
+      
     } catch {
       showAlertFun('Error', 'Invalid email or password', 'danger');
     } finally {
@@ -161,12 +174,11 @@ const SignScreen = () => {
 
   const handleForgotPassword = () => {
     console.log('Forgot password');
-    // TODO: Implement forgot password
   };
 
   return (
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -230,7 +242,7 @@ const SignScreen = () => {
                 )}
               />
 
-              <View className="flex-row items-center justify-between mb-6">
+              {/* <View className="flex-row items-center justify-between mb-6">
                 <Checkbox
                   checked={rememberMe}
                   onPress={() => setRememberMe(!rememberMe)}
@@ -243,7 +255,7 @@ const SignScreen = () => {
                   containerClassName="py-0"
                   linkClassName="text-subtext-light underline"
                 />
-              </View>
+              </View> */}
 
               <PrimaryButton
                 title="Login"

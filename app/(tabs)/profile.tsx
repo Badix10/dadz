@@ -1,12 +1,47 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { PageHeader } from '@/components/PageHeader';
+import { PrimaryButton } from '@/components/ui';
+import { useAuth } from '@/hooks/useAuth';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import React from 'react';
+import { ActivityIndicator, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 /**
  * Profile Screen
  * Displays user profile and settings
  */
 export default function ProfileScreen() {
+  const { isLoading, user, logout } = useAuth(false);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-white items-center justify-center">
+        <StatusBar barStyle="light-content" />
+        <ActivityIndicator size="large" color="#FFC700" />
+      </SafeAreaView>
+    );
+  }
+
+  if (!user) {
+    return (
+      <SafeAreaView className="flex-1 bg-white items-center justify-center px-4">
+        <StatusBar barStyle="light-content" />
+        <Ionicons name="person-circle-outline" size={120} color="#9CA3AF" />
+        <Text className="text-2xl font-bold text-black mt-6 mb-2">
+          Not logged in
+        </Text>
+        <Text className="text-gray-500 text-center mb-6">
+          Please log in to view your profile
+        </Text>
+        <PrimaryButton
+          title="Log In"
+          onPress={() => router.push('/sign')}
+        />
+      </SafeAreaView>
+    );
+  }
+
   const menuItems = [
     { icon: 'person-outline', title: 'Edit Profile', subtitle: 'Update your information' },
     { icon: 'location-outline', title: 'Addresses', subtitle: 'Manage delivery addresses' },
@@ -18,22 +53,27 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
 
-      <View className="px-4 pt-4 pb-6">
-        <Text className="text-3xl font-bold text-black mb-2">Profile</Text>
-        <Text className="text-gray-500">Manage your account</Text>
-      </View>
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 80 }}
+      >
+        <PageHeader title="Profile" subtitle="Manage your account" />
 
-      <ScrollView className="flex-1">
         {/* User Info Card */}
         <View className="mx-4 mb-6 bg-gray-50 rounded-2xl p-4 flex-row items-center">
-          <View className="w-16 h-16 rounded-full bg-[#FFC700] items-center justify-center">
+          <View className="w-16 h-16 rounded-full bg-primary items-center justify-center">
             <Ionicons name="person" size={32} color="black" />
           </View>
           <View className="ml-4 flex-1">
-            <Text className="text-xl font-bold text-black">John Doe</Text>
-            <Text className="text-gray-500">john.doe@example.com</Text>
+            <Text className="text-xl font-bold text-black">
+              {user?.user_metadata?.first_name && user?.user_metadata?.last_name
+                ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}`
+                : 'User'}
+            </Text>
+            <Text className="text-gray-500">{user?.email || ''}</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#9CA3AF" />
         </View>
@@ -59,7 +99,10 @@ export default function ProfileScreen() {
 
         {/* Logout Button */}
         <View className="px-4 py-6">
-          <TouchableOpacity className="bg-red-50 rounded-xl py-4 flex-row items-center justify-center">
+          <TouchableOpacity
+            onPress={logout}
+            className="bg-red-50 rounded-xl py-4 flex-row items-center justify-center"
+          >
             <Ionicons name="log-out-outline" size={24} color="#EF4444" />
             <Text className="text-red-500 font-semibold ml-2">Log Out</Text>
           </TouchableOpacity>

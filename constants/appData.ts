@@ -9,27 +9,52 @@ export const CATEGORIES: Category[] = [
   {
     id: '1',
     name: 'Burger',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB0GJP2-hjYvwY-EiOJG9CE9OSDJ_Vm8tD10GiPCLgiNOwj-nyhZNHqZR418ZrYb8Vi7V5TKN0huub5IeZwgNdWtIO7XDlmcypYJensCEzrFJAQWIGCEuvoZ4yRsjmlEn7Q3r1rUVMYiVZ_ups0901BKVKef7l0Efur2gz7HzDdbygYb2i2Sv19GP8_bSQTQM3Tj5aPnQXBHBBRdkMIzzxiD6K2daB6HdYN-T8CzRE0bg-ctivKmqy28Rfmn_hxHYHVVs63VBgGAsg',
+    icon: 'fast-food',
   },
   {
     id: '2',
     name: 'Pizza',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCNJKnvaQhBIsJkwOrGlT1x7e0CfWKzvE_qfa5jtTgxP1nSzhRXjCQK22y8y9RjOP0E1Fb-0iw7SC_m-TtqFmRW1vjDPzY10QydrP5mzCAqitnuO7Ss1BzbbQU4xDE-D76HxFKMm7i75HqdMvrj_O28wQNCB8iYYNjCCAIk2ArZd5jIn8i-IVS_kA2wjTjQZ6P19HOtgw-goZ7RoWkYVvkq8g8oHPSny2dBJ_gOZhXbHALKwNjHKi-GgyJrh423hVemakCxdCozqoo',
+    icon: 'pizza',
   },
   {
     id: '3',
     name: 'Sushi',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuByW_yl5TY339mGqEnfEj3Lh-XSz_eU4_8h1WRuMFpkbYZXteJbIAebHVvNf8hik30GMrkLsRhSlWRew0nzKzcBjLEOfjxxD3-uBuq_pgoXE8BqevAbEAKXJKaR1d6g0yEiIqeHZ-JA4aDEAI7pWcXh7JPZkEyzwCJ-blmbZtkLP-qsMxdRHRHsX8nco3hxESypEho09hpLxlzmf-sRevHyw3LJAcHxGjm_-Ljn0KHCqR6Jco2vu8sqk1Z0EDig5ILtOYeTO_Fu9lg',
+    icon: 'fish',
   },
   {
     id: '4',
     name: 'Fast Food',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBXtAHmvs8B19ZibjcFiAH3CJCOn4ZaowRGOO85N6XY-jEECeEJ-GLUjxHgyaSN_arkgXii83G0CkUv1_YBFFBZSCs3ZTwpkSGwYcyJ2xHANxhIJxHMa5nLs5ck3q1S_dCFPAAROsYVoZr_f7KQgHZeilGhfYL143h4ht_QbwV5wq151XJw-Cp4oxSn-WR6z1aRdREqUSD9kREoH9PTVeONK6EkK4YVLDnwNaXXbON0rmJSsnMaXsedLIlzoTgYnY38PDjYIasSZuE',
+    icon: 'cafe',
   },
   {
     id: '5',
     name: 'Japanese',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDzm4kxw5-zuvPH7dHRoA2Ut-fqjqney4nLDZLeQdsx5SjjDbLUPVJbkwhvGO1UdNxyGgFO-_-8z8md_Kmmc5f0xsUIjGFjqGaW4YFtgcn0sHzPkCaGNEbBgtj1xr3dHU5Lr0dsl7P4l60Ce3g8cHbwW2isw4ysbgScG4zzafrSTdnGvugLRusGG-6G4pnSBJSK3mEDNYM-OUGjkN8b-2s6dAYtE2UOedKdULAXmFKLPX_9kcFtX5Y6V9lOJKUII0XDMXjb-_vW8CM',
+    icon: 'restaurant',
+  },
+  {
+    id: '6',
+    name: 'Dessert',
+    icon: 'ice-cream',
+  },
+  {
+    id: '7',
+    name: 'Drinks',
+    icon: 'beer',
+  },
+  {
+    id: '8',
+    name: 'Healthy',
+    icon: 'leaf',
+  },
+  {
+    id: '9',
+    name: 'Mexican',
+    icon: 'flame',
+  },
+  {
+    id: '10',
+    name: 'Italian',
+    icon: 'wine',
   },
 ];
 
