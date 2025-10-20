@@ -1,0 +1,8 @@
+{
+  "title": "My Orders",
+  "subtitle": "View and track your orders",
+  "empty": {
+    "title": "No orders yet",
+    "message": "Your order history will appear here"
+  }
+}

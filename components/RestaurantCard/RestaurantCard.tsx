@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks';
 import { Ionicons } from '@expo/vector-icons';
 import React, { memo, useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
@@ -20,6 +21,8 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
   onFavoriteToggle,
   onPress,
 }) => {
+  const { t } = useTranslation();
+
   const handleFavoritePress = useCallback(() => {
     onFavoriteToggle(restaurant.id);
   }, [onFavoriteToggle, restaurant.id]);
@@ -47,7 +50,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
         <TouchableOpacity
           onPress={handleFavoritePress}
           className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 shadow-md"
-          accessibilityLabel={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          accessibilityLabel={isFavorite ? t('home:restaurants.removeFromFavorites') : t('home:restaurants.addToFavorites')}
           accessibilityRole="button"
         >
           <Ionicons

@@ -3,3 +3,4 @@
  */
 
 export { useFavorites } from './useFavorites';
+export * from './useTranslation';

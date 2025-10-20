@@ -1,0 +1,8 @@
+{
+  "title": "Statistiques",
+  "subtitle": "Vos informations de commande",
+  "empty": {
+    "title": "Aucune donnée",
+    "message": "Commencez à commander pour voir vos statistiques"
+  }
+}

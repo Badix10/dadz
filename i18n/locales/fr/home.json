@@ -1,0 +1,50 @@
+{
+  "header": {
+    "location": "Localisation",
+    "greeting": "Qu'allez-vous\nmanger aujourd'hui ?",
+    "searchPlaceholder": "Rechercher ici...",
+    "cart": "Panier",
+    "notifications": "Notifications"
+  },
+  "promo": {
+    "title": "Profitez de nos offres",
+    "description": "Découvrez les meilleures promotions",
+    "buttonText": "Commander maintenant"
+  },
+  "categories": {
+    "title": "Catégories"
+  },
+  "restaurants": {
+    "title": "Les plus rapides près de chez vous",
+    "rating": "Note",
+    "deliveryTime": "Livraison",
+    "minutes": "min",
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris"
+  },
+  "filters": {
+    "title": "Filtres",
+    "apply": "Appliquer",
+    "reset": "Réinitialiser",
+    "rating": {
+      "title": "Note",
+      "4.5+": "4.5+ Étoiles",
+      "4.0+": "4.0+ Étoiles",
+      "3.5+": "3.5+ Étoiles",
+      "all": "Toutes les notes"
+    },
+    "price": {
+      "title": "Gamme de prix",
+      "low": "$",
+      "medium": "$$",
+      "high": "$$$"
+    },
+    "delivery": {
+      "title": "Temps de livraison",
+      "under30": "Moins de 30 min",
+      "under45": "Moins de 45 min",
+      "under60": "Moins de 60 min",
+      "any": "N'importe quand"
+    }
+  }
+}

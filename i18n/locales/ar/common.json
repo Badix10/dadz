@@ -1,0 +1,18 @@
+{
+  "appName": "Dadz",
+  "welcome": "مرحبا",
+  "loading": "جاري التحميل...",
+  "error": "خطأ",
+  "success": "نجح",
+  "cancel": "إلغاء",
+  "confirm": "تأكيد",
+  "save": "حفظ",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "back": "رجوع",
+  "next": "التالي",
+  "done": "تم",
+  "search": "بحث",
+  "filter": "تصفية",
+  "or": "أو"
+}

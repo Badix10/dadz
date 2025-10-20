@@ -1,0 +1,8 @@
+{
+  "title": "Mes Commandes",
+  "subtitle": "Consultez et suivez vos commandes",
+  "empty": {
+    "title": "Aucune commande",
+    "message": "Votre historique de commandes apparaîtra ici"
+  }
+}

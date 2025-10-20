@@ -1,0 +1,41 @@
+{
+  "title": "الملف الشخصي",
+  "subtitle": "إدارة حسابك",
+  "notLoggedIn": {
+    "title": "غير مسجل الدخول",
+    "message": "يرجى تسجيل الدخول لعرض ملفك الشخصي",
+    "loginButton": "تسجيل الدخول"
+  },
+  "language": {
+    "title": "اللغة",
+    "subtitle": "اختر لغتك المفضلة"
+  },
+  "menu": {
+    "editProfile": {
+      "title": "تعديل الملف الشخصي",
+      "subtitle": "تحديث معلوماتك"
+    },
+    "addresses": {
+      "title": "العناوين",
+      "subtitle": "إدارة عناوين التوصيل"
+    },
+    "paymentMethods": {
+      "title": "طرق الدفع",
+      "subtitle": "إدارة خيارات الدفع"
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "subtitle": "تفضيلات الإشعارات"
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "subtitle": "إعدادات التطبيق"
+    },
+    "help": {
+      "title": "المساعدة والدعم",
+      "subtitle": "احصل على المساعدة"
+    }
+  },
+  "logout": "تسجيل الخروج",
+  "user": "مستخدم"
+}

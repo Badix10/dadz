@@ -1,0 +1,41 @@
+{
+  "title": "Profile",
+  "subtitle": "Manage your account",
+  "notLoggedIn": {
+    "title": "Not logged in",
+    "message": "Please log in to view your profile",
+    "loginButton": "Log In"
+  },
+  "language": {
+    "title": "Language",
+    "subtitle": "Choose your preferred language"
+  },
+  "menu": {
+    "editProfile": {
+      "title": "Edit Profile",
+      "subtitle": "Update your information"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "subtitle": "Manage delivery addresses"
+    },
+    "paymentMethods": {
+      "title": "Payment Methods",
+      "subtitle": "Manage payment options"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Notification preferences"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "App settings"
+    },
+    "help": {
+      "title": "Help & Support",
+      "subtitle": "Get help"
+    }
+  },
+  "logout": "Log Out",
+  "user": "User"
+}

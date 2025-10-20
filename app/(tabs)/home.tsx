@@ -11,6 +11,7 @@ import {
   RESTAURANTS,
 } from '@/constants';
 import type { Category, FavoritesMap, Restaurant } from '@/types';
+import { useTranslation } from '@/hooks';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StatusBar } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +21,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * Displays categories, promotions, and nearby restaurants
  */
 export default function HomeScreen() {
+  const { t } = useTranslation();
   const [favorites, setFavorites] = useState<FavoritesMap>(() =>
     RESTAURANTS.reduce((acc, rest) => ({ ...acc, [rest.id]: rest.isFavorite }), {})
   );
@@ -30,37 +32,37 @@ export default function HomeScreen() {
   const filterConfig: FilterConfig[] = useMemo(() => [
     {
       id: 'rating',
-      title: 'Rating',
+      title: t('home:filters.rating.title'),
       type: 'radio',
       options: [
-        { id: 'rating-1', label: '4.5+ Stars', value: '4.5' },
-        { id: 'rating-2', label: '4.0+ Stars', value: '4.0' },
-        { id: 'rating-3', label: '3.5+ Stars', value: '3.5' },
-        { id: 'rating-4', label: 'All Ratings', value: 'all' },
+        { id: 'rating-1', label: t('home:filters.rating.4.5+'), value: '4.5' },
+        { id: 'rating-2', label: t('home:filters.rating.4.0+'), value: '4.0' },
+        { id: 'rating-3', label: t('home:filters.rating.3.5+'), value: '3.5' },
+        { id: 'rating-4', label: t('home:filters.rating.all'), value: 'all' },
       ],
     },
     {
       id: 'price',
-      title: 'Price Range',
+      title: t('home:filters.price.title'),
       type: 'checkbox',
       options: [
-        { id: 'price-1', label: '$', value: 'low' },
-        { id: 'price-2', label: '$$', value: 'medium' },
-        { id: 'price-3', label: '$$$', value: 'high' },
+        { id: 'price-1', label: t('home:filters.price.low'), value: 'low' },
+        { id: 'price-2', label: t('home:filters.price.medium'), value: 'medium' },
+        { id: 'price-3', label: t('home:filters.price.high'), value: 'high' },
       ],
     },
     {
       id: 'delivery',
-      title: 'Delivery Time',
+      title: t('home:filters.delivery.title'),
       type: 'radio',
       options: [
-        { id: 'delivery-1', label: 'Under 30 min', value: '30' },
-        { id: 'delivery-2', label: 'Under 45 min', value: '45' },
-        { id: 'delivery-3', label: 'Under 60 min', value: '60' },
-        { id: 'delivery-4', label: 'Any Time', value: 'any' },
+        { id: 'delivery-1', label: t('home:filters.delivery.under30'), value: '30' },
+        { id: 'delivery-2', label: t('home:filters.delivery.under45'), value: '45' },
+        { id: 'delivery-3', label: t('home:filters.delivery.under60'), value: '60' },
+        { id: 'delivery-4', label: t('home:filters.delivery.any'), value: 'any' },
       ],
     },
-  ], []);
+  ], [t]);
 
   // Memoized handlers to prevent unnecessary re-renders
   const handleFavoriteToggle = useCallback((id: string) => {
@@ -130,7 +132,7 @@ export default function HomeScreen() {
         <SearchBar
           onSearch={handleSearch}
           onFilterPress={handleFilterPress}
-          placeholder="Search here..."
+          placeholder={t('home:header.searchPlaceholder')}
         />
       </Header>
 
@@ -153,7 +155,7 @@ export default function HomeScreen() {
           favorites={favorites}
           onFavoriteToggle={handleFavoriteToggle}
           onRestaurantPress={handleRestaurantPress}
-          title="Fastest Near You"
+          title={t('home:restaurants.title')}
         />
       </ScrollView>
 

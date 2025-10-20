@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from 'zod';
+import { useTranslation } from '@/hooks';
 
 // Tells Supabase Auth to continuously refresh the session automatically
 AppState.addEventListener('change', (state) => {
@@ -24,48 +25,23 @@ AppState.addEventListener('change', (state) => {
   }
 })
 
-// Schemas de validation
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email'),
-  password: z
-    .string()
-    .min(6, 'Password must be at least 6 characters')
-    .max(100, 'Password is too long'),
-});
+// Schema de validation (sera créé dynamiquement avec les traductions)
+type LoginFormData = {
+  email: string;
+  password: string;
+};
 
-const signupSchema = z.object({
-  firstName: z
-    .string()
-    .min(1, 'First name is required')
-    .min(2, 'First name must be at least 2 characters')
-    .max(50, 'First name is too long'),
-  lastName: z
-    .string()
-    .min(1, 'Last name is required')
-    .min(2, 'Last name must be at least 2 characters')
-    .max(50, 'Last name is too long'),
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email'),
-  phoneNumber: z
-    .string()
-    .min(1, 'Phone number is required')
-    .regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, 'Please enter a valid phone number'),
-  password: z
-    .string()
-    .min(6, 'Password must be at least 6 characters')
-    .max(100, 'Password is too long'),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-type SignupFormData = z.infer<typeof signupSchema>;
+type SignupFormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+};
 
 const SignScreen = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -75,6 +51,43 @@ const SignScreen = () => {
     message: '',
     variant: 'info',
   });
+
+  // Schemas de validation avec traductions (créés dynamiquement)
+  const loginSchema = React.useMemo(() => z.object({
+    email: z
+      .string()
+      .min(1, t('auth:validation.emailRequired'))
+      .email(t('auth:validation.emailInvalid')),
+    password: z
+      .string()
+      .min(6, t('auth:validation.passwordMin'))
+      .max(100, t('auth:validation.passwordMax')),
+  }), [t]);
+
+  const signupSchema = React.useMemo(() => z.object({
+    firstName: z
+      .string()
+      .min(1, t('auth:validation.firstNameRequired'))
+      .min(2, t('auth:validation.firstNameMin'))
+      .max(50, t('auth:validation.firstNameMax')),
+    lastName: z
+      .string()
+      .min(1, t('auth:validation.lastNameRequired'))
+      .min(2, t('auth:validation.lastNameMin'))
+      .max(50, t('auth:validation.lastNameMax')),
+    email: z
+      .string()
+      .min(1, t('auth:validation.emailRequired'))
+      .email(t('auth:validation.emailInvalid')),
+    phoneNumber: z
+      .string()
+      .min(1, t('auth:validation.phoneRequired'))
+      .regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/, t('auth:validation.phoneInvalid')),
+    password: z
+      .string()
+      .min(6, t('auth:validation.passwordMin'))
+      .max(100, t('auth:validation.passwordMax')),
+  }), [t]);
 
   // Check if user is already logged in
   React.useEffect(() => {
@@ -125,11 +138,19 @@ const SignScreen = () => {
 
       if (error) throw error;
 
-      showAlertFun('Success!', 'You have been logged in successfully', 'success');
+      showAlertFun(
+        t('auth:messages.loginSuccess'),
+        t('auth:messages.loginSuccessMessage'),
+        'success'
+      );
       router.replace('/(tabs)/home');
-      
+
     } catch {
-      showAlertFun('Error', 'Invalid email or password', 'danger');
+      showAlertFun(
+        t('auth:messages.loginError'),
+        t('auth:messages.loginErrorMessage'),
+        'danger'
+      );
     } finally {
       setLoading(false);
     }
@@ -154,14 +175,22 @@ const SignScreen = () => {
 
       if (error) throw error;
 
-      showAlertFun('Success!', 'Account created successfully! Please check your email.', 'success');
+      showAlertFun(
+        t('auth:messages.signupSuccess'),
+        t('auth:messages.signupSuccessMessage'),
+        'success'
+      );
 
       // Switch to login tab after successful signup
       setTimeout(() => {
         setActiveTab('login');
       }, 2000);
     } catch (error: any) {
-      showAlertFun('Error', error?.message || 'Failed to create account', 'danger');
+      showAlertFun(
+        t('auth:messages.signupError'),
+        error?.message || t('auth:messages.signupErrorMessage'),
+        'danger'
+      );
     } finally {
       setLoading(false);
     }
@@ -169,7 +198,11 @@ const SignScreen = () => {
 
   const handleGoogleAuth = async () => {
     console.log('Google auth');
-    showAlertFun('Info', 'Google authentication not implemented yet', 'info');
+    showAlertFun(
+      t('auth:messages.googleAuthInfo'),
+      t('auth:messages.googleAuthInfoMessage'),
+      'info'
+    );
   };
 
   const handleForgotPassword = () => {
@@ -214,8 +247,8 @@ const SignScreen = () => {
                 name="email"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomInput
-                    label="Email"
-                    placeholder="Enter your email"
+                    label={t('auth:login.email')}
+                    placeholder={t('auth:login.emailPlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -232,8 +265,8 @@ const SignScreen = () => {
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <PasswordInput
-                    label="Password"
-                    placeholder="Enter your password"
+                    label={t('auth:login.password')}
+                    placeholder={t('auth:login.passwordPlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -258,7 +291,7 @@ const SignScreen = () => {
               </View> */}
 
               <PrimaryButton
-                title="Login"
+                title={t('auth:login.submit')}
                 onPress={loginForm.handleSubmit(onLoginSubmit)}
                 loading={loading}
                 disabled={!loginForm.formState.isDirty || !loginForm.formState.isValid}
@@ -266,18 +299,18 @@ const SignScreen = () => {
                 size="medium"
               />
 
-              <Divider text="Or continue with" />
+              <Divider text={t('auth:social.continueWith')} />
 
               <SocialButton
-                title="Continue with Google"
+                title={t('auth:social.google')}
                 icon="https://lh3.googleusercontent.com/aida-public/AB6AXuAj99-zcTxvJLDrN5XYgiuSfgPVSfxKsCvRBWJeSKLYAXC1_r1IwqFhDNfxxKMskQoAOqsTf2oDHa3Hal5KCYmQ42z3L1FMcM-r7ytGA2axXLugamCTWE4ajtrkpEL28HukePeW48hRBUSdmW9Iks3Na3TCgS_44z8_gND9A2ZN1YwBrj1voyxTr-UZAYKi5VGQgf0k_FApnJDlvZUOzUnJk1DJRxcj5XQIcaqBwEDJcOw8iJa78L0o8Sl4N8dXsViFh2npUbiKbFI"
                 onPress={handleGoogleAuth}
               />
 
               {/* Switch to Sign Up Link */}
               <TextLink
-                text="Don't have an account?"
-                linkText="Sign Up"
+                text={t('auth:login.noAccount')}
+                linkText={t('auth:login.signUpLink')}
                 onPress={() => setActiveTab('signup')}
                 containerClassName="py-6"
               />
@@ -292,8 +325,8 @@ const SignScreen = () => {
                 name="firstName"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomInput
-                    label="First Name"
-                    placeholder="Enter your first name"
+                    label={t('auth:signup.firstName')}
+                    placeholder={t('auth:signup.firstNamePlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -309,8 +342,8 @@ const SignScreen = () => {
                 name="lastName"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomInput
-                    label="Last Name"
-                    placeholder="Enter your last name"
+                    label={t('auth:signup.lastName')}
+                    placeholder={t('auth:signup.lastNamePlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -326,8 +359,8 @@ const SignScreen = () => {
                 name="email"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomInput
-                    label="Email"
-                    placeholder="Enter your email"
+                    label={t('auth:signup.email')}
+                    placeholder={t('auth:signup.emailPlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -344,8 +377,8 @@ const SignScreen = () => {
                 name="phoneNumber"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomInput
-                    label="Phone Number"
-                    placeholder="Enter your phone number"
+                    label={t('auth:signup.phoneNumber')}
+                    placeholder={t('auth:signup.phoneNumberPlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -361,8 +394,8 @@ const SignScreen = () => {
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <PasswordInput
-                    label="Password"
-                    placeholder="Enter your password"
+                    label={t('auth:signup.password')}
+                    placeholder={t('auth:signup.passwordPlaceholder')}
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
@@ -372,7 +405,7 @@ const SignScreen = () => {
               />
 
               <PrimaryButton
-                title="Sign Up"
+                title={t('auth:signup.submit')}
                 onPress={signupForm.handleSubmit(onSignupSubmit)}
                 loading={loading}
                 disabled={!signupForm.formState.isDirty || !signupForm.formState.isValid}
@@ -381,18 +414,18 @@ const SignScreen = () => {
                 containerClassName="mt-2"
               />
 
-              <Divider text="Or continue with" />
+              <Divider text={t('auth:social.continueWith')} />
 
               <SocialButton
-                title="Continue with Google"
+                title={t('auth:social.google')}
                 icon="https://lh3.googleusercontent.com/aida-public/AB6AXuAj99-zcTxvJLDrN5XYgiuSfgPVSfxKsCvRBWJeSKLYAXC1_r1IwqFhDNfxxKMskQoAOqsTf2oDHa3Hal5KCYmQ42z3L1FMcM-r7ytGA2axXLugamCTWE4ajtrkpEL28HukePeW48hRBUSdmW9Iks3Na3TCgS_44z8_gND9A2ZN1YwBrj1voyxTr-UZAYKi5VGQgf0k_FApnJDlvZUOzUnJk1DJRxcj5XQIcaqBwEDJcOw8iJa78L0o8Sl4N8dXsViFh2npUbiKbFI"
                 onPress={handleGoogleAuth}
               />
 
               {/* Switch to Login Link */}
               <TextLink
-                text="Already have an account?"
-                linkText="Login"
+                text={t('auth:signup.hasAccount')}
+                linkText={t('auth:signup.loginLink')}
                 onPress={() => setActiveTab('login')}
                 containerClassName="py-6"
               />

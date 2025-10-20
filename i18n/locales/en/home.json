@@ -1,0 +1,50 @@
+{
+  "header": {
+    "location": "Location",
+    "greeting": "What are you going to\neat today?",
+    "searchPlaceholder": "Search here...",
+    "cart": "Shopping cart",
+    "notifications": "Notifications"
+  },
+  "promo": {
+    "title": "Enjoy our offers",
+    "description": "Discover the best promotions",
+    "buttonText": "Order now"
+  },
+  "categories": {
+    "title": "Categories"
+  },
+  "restaurants": {
+    "title": "Fastest Near You",
+    "rating": "Rating",
+    "deliveryTime": "Delivery",
+    "minutes": "min",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites"
+  },
+  "filters": {
+    "title": "Filters",
+    "apply": "Apply",
+    "reset": "Reset",
+    "rating": {
+      "title": "Rating",
+      "4.5+": "4.5+ Stars",
+      "4.0+": "4.0+ Stars",
+      "3.5+": "3.5+ Stars",
+      "all": "All Ratings"
+    },
+    "price": {
+      "title": "Price Range",
+      "low": "$",
+      "medium": "$$",
+      "high": "$$$"
+    },
+    "delivery": {
+      "title": "Delivery Time",
+      "under30": "Under 30 min",
+      "under45": "Under 45 min",
+      "under60": "Under 60 min",
+      "any": "Any Time"
+    }
+  }
+}

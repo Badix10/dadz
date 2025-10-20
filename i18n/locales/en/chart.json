@@ -1,0 +1,8 @@
+{
+  "title": "Statistics",
+  "subtitle": "Your ordering insights",
+  "empty": {
+    "title": "No data yet",
+    "message": "Start ordering to see your statistics"
+  }
+}

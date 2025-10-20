@@ -1,0 +1,41 @@
+{
+  "title": "Profil",
+  "subtitle": "Gérez votre compte",
+  "notLoggedIn": {
+    "title": "Non connecté",
+    "message": "Veuillez vous connecter pour voir votre profil",
+    "loginButton": "Se connecter"
+  },
+  "language": {
+    "title": "Langue",
+    "subtitle": "Choisissez votre langue préférée"
+  },
+  "menu": {
+    "editProfile": {
+      "title": "Modifier le profil",
+      "subtitle": "Mettre à jour vos informations"
+    },
+    "addresses": {
+      "title": "Adresses",
+      "subtitle": "Gérer les adresses de livraison"
+    },
+    "paymentMethods": {
+      "title": "Moyens de paiement",
+      "subtitle": "Gérer les options de paiement"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Préférences de notification"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Paramètres de l'application"
+    },
+    "help": {
+      "title": "Aide & Support",
+      "subtitle": "Obtenir de l'aide"
+    }
+  },
+  "logout": "Déconnexion",
+  "user": "Utilisateur"
+}

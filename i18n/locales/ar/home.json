@@ -1,0 +1,50 @@
+{
+  "header": {
+    "location": "الموقع",
+    "greeting": "ماذا ستأكل\nاليوم؟",
+    "searchPlaceholder": "ابحث هنا...",
+    "cart": "عربة التسوق",
+    "notifications": "الإشعارات"
+  },
+  "promo": {
+    "title": "استمتع بعروضنا",
+    "description": "اكتشف أفضل العروض الترويجية",
+    "buttonText": "اطلب الآن"
+  },
+  "categories": {
+    "title": "الفئات"
+  },
+  "restaurants": {
+    "title": "الأسرع بالقرب منك",
+    "rating": "التقييم",
+    "deliveryTime": "التوصيل",
+    "minutes": "دقيقة",
+    "addToFavorites": "أضف إلى المفضلة",
+    "removeFromFavorites": "إزالة من المفضلة"
+  },
+  "filters": {
+    "title": "الفلاتر",
+    "apply": "تطبيق",
+    "reset": "إعادة تعيين",
+    "rating": {
+      "title": "التقييم",
+      "4.5+": "4.5+ نجوم",
+      "4.0+": "4.0+ نجوم",
+      "3.5+": "3.5+ نجوم",
+      "all": "جميع التقييمات"
+    },
+    "price": {
+      "title": "نطاق السعر",
+      "low": "$",
+      "medium": "$$",
+      "high": "$$$"
+    },
+    "delivery": {
+      "title": "وقت التوصيل",
+      "under30": "أقل من 30 دقيقة",
+      "under45": "أقل من 45 دقيقة",
+      "under60": "أقل من 60 دقيقة",
+      "any": "أي وقت"
+    }
+  }
+}

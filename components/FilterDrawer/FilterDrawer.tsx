@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
@@ -23,6 +24,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
   selectedFilters,
   onApply,
 }) => {
+  const { t } = useTranslation();
   const [tempFilters, setTempFilters] = useState<SelectedFilters>(selectedFilters);
 
   // Handle checkbox toggle
@@ -68,7 +70,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
         <View className="bg-background-dark h-[85vh] rounded-t-3xl">
           {/* Header */}
           <View className="flex-row items-center justify-between p-4 border-b border-field-dark">
-            <Text className="text-xl font-bold text-background-light">Filters</Text>
+            <Text className="text-xl font-bold text-background-light">{t('home:filters.title')}</Text>
             <TouchableOpacity onPress={onClose}>
               <Ionicons name="close" size={24} color="#FCFBF8" />
             </TouchableOpacity>
@@ -119,14 +121,14 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
               onPress={handleReset}
               className="flex-1 h-12 items-center justify-center bg-field-dark rounded-xl"
             >
-              <Text className="text-base font-semibold text-background-light">Reset</Text>
+              <Text className="text-base font-semibold text-background-light">{t('home:filters.reset')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleApply}
               className="flex-1 h-12 items-center justify-center bg-primary rounded-xl"
             >
-              <Text className="text-base font-semibold text-text-dark">Apply Filters</Text>
+              <Text className="text-base font-semibold text-text-dark">{t('home:filters.apply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

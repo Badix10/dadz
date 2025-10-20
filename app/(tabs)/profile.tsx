@@ -1,6 +1,8 @@
 import { PageHeader } from '@/components/PageHeader';
 import { PrimaryButton } from '@/components/ui';
 import { useAuth } from '@/hooks/useAuth';
+import { useTranslation } from '@/hooks';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
@@ -13,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
  */
 export default function ProfileScreen() {
   const { isLoading, user, logout } = useAuth(false);
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -29,13 +32,13 @@ export default function ProfileScreen() {
         <StatusBar barStyle="light-content" />
         <Ionicons name="person-circle-outline" size={120} color="#9CA3AF" />
         <Text className="text-2xl font-bold text-black mt-6 mb-2">
-          Not logged in
+          {t('profile:notLoggedIn.title')}
         </Text>
         <Text className="text-gray-500 text-center mb-6">
-          Please log in to view your profile
+          {t('profile:notLoggedIn.message')}
         </Text>
         <PrimaryButton
-          title="Log In"
+          title={t('profile:notLoggedIn.loginButton')}
           onPress={() => router.push('/sign')}
         />
       </SafeAreaView>
@@ -43,12 +46,12 @@ export default function ProfileScreen() {
   }
 
   const menuItems = [
-    { icon: 'person-outline', title: 'Edit Profile', subtitle: 'Update your information' },
-    { icon: 'location-outline', title: 'Addresses', subtitle: 'Manage delivery addresses' },
-    { icon: 'card-outline', title: 'Payment Methods', subtitle: 'Manage payment options' },
-    { icon: 'notifications-outline', title: 'Notifications', subtitle: 'Notification preferences' },
-    { icon: 'settings-outline', title: 'Settings', subtitle: 'App settings' },
-    { icon: 'help-circle-outline', title: 'Help & Support', subtitle: 'Get help' },
+    { icon: 'person-outline', title: t('profile:menu.editProfile.title'), subtitle: t('profile:menu.editProfile.subtitle') },
+    { icon: 'location-outline', title: t('profile:menu.addresses.title'), subtitle: t('profile:menu.addresses.subtitle') },
+    { icon: 'card-outline', title: t('profile:menu.paymentMethods.title'), subtitle: t('profile:menu.paymentMethods.subtitle') },
+    { icon: 'notifications-outline', title: t('profile:menu.notifications.title'), subtitle: t('profile:menu.notifications.subtitle') },
+    { icon: 'settings-outline', title: t('profile:menu.settings.title'), subtitle: t('profile:menu.settings.subtitle') },
+    { icon: 'help-circle-outline', title: t('profile:menu.help.title'), subtitle: t('profile:menu.help.subtitle') },
   ];
 
   return (
@@ -60,7 +63,7 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 80 }}
       >
-        <PageHeader title="Profile" subtitle="Manage your account" />
+        <PageHeader title={t('profile:title')} subtitle={t('profile:subtitle')} />
 
         {/* User Info Card */}
         <View className="mx-4 mb-6 bg-gray-50 rounded-2xl p-4 flex-row items-center">
@@ -71,11 +74,20 @@ export default function ProfileScreen() {
             <Text className="text-xl font-bold text-black">
               {user?.user_metadata?.first_name && user?.user_metadata?.last_name
                 ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}`
-                : 'User'}
+                : t('profile:user')}
             </Text>
             <Text className="text-gray-500">{user?.email || ''}</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#9CA3AF" />
+        </View>
+
+        {/* Language Selector */}
+        <View className="px-4 mb-6">
+          <View className="mb-3">
+            <Text className="text-lg font-bold text-black">{t('profile:language.title')}</Text>
+            <Text className="text-sm text-gray-500">{t('profile:language.subtitle')}</Text>
+          </View>
+          <LanguageSelector />
         </View>
 
         {/* Menu Items */}
@@ -104,7 +116,7 @@ export default function ProfileScreen() {
             className="bg-red-50 rounded-xl py-4 flex-row items-center justify-center"
           >
             <Ionicons name="log-out-outline" size={24} color="#EF4444" />
-            <Text className="text-red-500 font-semibold ml-2">Log Out</Text>
+            <Text className="text-red-500 font-semibold ml-2">{t('profile:logout')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

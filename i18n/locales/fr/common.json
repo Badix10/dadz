@@ -1,0 +1,18 @@
+{
+  "appName": "Dadz",
+  "welcome": "Bienvenue",
+  "loading": "Chargement...",
+  "error": "Erreur",
+  "success": "Succès",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "save": "Enregistrer",
+  "delete": "Supprimer",
+  "edit": "Modifier",
+  "back": "Retour",
+  "next": "Suivant",
+  "done": "Terminé",
+  "search": "Rechercher",
+  "filter": "Filtrer",
+  "or": "Ou"
+}
