@@ -1,7 +1,7 @@
 import "@/global.css";
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { LocalizationProvider } from '@/contexts/LocalizationContext';
+import { LocalizationProvider, ColorSchemeProvider } from '@/contexts';
 import { View } from 'react-native';
 import { useTranslation } from '@/hooks';
 
@@ -20,12 +20,14 @@ function RTLWrapper({ children }: { children: React.ReactNode }) {
 
 export default function RootLayout() {
   return (
-    <LocalizationProvider>
-      <SafeAreaProvider>
-        <RTLWrapper>
-          <Stack screenOptions={{ headerShown: false }} />
-        </RTLWrapper>
-      </SafeAreaProvider>
-    </LocalizationProvider>
+    <ColorSchemeProvider>
+      <LocalizationProvider>
+        <SafeAreaProvider>
+          <RTLWrapper>
+            <Stack screenOptions={{ headerShown: false }} />
+          </RTLWrapper>
+        </SafeAreaProvider>
+      </LocalizationProvider>
+    </ColorSchemeProvider>
   );
 }

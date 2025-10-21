@@ -10,6 +10,10 @@
     "title": "Langue",
     "subtitle": "Choisissez votre langue préférée"
   },
+  "darkMode": {
+    "title": "Mode sombre",
+    "subtitle": "Basculer entre le thème clair et sombre"
+  },
   "menu": {
     "editProfile": {
       "title": "Modifier le profil",

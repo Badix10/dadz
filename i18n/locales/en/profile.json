@@ -10,6 +10,10 @@
     "title": "Language",
     "subtitle": "Choose your preferred language"
   },
+  "darkMode": {
+    "title": "Dark Mode",
+    "subtitle": "Switch between light and dark theme"
+  },
   "menu": {
     "editProfile": {
       "title": "Edit Profile",

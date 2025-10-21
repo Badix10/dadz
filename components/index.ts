@@ -10,3 +10,5 @@ export { default as PromoCard } from './PromoCard';
 export { default as RestaurantCard } from './RestaurantCard';
 export { default as RestaurantGrid } from './RestaurantGrid';
 export { default as SearchBar } from './SearchBar';
+export { SettingsItem } from './SettingsItem';
+export { DarkModeToggle } from './DarkModeToggle';

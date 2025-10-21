@@ -8,10 +8,15 @@ module.exports = {
     "./screens/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}",
     "./navigation/**/*.{js,jsx,ts,tsx}",
+    "./contexts/**/*.{js,jsx,ts,tsx}",
+    "./hooks/**/*.{js,jsx,ts,tsx}",
   ],
 
   // Configuration du mode presets pour NativeWind
   presets: [require("nativewind/preset")],
+
+  // Activation du dark mode
+  darkMode: "class",
 
   theme: {
     extend: {
