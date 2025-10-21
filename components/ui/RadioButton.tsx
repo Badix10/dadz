@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { COLORS } from '@/constants/classNames';
 
 export interface RadioButtonProps {
   selected: boolean;
@@ -27,7 +28,7 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
     >
       <View
         className={`w-6 h-6 rounded-full items-center justify-center mr-3 border-2 ${
-          selected ? 'border-primary' : 'border-subtext-light'
+          selected ? 'border-primary' : COLORS.border.default
         }`}
       >
         {selected && (
@@ -36,7 +37,7 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
       </View>
 
       {label && (
-        <Text className={`text-base text-text-primary dark:text-background-light flex-1 ${labelClassName}`}>
+        <Text className={`text-base ${COLORS.text.primary} flex-1 ${labelClassName}`}>
           {label}
         </Text>
       )}

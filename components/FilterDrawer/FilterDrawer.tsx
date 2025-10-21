@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Checkbox, RadioButton } from '../ui';
 import type { FilterConfig, SelectedFilters } from './types';
+import { useColorScheme } from 'nativewind';
+import { COLORS } from '@/constants/classNames';
 
 interface FilterDrawerProps {
   visible: boolean;
@@ -25,7 +27,13 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
   onApply,
 }) => {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
   const [tempFilters, setTempFilters] = useState<SelectedFilters>(selectedFilters);
+
+  // Colors adaptés au dark mode
+  const iconColor = isDark ? '#FFFFFF' : '#1A1A1A';
+  const resetButtonBg = isDark ? 'bg-surface-dark-secondary' : 'bg-gray-200';
 
   // Handle checkbox toggle
   const handleCheckboxToggle = (filterId: string, optionValue: string) => {
@@ -67,20 +75,20 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           onPress={onClose}
         />
 
-        <View className="bg-background-dark h-[85vh] rounded-t-3xl">
+        <View className={`${COLORS.surface.primary} h-[85vh] rounded-t-3xl`}>
           {/* Header */}
-          <View className="flex-row items-center justify-between p-4 border-b border-field-dark">
-            <Text className="text-xl font-bold text-background-light">{t('home:filters.title')}</Text>
+          <View className={`flex-row items-center justify-between p-4 border-b ${COLORS.border.default}`}>
+            <Text className={`text-xl font-bold ${COLORS.text.primary}`}>{t('home:filters.title')}</Text>
             <TouchableOpacity onPress={onClose}>
-              <Ionicons name="close" size={24} color="#FCFBF8" />
+              <Ionicons name="close" size={24} color={iconColor} />
             </TouchableOpacity>
           </View>
 
           {/* Filters List */}
           <ScrollView className="flex-1 px-4 py-2" showsVerticalScrollIndicator={false}>
             {filters.map((filter) => (
-              <View key={filter.id} className="py-4 border-b border-field-dark">
-                <Text className="text-base font-bold text-background-light mb-3">
+              <View key={filter.id} className={`py-4 border-b ${COLORS.border.default}`}>
+                <Text className={`text-base font-bold ${COLORS.text.primary} mb-3`}>
                   {filter.title}
                 </Text>
 
@@ -116,19 +124,19 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </ScrollView>
 
           {/* Footer Actions */}
-          <View className="flex-row gap-3 p-4 border-t border-field-dark">
+          <View className={`flex-row gap-3 p-4 border-t ${COLORS.border.default}`}>
             <TouchableOpacity
               onPress={handleReset}
-              className="flex-1 h-12 items-center justify-center bg-field-dark rounded-xl"
+              className={`flex-1 h-12 items-center justify-center ${resetButtonBg} rounded-xl`}
             >
-              <Text className="text-base font-semibold text-background-light">{t('home:filters.reset')}</Text>
+              <Text className={`text-base font-semibold ${COLORS.text.primary}`}>{t('home:filters.reset')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleApply}
               className="flex-1 h-12 items-center justify-center bg-primary rounded-xl"
             >
-              <Text className="text-base font-semibold text-text-dark">{t('home:filters.apply')}</Text>
+              <Text className="text-base font-semibold text-black">{t('home:filters.apply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

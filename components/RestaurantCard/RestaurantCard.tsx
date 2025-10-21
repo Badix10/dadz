@@ -3,6 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { memo, useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import type { Restaurant } from '@/types';
+import { useColorScheme } from 'nativewind';
+import { COLORS } from '@/constants/classNames';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
@@ -22,6 +24,11 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
   onPress,
 }) => {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  // Colors adaptés au dark mode
+  const favoriteBgColor = isDark ? 'bg-surface-dark/80' : 'bg-white/80';
 
   const handleFavoritePress = useCallback(() => {
     onFavoriteToggle(restaurant.id);
@@ -33,7 +40,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
 
   return (
     <TouchableOpacity
-      className="bg-white rounded-2xl shadow-sm overflow-hidden"
+      className={`${COLORS.surface.card} rounded-2xl shadow-sm overflow-hidden`}
       style={{ width: '47%' }}
       onPress={handleCardPress}
       accessibilityLabel={`${restaurant.name}, rating ${restaurant.rating}`}
@@ -49,7 +56,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
 
         <TouchableOpacity
           onPress={handleFavoritePress}
-          className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 shadow-md"
+          className={`absolute top-2 right-2 ${favoriteBgColor} rounded-full p-1.5 shadow-md`}
           accessibilityLabel={isFavorite ? t('home:restaurants.removeFromFavorites') : t('home:restaurants.addToFavorites')}
           accessibilityRole="button"
         >
@@ -62,14 +69,14 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
       </View>
 
       <View className="p-3">
-        <Text className="font-semibold text-base" numberOfLines={1}>
+        <Text className={`${COLORS.text.primary} font-semibold text-base`} numberOfLines={1}>
           {restaurant.name}
         </Text>
 
         <View className="flex-row items-center gap-1">
           <Ionicons name="star" size={16} color="#FFC700" />
-          <Text className="font-semibold text-black">{restaurant.rating}</Text>
-          <Text className="text-sm text-gray-500">({restaurant.reviews})</Text>
+          <Text className={`${COLORS.text.primary} font-semibold`}>{restaurant.rating}</Text>
+          <Text className={`${COLORS.text.secondary} text-sm`}>({restaurant.reviews})</Text>
         </View>
       </View>
     </TouchableOpacity>

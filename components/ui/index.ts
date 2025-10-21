@@ -1,6 +1,10 @@
 // Types
 export * from './types';
 
+// Core Design System Components
+export * from './Surface';
+export * from './Typography';
+
 // Components
 export * from './Header';
 export * from './Logo';
@@ -17,6 +21,8 @@ export * from './Badge';
 export * from './Alert';
 
 // Default export for convenience
+import { Surface } from './Surface';
+import { Typography } from './Typography';
 import { Alert } from './Alert';
 import { Badge } from './Badge';
 import { Card } from './Card';
@@ -32,6 +38,8 @@ import { SocialButton } from './SocialButton';
 import { TextLink } from './TextLink';
 
 export default {
+  Surface,
+  Typography,
   Header,
   Logo,
   CustomInput,

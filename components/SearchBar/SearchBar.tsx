@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { memo, useCallback, useState } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
+import { COLORS } from '@/constants/classNames';
 
 interface SearchBarProps {
   onSearch?: (text: string) => void;
@@ -18,6 +20,14 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
   placeholder = 'Search here...',
 }) => {
   const [searchText, setSearchText] = useState('');
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  // Colors adaptés au dark mode - contraste avec header sombre
+  const inputBg = isDark ? 'bg-gray-700' : 'bg-gray-100';
+  const textColor = isDark ? 'text-white' : 'text-foreground';
+  const iconColor = isDark ? '#9CA3AF' : '#6B7280';
+  const placeholderColor = isDark ? '#9CA3AF' : '#9CA3AF';
 
   const handleTextChange = useCallback((text: string) => {
     setSearchText(text);
@@ -30,12 +40,12 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
 
   return (
     <View className="flex-row items-center gap-3 px-4 pb-6">
-      <View className="flex-1 flex-row items-center bg-gray-800 rounded-xl h-12 px-4">
-        <Ionicons name="search" size={20} color="#9CA3AF" />
+      <View className={`flex-1 flex-row items-center ${inputBg} rounded-xl h-12 px-4`}>
+        <Ionicons name="search" size={20} color={iconColor} />
         <TextInput
-          className="flex-1 ml-3 text-white"
+          className={`flex-1 ml-3 ${textColor}`}
           placeholder={placeholder}
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor={placeholderColor}
           value={searchText}
           onChangeText={handleTextChange}
           accessibilityLabel="Search input"
@@ -44,12 +54,12 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
       </View>
 
       <TouchableOpacity
-        className="h-12 w-12 items-center justify-center bg-gray-800 rounded-xl"
+        className={`h-12 w-12 items-center justify-center ${inputBg} rounded-xl`}
         onPress={handleFilterPress}
         accessibilityLabel="Filter options"
         accessibilityRole="button"
       >
-        <Ionicons name="options-outline" size={24} color="white" />
+        <Ionicons name="options-outline" size={24} color={isDark ? 'white' : '#1A1A1A'} />
       </TouchableOpacity>
     </View>
   );

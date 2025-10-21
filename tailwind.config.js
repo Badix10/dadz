@@ -20,9 +20,9 @@ module.exports = {
 
   theme: {
     extend: {
-      // ==================== COULEURS ====================
+      // ==================== COULEURS - DESIGN TOKENS ====================
       colors: {
-        // Couleur principale de l'application
+        // Couleur principale (brand)
         primary: {
           DEFAULT: '#FFC700',
           50: '#FFF9E6',
@@ -30,42 +30,46 @@ module.exports = {
           200: '#FFE799',
           300: '#FFDB66',
           400: '#FFCF33',
-          500: '#FFC700', // Couleur principale
+          500: '#FFC700',
           600: '#CC9F00',
           700: '#997700',
           800: '#664F00',
           900: '#332800',
         },
 
-        // Couleurs de texte
-        text: {
-          primary: '#1A1A1A',
-          secondary: '#6B7280',
-          light: '#9CA3AF',
-          dark: '#111827',
+        // Surfaces (arrière-plans) - Design Tokens Sémantiques
+        surface: {
+          DEFAULT: '#FFFFFF',        // Light mode - surface principale
+          secondary: '#F8F8F5',      // Light mode - surface alternative
+          dark: '#1A1A1A',           // Dark mode - surface principale
+          'dark-secondary': '#2D2D2D', // Dark mode - surface alternative
         },
 
-        // Couleurs de fond
-        background: {
-          DEFAULT: '#FFFFFF',
-          light: '#FCFBF8',
-          dark: '#231F0F',
-          secondary: '#F9FAFB',
+        // Foreground (texte) - Design Tokens Sémantiques
+        foreground: {
+          DEFAULT: '#1A1A1A',        // Light mode - texte principal
+          secondary: '#6B7280',      // Light mode - texte secondaire
+          tertiary: '#9CA3AF',       // Light mode - texte tertiaire
+          dark: '#FFFFFF',           // Dark mode - texte principal
+          'dark-secondary': '#E5E5E5', // Dark mode - texte secondaire
+          'dark-tertiary': '#A1A1A1',  // Dark mode - texte tertiaire
         },
 
-        // Couleurs pour les champs (inputs)
-        field: {
-          light: '#F4F2E6',
-          dark: '#2D291A',
+        // Bordures - Design Tokens
+        border: {
+          DEFAULT: '#E5E7EB',        // Light mode
+          dark: '#374151',           // Dark mode
+          subtle: '#F3F4F6',         // Light mode - subtile
+          'dark-subtle': '#1F2937',  // Dark mode - subtile
         },
 
-        // Couleurs pour le sous-texte
-        subtext: {
-          light: '#9E9047',
-          dark: '#9E9047',
+        // Inputs/Fields - Design Tokens
+        input: {
+          DEFAULT: '#F4F2E6',        // Light mode
+          dark: '#2D291A',           // Dark mode
         },
 
-        // Couleurs sémantiques
+        // Couleurs sémantiques (status)
         success: {
           DEFAULT: '#22C55E',
           light: '#86EFAC',

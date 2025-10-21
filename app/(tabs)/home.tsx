@@ -4,6 +4,7 @@ import { FilterDrawer, type FilterConfig, type SelectedFilters } from '@/compone
 import Header from '@/components/Header';
 import PromoCard from '@/components/PromoCard';
 import RestaurantGrid from '@/components/RestaurantGrid';
+import { Surface } from '@/components/ui';
 import {
   CATEGORIES,
   DEFAULT_LOCATION,
@@ -15,13 +16,18 @@ import { useTranslation } from '@/hooks';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StatusBar } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useColorScheme } from 'nativewind';
 
 /**
  * Home Screen - Main Food Delivery Page
  * Displays categories, promotions, and nearby restaurants
+ * Principes: DRY, KISS, Clean Code
  */
 export default function HomeScreen() {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   const [favorites, setFavorites] = useState<FavoritesMap>(() =>
     RESTAURANTS.reduce((acc, rest) => ({ ...acc, [rest.id]: rest.isFavorite }), {})
   );
@@ -64,7 +70,7 @@ export default function HomeScreen() {
     },
   ], [t]);
 
-  // Memoized handlers to prevent unnecessary re-renders
+  // Memoized handlers to prevent unnecessary re-renders (Clean Code)
   const handleFavoriteToggle = useCallback((id: string) => {
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
@@ -113,59 +119,61 @@ export default function HomeScreen() {
     console.log('Restaurant selected:', restaurant.name);
   }, []);
 
-  // Memoize static data to prevent unnecessary re-creations
+  // Memoize static data to prevent unnecessary re-creations (Performance)
   const location = useMemo(() => DEFAULT_LOCATION, []);
   const categories = useMemo(() => CATEGORIES, []);
   const restaurants = useMemo(() => RESTAURANTS, []);
   const promoData = useMemo(() => PROMO_DATA, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="light-content" />
+    <SafeAreaView className="flex-1">
+      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
 
-      <Header
-        location={location}
-        onCartPress={handleCartPress}
-        onNotificationPress={handleNotificationPress}
-        hasNotification={true}
-      >
-        <SearchBar
-          onSearch={handleSearch}
-          onFilterPress={handleFilterPress}
-          placeholder={t('home:header.searchPlaceholder')}
+      <Surface variant="primary" className="flex-1">
+        <Header
+          location={location}
+          onCartPress={handleCartPress}
+          onNotificationPress={handleNotificationPress}
+          hasNotification={true}
+        >
+          <SearchBar
+            onSearch={handleSearch}
+            onFilterPress={handleFilterPress}
+            placeholder={t('home:header.searchPlaceholder')}
+          />
+        </Header>
+
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          <PromoCard
+            imageUrl={promoData.imageUrl}
+            title={promoData.title}
+            description={promoData.description}
+            buttonText={promoData.buttonText}
+            onPress={handlePromoPress}
+          />
+
+          <CategoryList
+            categories={categories}
+            onCategoryPress={handleCategoryPress}
+          />
+
+          <RestaurantGrid
+            restaurants={restaurants}
+            favorites={favorites}
+            onFavoriteToggle={handleFavoriteToggle}
+            onRestaurantPress={handleRestaurantPress}
+            title={t('home:restaurants.title')}
+          />
+        </ScrollView>
+
+        <FilterDrawer
+          visible={filterVisible}
+          onClose={handleCloseFilter}
+          filters={filterConfig}
+          selectedFilters={selectedFilters}
+          onApply={handleApplyFilters}
         />
-      </Header>
-
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <PromoCard
-          imageUrl={promoData.imageUrl}
-          title={promoData.title}
-          description={promoData.description}
-          buttonText={promoData.buttonText}
-          onPress={handlePromoPress}
-        />
-
-        <CategoryList
-          categories={categories}
-          onCategoryPress={handleCategoryPress}
-        />
-
-        <RestaurantGrid
-          restaurants={restaurants}
-          favorites={favorites}
-          onFavoriteToggle={handleFavoriteToggle}
-          onRestaurantPress={handleRestaurantPress}
-          title={t('home:restaurants.title')}
-        />
-      </ScrollView>
-
-      <FilterDrawer
-        visible={filterVisible}
-        onClose={handleCloseFilter}
-        filters={filterConfig}
-        selectedFilters={selectedFilters}
-        onApply={handleApplyFilters}
-      />
+      </Surface>
     </SafeAreaView>
   );
 }

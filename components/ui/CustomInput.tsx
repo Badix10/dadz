@@ -1,5 +1,8 @@
 import React from 'react';
 import { Text, TextInput, TextInputProps, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
+import { cn } from '@/utils/cn';
+import { COLORS } from '@/constants/classNames';
 
 export interface CustomInputProps extends Omit<TextInputProps, 'onChange'> {
   label?: string;
@@ -16,6 +19,11 @@ export interface CustomInputProps extends Omit<TextInputProps, 'onChange'> {
   labelClassName?: string;
 }
 
+/**
+ * CustomInput Component
+ * Input avec support dark mode via design tokens
+ * Principes: DRY, Clean Code
+ */
 export const CustomInput: React.FC<CustomInputProps> = ({
   label,
   placeholder,
@@ -37,29 +45,46 @@ export const CustomInput: React.FC<CustomInputProps> = ({
   labelClassName = '',
   ...props
 }) => {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  // Placeholder color adapté au mode
+  const placeholderColor = isDark ? '#A1A1A1' : '#9E9047';
+
   return (
-    <View className={`w-full mb-4 ${containerClassName}`}>
+    <View className={cn('w-full mb-4', containerClassName)}>
+      {/* Label */}
       {label && (
-        <Text className={`text-base font-medium text-text-primary dark:text-background-light pb-2 ${labelClassName}`}>
+        <Text className={cn(COLORS.text.primary, 'text-base font-medium pb-2', labelClassName)}>
           {label}
         </Text>
       )}
 
+      {/* Input Container */}
       <View className="relative">
+        {/* Left Icon */}
         {leftIcon && (
           <View className="absolute left-4 top-0 bottom-0 justify-center z-10">
             {leftIcon}
           </View>
         )}
 
+        {/* Input */}
         <TextInput
-          className={`w-full ${multiline ? 'min-h-input py-4' : 'h-input'} rounded-xl bg-field-light dark:bg-field-dark text-text-primary dark:text-background-light px-4 text-base ${
-            leftIcon ? 'pl-12' : ''
-          } ${rightIcon ? 'pr-12' : ''} ${
-            error ? 'border-2 border-error' : ''
-          } ${disabled ? 'opacity-50' : ''} ${inputClassName}`}
+          className={cn(
+            'w-full rounded-xl text-base',
+            multiline ? 'min-h-input py-4' : 'h-input',
+            COLORS.input.background,
+            COLORS.input.text,
+            'px-4',
+            leftIcon ? 'pl-12' : undefined,
+            rightIcon ? 'pr-12' : undefined,
+            error ? 'border-2 border-error' : undefined,
+            disabled ? 'opacity-50' : undefined,
+            inputClassName
+          )}
           placeholder={placeholder}
-          placeholderTextColor="#9E9047"
+          placeholderTextColor={placeholderColor}
           value={value}
           onChangeText={onChangeText}
           onBlur={onBlur}
@@ -74,6 +99,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
           {...props}
         />
 
+        {/* Right Icon */}
         {rightIcon && (
           <View className="absolute right-4 top-0 bottom-0 justify-center">
             {rightIcon}
@@ -81,8 +107,11 @@ export const CustomInput: React.FC<CustomInputProps> = ({
         )}
       </View>
 
+      {/* Error Message */}
       {error && (
-        <Text className="text-error text-sm mt-1 px-1">{error}</Text>
+        <Text className={cn(COLORS.status.error, 'text-sm mt-1 px-1')}>
+          {error}
+        </Text>
       )}
     </View>
   );

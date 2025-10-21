@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { COLORS } from '@/constants/classNames';
 
 export interface CheckboxProps {
   checked: boolean;
@@ -28,16 +29,16 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     >
       <View
         className={`w-6 h-6 rounded items-center justify-center mr-3 ${
-          checked ? 'bg-primary' : 'bg-field-light dark:bg-field-dark border-2 border-subtext-light'
+          checked ? 'bg-primary' : `${COLORS.input.background} border-2 ${COLORS.border.default}`
         }`}
       >
         {checked && (
-          <Ionicons name="checkmark" size={18} color="white" />
+          <Ionicons name="checkmark" size={18} color="black" />
         )}
       </View>
 
       {label && (
-        <Text className={`text-base text-text-primary dark:text-background-light flex-1 ${labelClassName}`}>
+        <Text className={`text-base ${COLORS.text.primary} flex-1 ${labelClassName}`}>
           {label}
         </Text>
       )}
