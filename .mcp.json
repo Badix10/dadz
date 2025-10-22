@@ -5,6 +5,17 @@
       "args": [
         "mcp"
       ]
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-supabase"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://ahkkezbytwwalcdbvkfi.supabase.co",
+        "SUPABASE_ACCESS_TOKEN": "sbp_717aeadb359d285d624f4c732788b292536c12d6"
+      }
     }
   }
 }

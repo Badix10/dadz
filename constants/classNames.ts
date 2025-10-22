@@ -15,12 +15,19 @@
 
 export const COLORS = {
   /**
-   * Surfaces (arrière-plans)
+   * Background (arrière-plan principal)
+   */
+  background: {
+    primary: 'bg-background dark:bg-background-dark',
+  },
+
+  /**
+   * Surfaces (arrière-plans) - Backward compatibility + new aliases
    */
   surface: {
-    primary: 'bg-surface dark:bg-surface-dark',
-    secondary: 'bg-surface-secondary dark:bg-surface-dark-secondary',
-    card: 'bg-white dark:bg-surface-dark',
+    primary: 'bg-background dark:bg-background-dark',
+    secondary: 'bg-card dark:bg-card-dark',
+    card: 'bg-card dark:bg-card-dark',
   },
 
   /**
@@ -28,9 +35,11 @@ export const COLORS = {
    */
   text: {
     primary: 'text-foreground dark:text-foreground-dark',
-    secondary: 'text-foreground-secondary dark:text-foreground-dark-secondary',
-    tertiary: 'text-foreground-tertiary dark:text-foreground-dark-tertiary',
+    secondary: 'text-muted-foreground dark:text-muted-dark-foreground',
+    muted: 'text-muted-foreground dark:text-muted-dark-foreground',
     inverse: 'text-white dark:text-black', // Pour texte sur fond coloré
+    onPrimary: 'text-primary-foreground',
+    onSecondary: 'text-secondary-foreground dark:text-secondary-dark-foreground',
   },
 
   /**
@@ -38,7 +47,6 @@ export const COLORS = {
    */
   border: {
     default: 'border-border dark:border-border-dark',
-    subtle: 'border-border-subtle dark:border-border-dark-subtle',
   },
 
   /**
@@ -48,6 +56,14 @@ export const COLORS = {
     background: 'bg-input dark:bg-input-dark',
     text: 'text-foreground dark:text-foreground-dark',
     border: 'border-border dark:border-border-dark',
+  },
+
+  /**
+   * Cards
+   */
+  card: {
+    background: 'bg-card dark:bg-card-dark',
+    foreground: 'text-card-foreground dark:text-card-dark-foreground',
   },
 
   /**

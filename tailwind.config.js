@@ -22,68 +22,133 @@ module.exports = {
     extend: {
       // ==================== COULEURS - DESIGN TOKENS ====================
       colors: {
-        // Couleur principale (brand)
-        primary: {
-          DEFAULT: '#FFC700',
-          50: '#FFF9E6',
-          100: '#FFF3CC',
-          200: '#FFE799',
-          300: '#FFDB66',
-          400: '#FFCF33',
-          500: '#FFC700',
-          600: '#CC9F00',
-          700: '#997700',
-          800: '#664F00',
-          900: '#332800',
+        // Background (arrière-plan principal)
+        background: {
+          DEFAULT: '#fffaf1',      // Light mode - crème très clair
+          dark: '#1e1e1e',         // Dark mode - noir doux
         },
 
-        // Surfaces (arrière-plans) - Design Tokens Sémantiques
-        surface: {
-          DEFAULT: '#FFFFFF',        // Light mode - surface principale
-          secondary: '#F8F8F5',      // Light mode - surface alternative
-          dark: '#1A1A1A',           // Dark mode - surface principale
-          'dark-secondary': '#2D2D2D', // Dark mode - surface alternative
-        },
-
-        // Foreground (texte) - Design Tokens Sémantiques
+        // Foreground (texte principal)
         foreground: {
-          DEFAULT: '#1A1A1A',        // Light mode - texte principal
-          secondary: '#6B7280',      // Light mode - texte secondaire
-          tertiary: '#9CA3AF',       // Light mode - texte tertiaire
-          dark: '#FFFFFF',           // Dark mode - texte principal
-          'dark-secondary': '#E5E5E5', // Dark mode - texte secondaire
-          'dark-tertiary': '#A1A1A1',  // Dark mode - texte tertiaire
+          DEFAULT: '#2b2b2b',      // Light mode - gris très foncé
+          dark: '#fffaf1',         // Dark mode - crème clair
         },
 
-        // Bordures - Design Tokens
+        // Card (cartes)
+        card: {
+          DEFAULT: '#fff5d6',      // Light mode - jaune très pâle
+          foreground: '#333333',   // Light mode text
+          dark: '#2a2a2a',         // Dark mode - gris foncé
+          'dark-foreground': '#fffaf1', // Dark mode text
+        },
+
+        // Popover
+        popover: {
+          DEFAULT: '#fff5d6',      // Light mode
+          foreground: '#333333',   // Light mode text
+          dark: '#2a2a2a',         // Dark mode
+          'dark-foreground': '#fffaf1', // Dark mode text
+        },
+
+        // Primary (couleur principale - JAUNE)
+        primary: {
+          DEFAULT: '#f9c500',      // Light mode - jaune vif
+          foreground: '#000000',   // Texte noir sur jaune
+          dark: '#ffcb05',         // Dark mode - jaune légèrement plus clair
+        },
+
+        // Secondary (couleur secondaire - ORANGE)
+        secondary: {
+          DEFAULT: '#ff8c42',      // Orange
+          foreground: '#ffffff',   // Texte blanc sur orange
+        },
+
+        // Muted (couleurs atténuées)
+        muted: {
+          DEFAULT: '#f2e7c9',      // Light mode - beige pâle
+          foreground: '#5a4a1b',   // Light mode text - brun
+          dark: '#3a3a3a',         // Dark mode - gris moyen
+          'dark-foreground': '#f0e6b3', // Dark mode text - beige clair
+        },
+
+        // Accent (VERT pour contraste)
+        accent: {
+          DEFAULT: '#79b851',      // Vert
+          foreground: '#ffffff',   // Texte blanc
+        },
+
+        // Destructive (erreur/suppression)
+        destructive: {
+          DEFAULT: '#e74c3c',      // Light mode - rouge
+          dark: '#ff6246',         // Dark mode - rouge orangé
+        },
+
+        // Border (bordures)
         border: {
-          DEFAULT: '#E5E7EB',        // Light mode
-          dark: '#374151',           // Dark mode
-          subtle: '#F3F4F6',         // Light mode - subtile
-          'dark-subtle': '#1F2937',  // Dark mode - subtile
+          DEFAULT: '#f4d36b',      // Light mode - jaune doré
+          dark: '#f9c500',         // Dark mode - jaune vif
         },
 
-        // Inputs/Fields - Design Tokens
+        // Input (champs de formulaire)
         input: {
-          DEFAULT: '#F4F2E6',        // Light mode
-          dark: '#2D291A',           // Dark mode
+          DEFAULT: '#e8bf3a',      // Light mode - jaune moutarde
+          dark: '#ffcb05',         // Dark mode - jaune vif
         },
 
-        // Couleurs sémantiques (status)
+        // Ring (focus)
+        ring: {
+          DEFAULT: '#ffcb05',      // Light mode
+          dark: '#fdd85d',         // Dark mode
+        },
+
+        // Charts
+        chart: {
+          1: '#f9c500',            // Jaune
+          2: '#ff8c42',            // Orange
+          3: '#79b851',            // Vert
+          4: '#f5a623',            // Orange foncé
+          5: '#fdd85d',            // Jaune pâle
+        },
+
+        // Sidebar
+        sidebar: {
+          DEFAULT: '#fff8e0',      // Light mode
+          foreground: '#2b2b2b',   // Light mode text
+          primary: '#f9c500',
+          'primary-foreground': '#000000',
+          accent: '#ff8c42',
+          'accent-foreground': '#ffffff',
+          border: '#e8bf3a',       // Light mode
+          ring: '#ffcb05',
+          dark: '#252525',         // Dark mode
+          'dark-foreground': '#fffaf1', // Dark mode text
+          'dark-border': '#f5a623', // Dark mode
+          'dark-ring': '#fdd85d',
+        },
+
+        // Backward compatibility aliases
+        surface: {
+          DEFAULT: '#fffaf1',      // = background light
+          secondary: '#fff5d6',    // = card light
+          dark: '#1e1e1e',         // = background dark
+          'dark-secondary': '#2a2a2a', // = card dark
+        },
+
+        // Status colors
         success: {
-          DEFAULT: '#22C55E',
+          DEFAULT: '#79b851',      // Vert (accent)
           light: '#86EFAC',
           dark: '#15803D',
         },
         error: {
-          DEFAULT: '#EF4444',
-          light: '#FCA5A5',
-          dark: '#B91C1C',
+          DEFAULT: '#e74c3c',
+          light: '#ff6246',
+          dark: '#b71a1b',
         },
         warning: {
-          DEFAULT: '#F59E0B',
-          light: '#FCD34D',
-          dark: '#B45309',
+          DEFAULT: '#ff8c42',      // Orange (secondary)
+          light: '#f5a623',
+          dark: '#d64417',
         },
         info: {
           DEFAULT: '#3B82F6',

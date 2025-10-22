@@ -134,9 +134,20 @@ const SignScreen = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) throw error;
+
+      // Check if email is verified
+      if (data.user && !data.user.email_confirmed_at) {
+        await supabase.auth.signOut();
+        showAlertFun(
+          t('auth:messages.emailNotVerified'),
+          t('auth:messages.emailNotVerifiedMessage'),
+          'danger'
+        );
+        return;
+      }
 
       showAlertFun(
         t('auth:messages.loginSuccess'),
@@ -164,11 +175,11 @@ const SignScreen = () => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        phone: phoneNumber,
         options: {
           data: {
             first_name: firstName,
             last_name: lastName,
-            phone_number: phoneNumber,
           },
         },
       });
@@ -177,8 +188,8 @@ const SignScreen = () => {
 
       showAlertFun(
         t('auth:messages.signupSuccess'),
-        t('auth:messages.signupSuccessMessage'),
-        'success'
+        t('auth:messages.signupVerifyEmailMessage'),
+        'info'
       );
 
       // Switch to login tab after successful signup
