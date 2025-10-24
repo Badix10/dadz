@@ -1,0 +1,110 @@
+{
+  "title": "عناويني",
+  "subtitle": "إدارة عناوين التوصيل (بحد أقصى 3)",
+
+  "emptyState": {
+    "title": "لا توجد عناوين محفوظة",
+    "message": "أضف عنوان التوصيل الأول لتقديم الطلبات",
+    "action": "إضافة عنوان"
+  },
+
+  "addButton": "إضافة عنوان",
+  "limitBadge": "{{count}}/3 عناوين",
+  "maxReached": "تم الوصول للحد الأقصى",
+  "maxReachedMessage": "لقد وصلت إلى الحد الأقصى البالغ 3 عناوين. احذف واحدًا لإضافة عنوان جديد.",
+
+  "addressTypes": {
+    "home": "المنزل",
+    "work": "العمل",
+    "other": "أخرى"
+  },
+
+  "form": {
+    "title": {
+      "create": "عنوان جديد",
+      "edit": "تعديل العنوان"
+    },
+
+    "manualEntry": "إدخال يدوي",
+    "useLocation": "استخدام موقعي",
+
+    "fields": {
+      "street": {
+        "label": "الشارع",
+        "placeholder": "مثال: 123 شارع السلام"
+      },
+      "city": {
+        "label": "المدينة",
+        "placeholder": "مثال: الرياض"
+      },
+      "postalCode": {
+        "label": "الرمز البريدي",
+        "placeholder": "مثال: 12345"
+      },
+      "country": {
+        "label": "البلد",
+        "placeholder": "مثال: السعودية"
+      },
+      "addressType": {
+        "label": "نوع العنوان"
+      },
+      "isDefault": {
+        "label": "العنوان الافتراضي",
+        "helper": "سيتم استخدام هذا العنوان افتراضيًا لطلباتك"
+      }
+    },
+
+    "actions": {
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "saving": "جارٍ الحفظ..."
+    }
+  },
+
+  "validation": {
+    "streetRequired": "الشارع مطلوب",
+    "streetMin": "يجب أن يحتوي الشارع على 5 أحرف على الأقل",
+    "streetMax": "الشارع طويل جدًا",
+    "cityRequired": "المدينة مطلوبة",
+    "cityMin": "يجب أن تحتوي المدينة على حرفين على الأقل",
+    "cityMax": "المدينة طويلة جدًا",
+    "postalCodeRequired": "الرمز البريدي مطلوب",
+    "postalCodeInvalid": "رمز بريدي غير صالح (4-10 أرقام)",
+    "countryRequired": "البلد مطلوب",
+    "countryMin": "يجب أن يحتوي البلد على حرفين على الأقل",
+    "countryMax": "البلد طويل جدًا",
+    "addressTypeRequired": "نوع العنوان مطلوب"
+  },
+
+  "actions": {
+    "edit": "تعديل",
+    "delete": "حذف",
+    "setAsDefault": "تعيين كافتراضي",
+    "viewDetails": "عرض التفاصيل"
+  },
+
+  "deleteConfirm": {
+    "title": "حذف العنوان؟",
+    "message": "لا يمكن التراجع عن هذا الإجراء.",
+    "confirm": "حذف",
+    "cancel": "إلغاء"
+  },
+
+  "messages": {
+    "createSuccess": "تمت إضافة العنوان بنجاح",
+    "updateSuccess": "تم تحديث العنوان",
+    "deleteSuccess": "تم حذف العنوان",
+    "setDefaultSuccess": "تم تحديث العنوان الافتراضي",
+    "createError": "تعذرت إضافة العنوان",
+    "updateError": "تعذر تحديث العنوان",
+    "deleteError": "تعذر حذف العنوان",
+    "locationPermissionDenied": "تم رفض إذن الموقع",
+    "locationError": "تعذر الحصول على موقعك",
+    "maxAddressesError": "لقد وصلت إلى الحد الأقصى البالغ 3 عناوين"
+  },
+
+  "labels": {
+    "default": "افتراضي",
+    "notDefault": "غير افتراضي"
+  }
+}

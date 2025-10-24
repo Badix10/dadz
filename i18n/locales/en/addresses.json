@@ -1,0 +1,110 @@
+{
+  "title": "My Addresses",
+  "subtitle": "Manage your delivery addresses (max 3)",
+
+  "emptyState": {
+    "title": "No saved addresses",
+    "message": "Add your first delivery address to place orders",
+    "action": "Add an address"
+  },
+
+  "addButton": "Add address",
+  "limitBadge": "{{count}}/3 addresses",
+  "maxReached": "Limit reached",
+  "maxReachedMessage": "You have reached the limit of 3 addresses. Delete one to add a new one.",
+
+  "addressTypes": {
+    "home": "Home",
+    "work": "Work",
+    "other": "Other"
+  },
+
+  "form": {
+    "title": {
+      "create": "New address",
+      "edit": "Edit address"
+    },
+
+    "manualEntry": "Manual entry",
+    "useLocation": "Use my location",
+
+    "fields": {
+      "street": {
+        "label": "Street",
+        "placeholder": "e.g. 123 Main Street"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "e.g. New York"
+      },
+      "postalCode": {
+        "label": "Postal code",
+        "placeholder": "e.g. 10001"
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "e.g. United States"
+      },
+      "addressType": {
+        "label": "Address type"
+      },
+      "isDefault": {
+        "label": "Default address",
+        "helper": "This address will be used by default for your orders"
+      }
+    },
+
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "saving": "Saving..."
+    }
+  },
+
+  "validation": {
+    "streetRequired": "Street is required",
+    "streetMin": "Street must be at least 5 characters",
+    "streetMax": "Street is too long",
+    "cityRequired": "City is required",
+    "cityMin": "City must be at least 2 characters",
+    "cityMax": "City is too long",
+    "postalCodeRequired": "Postal code is required",
+    "postalCodeInvalid": "Invalid postal code (4-10 digits)",
+    "countryRequired": "Country is required",
+    "countryMin": "Country must be at least 2 characters",
+    "countryMax": "Country is too long",
+    "addressTypeRequired": "Address type is required"
+  },
+
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "setAsDefault": "Set as default",
+    "viewDetails": "View details"
+  },
+
+  "deleteConfirm": {
+    "title": "Delete address?",
+    "message": "This action cannot be undone.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+
+  "messages": {
+    "createSuccess": "Address added successfully",
+    "updateSuccess": "Address updated",
+    "deleteSuccess": "Address deleted",
+    "setDefaultSuccess": "Default address updated",
+    "createError": "Unable to add address",
+    "updateError": "Unable to update address",
+    "deleteError": "Unable to delete address",
+    "locationPermissionDenied": "Location permission denied",
+    "locationError": "Unable to retrieve your location",
+    "maxAddressesError": "You have reached the limit of 3 addresses"
+  },
+
+  "labels": {
+    "default": "Default",
+    "notDefault": "Not default"
+  }
+}

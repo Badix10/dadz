@@ -1,0 +1,110 @@
+{
+  "title": "Mes adresses",
+  "subtitle": "Gérez vos adresses de livraison (max 3)",
+
+  "emptyState": {
+    "title": "Aucune adresse enregistrée",
+    "message": "Ajoutez votre première adresse de livraison pour commander",
+    "action": "Ajouter une adresse"
+  },
+
+  "addButton": "Ajouter une adresse",
+  "limitBadge": "{{count}}/3 adresses",
+  "maxReached": "Limite atteinte",
+  "maxReachedMessage": "Vous avez atteint la limite de 3 adresses. Supprimez-en une pour en ajouter une nouvelle.",
+
+  "addressTypes": {
+    "home": "Domicile",
+    "work": "Travail",
+    "other": "Autre"
+  },
+
+  "form": {
+    "title": {
+      "create": "Nouvelle adresse",
+      "edit": "Modifier l'adresse"
+    },
+
+    "manualEntry": "Saisie manuelle",
+    "useLocation": "Utiliser ma position",
+
+    "fields": {
+      "street": {
+        "label": "Rue",
+        "placeholder": "Ex: 123 Rue de la Paix"
+      },
+      "city": {
+        "label": "Ville",
+        "placeholder": "Ex: Paris"
+      },
+      "postalCode": {
+        "label": "Code postal",
+        "placeholder": "Ex: 75001"
+      },
+      "country": {
+        "label": "Pays",
+        "placeholder": "Ex: France"
+      },
+      "addressType": {
+        "label": "Type d'adresse"
+      },
+      "isDefault": {
+        "label": "Adresse par défaut",
+        "helper": "Cette adresse sera utilisée par défaut pour vos commandes"
+      }
+    },
+
+    "actions": {
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "saving": "Enregistrement..."
+    }
+  },
+
+  "validation": {
+    "streetRequired": "La rue est requise",
+    "streetMin": "La rue doit contenir au moins 5 caractères",
+    "streetMax": "La rue est trop longue",
+    "cityRequired": "La ville est requise",
+    "cityMin": "La ville doit contenir au moins 2 caractères",
+    "cityMax": "La ville est trop longue",
+    "postalCodeRequired": "Le code postal est requis",
+    "postalCodeInvalid": "Code postal invalide (4-10 chiffres)",
+    "countryRequired": "Le pays est requis",
+    "countryMin": "Le pays doit contenir au moins 2 caractères",
+    "countryMax": "Le pays est trop long",
+    "addressTypeRequired": "Le type d'adresse est requis"
+  },
+
+  "actions": {
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "setAsDefault": "Définir par défaut",
+    "viewDetails": "Voir détails"
+  },
+
+  "deleteConfirm": {
+    "title": "Supprimer l'adresse ?",
+    "message": "Cette action est irréversible.",
+    "confirm": "Supprimer",
+    "cancel": "Annuler"
+  },
+
+  "messages": {
+    "createSuccess": "Adresse ajoutée avec succès",
+    "updateSuccess": "Adresse mise à jour",
+    "deleteSuccess": "Adresse supprimée",
+    "setDefaultSuccess": "Adresse par défaut mise à jour",
+    "createError": "Impossible d'ajouter l'adresse",
+    "updateError": "Impossible de mettre à jour l'adresse",
+    "deleteError": "Impossible de supprimer l'adresse",
+    "locationPermissionDenied": "Permission de localisation refusée",
+    "locationError": "Impossible de récupérer votre position",
+    "maxAddressesError": "Vous avez atteint la limite de 3 adresses"
+  },
+
+  "labels": {
+    "default": "Par défaut",
+    "notDefault": "Non par défaut"
+  }
+}

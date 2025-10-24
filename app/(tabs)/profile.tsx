@@ -130,8 +130,14 @@ export default function ProfileScreen() {
                 title={item.title}
                 subtitle={item.subtitle}
                 onPress={() => {
-                  // TODO: Implement navigation
-                  console.log(`Navigate to ${item.title}`);
+                  // Navigation vers les différents screens
+                  if (index === 1) {
+                    // Adresses
+                    router.push('/addresses');
+                  } else {
+                    // TODO: Implement navigation for other items
+                    console.log(`Navigate to ${item.title}`);
+                  }
                 }}
               />
               {index < menuItems.length - 1 && (
