@@ -103,6 +103,13 @@
     "maxAddressesError": "Vous avez atteint la limite de 3 adresses"
   },
 
+  "errors": {
+    "locationNotFound": "Impossible de déterminer votre position. Veuillez réessayer.",
+    "locationError": "Une erreur s'est produite lors de la récupération de votre position. Veuillez vérifier vos paramètres GPS.",
+    "gpsDisabled": "Le GPS est désactivé sur votre appareil. Veuillez activer les services de localisation dans les paramètres de votre appareil et réessayer.",
+    "enableLocationHint": "Veuillez activer les permissions de localisation pour Dadz dans les paramètres de votre appareil."
+  },
+
   "labels": {
     "default": "Par défaut",
     "notDefault": "Non par défaut"

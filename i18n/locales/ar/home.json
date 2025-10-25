@@ -1,10 +1,24 @@
 {
   "header": {
     "location": "الموقع",
+    "deliveryTo": "التوصيل إلى",
+    "addAddress": "إضافة عنوان",
+    "changeAddress": "تغيير عنوان التوصيل",
+    "changeAddressHint": "اضغط لاختيار عنوان توصيل آخر",
     "greeting": "ماذا ستأكل\nاليوم؟",
     "searchPlaceholder": "ابحث هنا...",
     "cart": "عربة التسوق",
     "notifications": "الإشعارات"
+  },
+  "addressSheet": {
+    "title": "عنوان التوصيل",
+    "addNewAddress": "إضافة عنوان جديد",
+    "useCurrentLocation": "استخدم موقعي الحالي",
+    "gpsHint": "اكتشف موقعك تلقائياً",
+    "temporary": "مؤقت",
+    "noAddresses": "ليس لديك أي عناوين محفوظة بعد",
+    "addFirstAddress": "أضف عنوانك الأول",
+    "manageAddresses": "إدارة عناويني"
   },
   "promo": {
     "title": "استمتع بعروضنا",

@@ -1,13 +1,14 @@
-import type { LocationData } from '@/types';
 import { useTranslation } from '@/hooks';
+import type { Address } from '@/lib/services/addressService';
 import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from 'nativewind';
 import React, { memo, useCallback } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useColorScheme } from 'nativewind';
-import { COLORS } from '@/constants/classNames';
+import LocationSelector from './LocationSelector';
 
 interface HeaderProps {
-  location: LocationData;
+  address: Address | null;
+  onLocationPress: () => void;
   onCartPress?: () => void;
   onNotificationPress?: () => void;
   hasNotification?: boolean;
@@ -20,7 +21,8 @@ interface HeaderProps {
  * Supports RTL layout dynamically without reload
  */
 const Header: React.FC<HeaderProps> = memo(({
-  location,
+  address,
+  onLocationPress,
   onCartPress,
   onNotificationPress,
   hasNotification = true,
@@ -42,27 +44,20 @@ const Header: React.FC<HeaderProps> = memo(({
     onNotificationPress?.();
   }, [onNotificationPress]);
 
+  const handleLocationPress = useCallback(() => {
+    onLocationPress();
+  }, [onLocationPress]);
+
   return (
     <View className="bg-black dark:bg-surface-dark rounded-b-3xl px-4 pt-4 pb-6">
       <View
         className="items-center justify-between mb-4"
         style={{ flexDirection: flexDirection('row') }}
       >
-        <View
-          className="items-center gap-2"
-          style={{ flexDirection: flexDirection('row') }}
-        >
-          <Ionicons name="location" size={28} color="#FFC700" />
-          <View>
-            <Text className="text-xs text-gray-300 dark:text-gray-400" style={{ textAlign: isRTL ? 'right' : 'left' }}>
-              {t('home:header.location')}
-            </Text>
-            <Text className={`${textColor} text-base font-bold`} style={{ textAlign: isRTL ? 'right' : 'left' }}>
-              {location.city}, {location.country}
-            </Text>
-          </View>
-        </View>
 
+        <View className='w-2/3'>
+            <LocationSelector address={address} onPress={handleLocationPress} />
+        </View>
         <View
           className="items-center gap-2"
           style={{ flexDirection: flexDirection('row') }}

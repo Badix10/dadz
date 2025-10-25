@@ -1,10 +1,24 @@
 {
   "header": {
     "location": "Location",
+    "deliveryTo": "Delivery to",
+    "addAddress": "Add an address",
+    "changeAddress": "Change delivery address",
+    "changeAddressHint": "Tap to select a different delivery address",
     "greeting": "What are you going to\neat today?",
     "searchPlaceholder": "Search here...",
     "cart": "Shopping cart",
     "notifications": "Notifications"
+  },
+  "addressSheet": {
+    "title": "Delivery Address",
+    "addNewAddress": "Add a new address",
+    "useCurrentLocation": "Use my current location",
+    "gpsHint": "Detect your location automatically",
+    "temporary": "Temporary",
+    "noAddresses": "You don't have any saved addresses yet",
+    "addFirstAddress": "Add your first address",
+    "manageAddresses": "Manage my addresses"
   },
   "promo": {
     "title": "Enjoy our offers",

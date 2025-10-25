@@ -13,11 +13,17 @@ export const useAddresses = (autoFetch: boolean = true) => {
   const { user } = useAuth();
   const hasFetchedRef = useRef(false);
 
-  // Sélecteurs du store Zustand
+  // Sélecteurs du store Zustand (réactifs)
   const addresses = useAddressStore((state) => state.addresses);
   const selectedAddress = useAddressStore((state) => state.selectedAddress);
+  const currentAddress = useAddressStore((state) => state.currentAddress);
   const loading = useAddressStore((state) => state.loading);
   const error = useAddressStore((state) => state.error);
+
+  // Getters réactifs via selectors
+  const defaultAddress = useAddressStore((state) => state.getDefaultAddress());
+  const addressCount = useAddressStore((state) => state.getAddressCount());
+  const canAdd = useAddressStore((state) => state.canAddAddress());
 
   // Actions du store
   const fetchAddresses = useAddressStore((state) => state.fetchAddresses);
@@ -26,13 +32,10 @@ export const useAddresses = (autoFetch: boolean = true) => {
   const deleteAddress = useAddressStore((state) => state.deleteAddress);
   const setAsDefault = useAddressStore((state) => state.setAsDefault);
   const selectAddress = useAddressStore((state) => state.selectAddress);
+  const setCurrentAddress = useAddressStore((state) => state.setCurrentAddress);
+  const setTemporaryAddress = useAddressStore((state) => state.setTemporaryAddress);
   const clearError = useAddressStore((state) => state.clearError);
   const reset = useAddressStore((state) => state.reset);
-
-  // Getters
-  const getDefaultAddress = useAddressStore((state) => state.getDefaultAddress);
-  const canAddAddress = useAddressStore((state) => state.canAddAddress);
-  const getAddressCount = useAddressStore((state) => state.getAddressCount);
 
   /**
    * Récupérer automatiquement les adresses au montage
@@ -91,9 +94,10 @@ export const useAddresses = (autoFetch: boolean = true) => {
   };
 
   return {
-    // État
+    // État (réactif)
     addresses,
     selectedAddress,
+    currentAddress,
     loading,
     error,
 
@@ -104,13 +108,15 @@ export const useAddresses = (autoFetch: boolean = true) => {
     deleteAddress: remove,
     setAsDefault: setDefault,
     selectAddress,
+    setCurrentAddress,
+    setTemporaryAddress,
     clearError,
     reset,
 
-    // Getters
-    defaultAddress: getDefaultAddress(),
-    canAddAddress: canAddAddress(),
-    addressCount: getAddressCount(),
+    // Getters (réactifs)
+    defaultAddress,
+    canAddAddress: canAdd,
+    addressCount,
 
     // Helper
     isAuthenticated: !!user,

@@ -2,17 +2,19 @@ import { SearchBar } from '@/components';
 import CategoryList from '@/components/CategoryList';
 import { FilterDrawer, type FilterConfig, type SelectedFilters } from '@/components/FilterDrawer';
 import Header from '@/components/Header';
+import { AddressBottomSheet } from '@/components/Header';
 import PromoCard from '@/components/PromoCard';
 import RestaurantGrid from '@/components/RestaurantGrid';
 import { Surface } from '@/components/ui';
 import {
   CATEGORIES,
-  DEFAULT_LOCATION,
   PROMO_DATA,
   RESTAURANTS,
 } from '@/constants';
 import type { Category, FavoritesMap, Restaurant } from '@/types';
+import type { Address } from '@/lib/services/addressService';
 import { useTranslation } from '@/hooks';
+import { useAddresses } from '@/hooks/useAddresses';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StatusBar } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -28,11 +30,16 @@ export default function HomeScreen() {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
+  // États locaux
   const [favorites, setFavorites] = useState<FavoritesMap>(() =>
     RESTAURANTS.reduce((acc, rest) => ({ ...acc, [rest.id]: rest.isFavorite }), {})
   );
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({});
+  const [addressSheetVisible, setAddressSheetVisible] = useState(false);
+
+  // Hook pour gérer les adresses (avec persistance)
+  const { addresses, currentAddress, setCurrentAddress, setTemporaryAddress } = useAddresses();
 
   // Filter configuration (YAGNI - Start simple)
   const filterConfig: FilterConfig[] = useMemo(() => [
@@ -119,8 +126,23 @@ export default function HomeScreen() {
     console.log('Restaurant selected:', restaurant.name);
   }, []);
 
+  const handleLocationPress = useCallback(() => {
+    setAddressSheetVisible(true);
+  }, []);
+
+  const handleCloseAddressSheet = useCallback(() => {
+    setAddressSheetVisible(false);
+  }, []);
+
+  const handleSelectAddress = useCallback((address: Address) => {
+    setCurrentAddress(address);
+  }, [setCurrentAddress]);
+
+  const handleSetTemporaryAddress = useCallback((address: Address) => {
+    setTemporaryAddress(address);
+  }, [setTemporaryAddress]);
+
   // Memoize static data to prevent unnecessary re-creations (Performance)
-  const location = useMemo(() => DEFAULT_LOCATION, []);
   const categories = useMemo(() => CATEGORIES, []);
   const restaurants = useMemo(() => RESTAURANTS, []);
   const promoData = useMemo(() => PROMO_DATA, []);
@@ -131,7 +153,8 @@ export default function HomeScreen() {
 
       <Surface variant="primary" className="flex-1">
         <Header
-          location={location}
+          address={currentAddress}
+          onLocationPress={handleLocationPress}
           onCartPress={handleCartPress}
           onNotificationPress={handleNotificationPress}
           hasNotification={true}
@@ -172,6 +195,15 @@ export default function HomeScreen() {
           filters={filterConfig}
           selectedFilters={selectedFilters}
           onApply={handleApplyFilters}
+        />
+
+        <AddressBottomSheet
+          visible={addressSheetVisible}
+          addresses={addresses}
+          selectedAddress={currentAddress}
+          onClose={handleCloseAddressSheet}
+          onSelectAddress={handleSelectAddress}
+          onSetTemporaryAddress={handleSetTemporaryAddress}
         />
       </Surface>
     </SafeAreaView>

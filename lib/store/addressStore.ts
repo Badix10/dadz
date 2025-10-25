@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   addressService,
   type Address,
@@ -14,6 +16,8 @@ interface AddressState {
   // État
   addresses: Address[];
   selectedAddress: Address | null;
+  currentAddress: Address | null; // Adresse courante pour les commandes (Persisted)
+  temporaryAddress: Address | null; // Adresse temporaire (GPS, non sauvegardée)
   loading: boolean;
   error: string | null;
 
@@ -24,11 +28,14 @@ interface AddressState {
   deleteAddress: (id: string) => Promise<void>;
   setAsDefault: (id: string) => Promise<void>;
   selectAddress: (address: Address | null) => void;
+  setCurrentAddress: (address: Address | null) => void;
+  setTemporaryAddress: (address: Address | null) => void;
   clearError: () => void;
   reset: () => void;
 
   // Getters
   getDefaultAddress: () => Address | null;
+  getCurrentAddress: () => Address | null;
   canAddAddress: () => boolean;
   getAddressCount: () => number;
 }
@@ -39,15 +46,20 @@ interface AddressState {
 const initialState = {
   addresses: [],
   selectedAddress: null,
+  currentAddress: null,
+  temporaryAddress: null,
   loading: false,
   error: null,
 };
 
 /**
  * Store Zustand pour gérer l'état global des adresses
+ * Avec persistance de currentAddress dans AsyncStorage
  */
-export const useAddressStore = create<AddressState>((set, get) => ({
-  ...initialState,
+export const useAddressStore = create<AddressState>()(
+  persist(
+    (set, get) => ({
+      ...initialState,
 
   /**
    * Récupérer toutes les adresses d'un utilisateur
@@ -233,6 +245,22 @@ export const useAddressStore = create<AddressState>((set, get) => ({
   },
 
   /**
+   * Définir l'adresse courante pour les commandes
+   * Cette valeur est persistée dans AsyncStorage
+   */
+  setCurrentAddress: (address: Address | null) => {
+    set({ currentAddress: address, temporaryAddress: null });
+  },
+
+  /**
+   * Définir une adresse temporaire (GPS, non sauvegardée)
+   * Prioritaire sur currentAddress, non persistée
+   */
+  setTemporaryAddress: (address: Address | null) => {
+    set({ temporaryAddress: address });
+  },
+
+  /**
    * Effacer l'erreur actuelle
    */
   clearError: () => {
@@ -254,6 +282,31 @@ export const useAddressStore = create<AddressState>((set, get) => ({
   },
 
   /**
+   * GETTER: Obtenir l'adresse courante pour les commandes
+   * Priorité: temporaryAddress > currentAddress > defaultAddress
+   */
+  getCurrentAddress: () => {
+    const state = get();
+
+    // 1. Priorité à l'adresse temporaire (GPS)
+    if (state.temporaryAddress) {
+      return state.temporaryAddress;
+    }
+
+    // 2. Si une adresse courante est définie, la retourner
+    if (state.currentAddress) {
+      // Vérifier que cette adresse existe toujours dans la liste
+      const exists = state.addresses.find(
+        (addr) => addr.id === state.currentAddress?.id
+      );
+      if (exists) return state.currentAddress;
+    }
+
+    // 3. Sinon retourner l'adresse par défaut
+    return getDefaultAddress(state.addresses);
+  },
+
+  /**
    * GETTER: Vérifier si on peut ajouter une adresse
    */
   canAddAddress: () => {
@@ -266,4 +319,14 @@ export const useAddressStore = create<AddressState>((set, get) => ({
   getAddressCount: () => {
     return get().addresses.length;
   },
-}));
+    }),
+    {
+      name: 'address-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+      // Persister uniquement currentAddress
+      partialize: (state) => ({
+        currentAddress: state.currentAddress,
+      }),
+    }
+  )
+);
