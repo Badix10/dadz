@@ -8,6 +8,8 @@ export interface ParsedAddress {
   city: string;
   postal_code: string;
   country: string;
+  latitude: number;
+  longitude: number;
 }
 
 /**
@@ -90,6 +92,8 @@ export const locationService = {
         city: addr.city || addr.subregion || '',
         postal_code: addr.postalCode || '',
         country: addr.country || 'France',
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
       };
     } catch (error) {
       if (error instanceof Error) {

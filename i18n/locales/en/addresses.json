@@ -100,7 +100,9 @@
     "deleteError": "Unable to delete address",
     "locationPermissionDenied": "Location permission denied",
     "locationError": "Unable to retrieve your location",
-    "maxAddressesError": "You have reached the limit of 3 addresses"
+    "maxAddressesError": "You have reached the limit of 3 addresses",
+    "geocodingWarning": "Location unavailable",
+    "geocodingWarningMessage": "Unable to locate this address automatically. Nearby restaurants may not display correctly. Do you want to continue?"
   },
 
   "errors": {

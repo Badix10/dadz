@@ -70,9 +70,10 @@ export function formatReviewCount(count: number): string {
 
 /**
  * Convertit un restaurant Supabase en restaurant UI
+ * Inclut les données étendues (distance, delivery, etc.) si disponibles
  */
 export function mapRestaurantToUI(restaurant: RestaurantWithDistance | RestaurantDetails): Restaurant {
-  return {
+  const baseRestaurant: Restaurant = {
     id: restaurant.id,
     name: restaurant.name,
     rating: Number(restaurant.rating) || 0,
@@ -80,6 +81,21 @@ export function mapRestaurantToUI(restaurant: RestaurantWithDistance | Restauran
     image: restaurant.cover_image_url || restaurant.logo_url || '',
     isFavorite: false, // Sera géré par le système de favoris
   };
+
+  // Ajouter les données étendues si c'est un RestaurantWithDistance
+  if ('distance' in restaurant && restaurant.distance !== undefined) {
+    const deliveryFee = Number(restaurant.delivery_fee_base) +
+                       (restaurant.distance * Number(restaurant.delivery_fee_per_km));
+
+    baseRestaurant.distance = restaurant.distance;
+    baseRestaurant.deliveryTimeMin = restaurant.delivery_time_min;
+    baseRestaurant.deliveryTimeMax = restaurant.delivery_time_max;
+    baseRestaurant.deliveryFee = Math.round(deliveryFee * 100) / 100; // Arrondir à 2 décimales
+    baseRestaurant.categoryName = restaurant.category?.name || '';
+    baseRestaurant.priceRange = restaurant.price_range as 'low' | 'medium' | 'high';
+  }
+
+  return baseRestaurant;
 }
 
 /**

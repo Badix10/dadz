@@ -100,7 +100,9 @@
     "deleteError": "Impossible de supprimer l'adresse",
     "locationPermissionDenied": "Permission de localisation refusée",
     "locationError": "Impossible de récupérer votre position",
-    "maxAddressesError": "Vous avez atteint la limite de 3 adresses"
+    "maxAddressesError": "Vous avez atteint la limite de 3 adresses",
+    "geocodingWarning": "Localisation impossible",
+    "geocodingWarningMessage": "Impossible de localiser cette adresse automatiquement. Les restaurants à proximité peuvent ne pas s'afficher correctement. Voulez-vous continuer ?"
   },
 
   "errors": {

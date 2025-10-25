@@ -15,7 +15,7 @@ import type { Address } from '@/lib/services/addressService';
 import { useTranslation } from '@/hooks';
 import { useAddresses } from '@/hooks/useAddresses';
 import { useRestaurant } from '@/hooks/useRestaurants';
-import { mapCategoriesToUI } from '@/lib/mappers/restaurantMapper';
+import { mapCategoriesToUI, mapRestaurantsToUI } from '@/lib/mappers/restaurantMapper';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StatusBar, ActivityIndicator, View, Text } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -51,6 +51,17 @@ export default function HomeScreen() {
     isLoading: categoriesLoading,
     error: categoriesError
   } = restaurant.getCategories();
+
+  // Charger les restaurants depuis Supabase basés sur l'adresse actuelle
+  const {
+    data: restaurantsData,
+    isLoading: restaurantsLoading,
+    error: restaurantsError
+  } = restaurant.getRestaurants({
+    latitude: currentAddress?.latitude ?? undefined,
+    longitude: currentAddress?.longitude ?? undefined,
+    maxDistance: 10, // 10km max
+  });
 
   // Filter configuration (YAGNI - Start simple)
   const filterConfig: FilterConfig[] = useMemo(() => [
@@ -159,8 +170,13 @@ export default function HomeScreen() {
     return mapCategoriesToUI(categoriesData);
   }, [categoriesData]);
 
+  // Mapper les restaurants Supabase vers le format UI
+  const restaurants = useMemo(() => {
+    if (!restaurantsData) return [];
+    return mapRestaurantsToUI(restaurantsData);
+  }, [restaurantsData]);
+
   // Memoize static data to prevent unnecessary re-creations (Performance)
-  const restaurants = useMemo(() => RESTAURANTS, []);
   const promoData = useMemo(() => PROMO_DATA, []);
 
   return (
@@ -209,13 +225,33 @@ export default function HomeScreen() {
             />
           )}
 
-          <RestaurantGrid
-            restaurants={restaurants}
-            favorites={favorites}
-            onFavoriteToggle={handleFavoriteToggle}
-            onRestaurantPress={handleRestaurantPress}
-            title={t('home:restaurants.title')}
-          />
+          {/* Restaurants avec loading state */}
+          {restaurantsLoading ? (
+            <View className="py-8 items-center">
+              <ActivityIndicator size="large" color="#FFD700" />
+              <Text className="text-gray-500 mt-4">{t('home:loading.restaurants', { defaultValue: 'Chargement des restaurants...' })}</Text>
+            </View>
+          ) : restaurantsError ? (
+            <View className="py-4 px-4">
+              <Text className="text-red-500 text-center">
+                {t('home:errors.restaurants', { defaultValue: 'Erreur lors du chargement des restaurants' })}
+              </Text>
+            </View>
+          ) : !currentAddress ? (
+            <View className="py-8 px-4">
+              <Text className="text-gray-500 text-center">
+                {t('home:errors.noAddress', { defaultValue: 'Veuillez sélectionner une adresse pour voir les restaurants' })}
+              </Text>
+            </View>
+          ) : (
+            <RestaurantGrid
+              restaurants={restaurants}
+              favorites={favorites}
+              onFavoriteToggle={handleFavoriteToggle}
+              onRestaurantPress={handleRestaurantPress}
+              title={t('home:restaurants.title')}
+            />
+          )}
         </ScrollView>
 
         <FilterDrawer

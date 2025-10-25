@@ -73,11 +73,28 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
           {restaurant.name}
         </Text>
 
-        <View className="flex-row items-center gap-1">
+        <View className="flex-row items-center gap-1 mb-1">
           <Ionicons name="star" size={16} color="#FFC700" />
           <Text className={`${COLORS.text.primary} font-semibold`}>{restaurant.rating}</Text>
           <Text className={`${COLORS.text.secondary} text-sm`}>({restaurant.reviews})</Text>
         </View>
+
+        {/* Category name if available */}
+        {restaurant.categoryName && (
+          <Text className={`${COLORS.text.secondary} text-xs mb-1`} numberOfLines={1}>
+            {restaurant.categoryName}
+          </Text>
+        )}
+
+        {/* Delivery info if available */}
+        {(restaurant.deliveryTimeMin || restaurant.distance || restaurant.deliveryFee) && (
+          <Text className={`${COLORS.text.secondary} text-xs`} numberOfLines={1}>
+            {restaurant.deliveryTimeMin && restaurant.deliveryTimeMax &&
+              `${restaurant.deliveryTimeMin}-${restaurant.deliveryTimeMax} min`}
+            {restaurant.distance && ` • ${restaurant.distance.toFixed(1)} km`}
+            {restaurant.deliveryFee !== undefined && ` • ${restaurant.deliveryFee.toFixed(2)}€ delivery`}
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   );

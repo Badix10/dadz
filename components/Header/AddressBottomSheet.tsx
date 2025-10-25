@@ -89,6 +89,8 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
           country: parsedAddress.country,
           address_type: 'other', // Type par défaut
           is_default: false,
+          latitude: parsedAddress.latitude,
+          longitude: parsedAddress.longitude,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };

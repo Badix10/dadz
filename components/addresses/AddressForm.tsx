@@ -8,6 +8,7 @@ import { CustomInput, PrimaryButton } from '@/components/ui';
 import { LocationButton } from './LocationButton';
 import { addressSchema, type AddressFormData } from '@/lib/validations/addressSchema';
 import type { Address } from '@/lib/services/addressService';
+import { geocodingService } from '@/lib/services/geocodingService';
 import { Picker } from '@react-native-picker/picker';
 
 interface AddressFormProps {
@@ -87,11 +88,57 @@ export const AddressForm: React.FC<AddressFormProps> = ({
 
   /**
    * Soumission du formulaire
+   * Géocode automatiquement l'adresse avant de la sauvegarder
    */
   const onFormSubmit = async (data: AddressFormData) => {
     setSubmitting(true);
     try {
-      await onSubmit(data);
+      // Géocoder l'adresse pour obtenir les coordonnées GPS
+      const coordinates = await geocodingService.geocodeAddress(
+        data.street,
+        data.city,
+        data.postal_code,
+        data.country
+      );
+
+      // Préparer les données avec coordonnées
+      const addressDataWithCoords = {
+        ...data,
+        latitude: coordinates?.latitude ?? null,
+        longitude: coordinates?.longitude ?? null,
+      };
+
+      // Si le géocodage échoue, afficher un avertissement mais continuer
+      if (!coordinates) {
+        console.warn('Geocoding failed for address:', data);
+        Alert.alert(
+          t('addresses:messages.geocodingWarning'),
+          t('addresses:messages.geocodingWarningMessage'),
+          [
+            {
+              text: t('common:cancel'),
+              style: 'cancel',
+              onPress: () => setSubmitting(false),
+            },
+            {
+              text: t('common:continue'),
+              onPress: async () => {
+                try {
+                  await onSubmit(addressDataWithCoords as any);
+                } catch (error) {
+                  console.error('Form submission error:', error);
+                } finally {
+                  setSubmitting(false);
+                }
+              },
+            },
+          ]
+        );
+        return;
+      }
+
+      // Soumettre les données avec coordonnées
+      await onSubmit(addressDataWithCoords as any);
     } catch (error) {
       // L'erreur est gérée par le composant parent
       console.error('Form submission error:', error);

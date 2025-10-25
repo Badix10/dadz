@@ -100,7 +100,9 @@
     "deleteError": "تعذر حذف العنوان",
     "locationPermissionDenied": "تم رفض إذن الموقع",
     "locationError": "تعذر الحصول على موقعك",
-    "maxAddressesError": "لقد وصلت إلى الحد الأقصى البالغ 3 عناوين"
+    "maxAddressesError": "لقد وصلت إلى الحد الأقصى البالغ 3 عناوين",
+    "geocodingWarning": "الموقع غير متاح",
+    "geocodingWarningMessage": "تعذر تحديد موقع هذا العنوان تلقائيًا. قد لا تظهر المطاعم القريبة بشكل صحيح. هل تريد المتابعة؟"
   },
 
   "errors": {
