@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-// import { restaurantService } from '@/lib/services/restaurantService'; // À créer
+import { restaurantService } from '@/lib/services/restaurantService';
 
 /**
  * Hook React Query pour récupérer les restaurants
@@ -20,6 +20,11 @@ interface UseRestaurantsParams {
   categoryId?: string;
   search?: string;
   maxDistance?: number;
+  minRating?: number;
+  priceRange?: 'low' | 'medium' | 'high';
+  isOpen?: boolean;
+  limit?: number;
+  offset?: number;
 }
 
 export function useRestaurants(params: UseRestaurantsParams = {}) {
@@ -29,9 +34,7 @@ export function useRestaurants(params: UseRestaurantsParams = {}) {
 
     // La fonction qui fait l'appel API
     queryFn: async () => {
-      // TODO: Appeler restaurantService.getRestaurants(params)
-      // Pour l'instant, exemple de retour
-      return [];
+      return await restaurantService.getRestaurants(params);
     },
 
     // Désactiver la query si pas de coordonnées GPS (si tu veux filtrer par distance)
@@ -46,17 +49,42 @@ export function useRestaurants(params: UseRestaurantsParams = {}) {
  * Hook pour récupérer un restaurant par ID avec tous ses détails
  *
  * @example
- * const { data: restaurant, isLoading } = useRestaurant(restaurantId);
+ * const { currentAddress } = useAddresses();
+ * const { data: restaurant, isLoading } = useRestaurant({
+ *   restaurantId: 'restaurant-id',
+ *   latitude: currentAddress?.latitude,
+ *   longitude: currentAddress?.longitude,
+ * });
  */
-export function useRestaurant(restaurantId: string | undefined) {
+interface UseRestaurantParams {
+  restaurantId: string | undefined;
+  latitude?: number;
+  longitude?: number;
+  includeReviews?: boolean;
+  reviewsLimit?: number;
+}
+
+export function useRestaurant(params: UseRestaurantParams | string | undefined) {
+  // Support de l'ancien format (juste l'ID en string) et du nouveau format (objet)
+  const normalizedParams = typeof params === 'string' || params === undefined
+    ? { restaurantId: params }
+    : params;
+
+  const { restaurantId, latitude, longitude, includeReviews, reviewsLimit } = normalizedParams;
+
   return useQuery({
-    queryKey: ['restaurant', restaurantId],
+    queryKey: ['restaurant', restaurantId, { latitude, longitude, includeReviews, reviewsLimit }],
 
     queryFn: async () => {
       if (!restaurantId) throw new Error('Restaurant ID required');
 
-      // TODO: Appeler restaurantService.getRestaurantById(restaurantId)
-      return null;
+      return await restaurantService.getRestaurantById({
+        restaurantId,
+        latitude,
+        longitude,
+        includeReviews,
+        reviewsLimit,
+      });
     },
 
     enabled: !!restaurantId,
@@ -77,8 +105,7 @@ export function useRestaurantCategories() {
     queryKey: ['restaurant-categories'],
 
     queryFn: async () => {
-      // TODO: Appeler restaurantService.getCategories()
-      return [];
+      return await restaurantService.getCategories();
     },
 
     // Les catégories changent rarement → cache long (30 minutes)
