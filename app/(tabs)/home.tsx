@@ -7,7 +7,6 @@ import PromoCard from '@/components/PromoCard';
 import RestaurantGrid from '@/components/RestaurantGrid';
 import { Surface } from '@/components/ui';
 import {
-  CATEGORIES,
   PROMO_DATA,
   RESTAURANTS,
 } from '@/constants';
@@ -15,8 +14,10 @@ import type { Category, FavoritesMap, Restaurant } from '@/types';
 import type { Address } from '@/lib/services/addressService';
 import { useTranslation } from '@/hooks';
 import { useAddresses } from '@/hooks/useAddresses';
+import { useRestaurant } from '@/hooks/useRestaurants';
+import { mapCategoriesToUI } from '@/lib/mappers/restaurantMapper';
 import React, { useCallback, useMemo, useState } from 'react';
-import { ScrollView, StatusBar } from 'react-native';
+import { ScrollView, StatusBar, ActivityIndicator, View, Text } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from 'nativewind';
 
@@ -40,6 +41,16 @@ export default function HomeScreen() {
 
   // Hook pour gérer les adresses (avec persistance)
   const { addresses, currentAddress, setCurrentAddress, setTemporaryAddress } = useAddresses();
+
+  // Hook pour gérer les restaurants
+  const restaurant = useRestaurant();
+
+  // Charger les catégories depuis Supabase
+  const {
+    data: categoriesData,
+    isLoading: categoriesLoading,
+    error: categoriesError
+  } = restaurant.getCategories();
 
   // Filter configuration (YAGNI - Start simple)
   const filterConfig: FilterConfig[] = useMemo(() => [
@@ -142,8 +153,13 @@ export default function HomeScreen() {
     setTemporaryAddress(address);
   }, [setTemporaryAddress]);
 
+  // Mapper les catégories Supabase vers le format UI
+  const categories = useMemo(() => {
+    if (!categoriesData) return [];
+    return mapCategoriesToUI(categoriesData);
+  }, [categoriesData]);
+
   // Memoize static data to prevent unnecessary re-creations (Performance)
-  const categories = useMemo(() => CATEGORIES, []);
   const restaurants = useMemo(() => RESTAURANTS, []);
   const promoData = useMemo(() => PROMO_DATA, []);
 
@@ -175,10 +191,23 @@ export default function HomeScreen() {
             onPress={handlePromoPress}
           />
 
-          <CategoryList
-            categories={categories}
-            onCategoryPress={handleCategoryPress}
-          />
+          {/* Catégories avec loading state */}
+          {categoriesLoading ? (
+            <View className="py-8 items-center">
+              <ActivityIndicator size="small" color="#FFD700" />
+            </View>
+          ) : categoriesError ? (
+            <View className="py-4 px-4">
+              <Text className="text-red-500 text-center">
+                {t('home:errors.categories', { defaultValue: 'Erreur lors du chargement des catégories' })}
+              </Text>
+            </View>
+          ) : (
+            <CategoryList
+              categories={categories}
+              onCategoryPress={handleCategoryPress}
+            />
+          )}
 
           <RestaurantGrid
             restaurants={restaurants}

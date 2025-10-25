@@ -286,19 +286,19 @@ class RestaurantService {
 
     // Trier les catégories de plats par display_order
     if (restaurant.dish_categories) {
-      restaurant.dish_categories.sort((a, b) => a.display_order - b.display_order);
+      restaurant.dish_categories.sort((a: any, b: any) => a.display_order - b.display_order);
 
       // Trier les plats dans chaque catégorie par display_order
-      restaurant.dish_categories.forEach((category) => {
+      restaurant.dish_categories.forEach((category: any) => {
         if (category.dishes) {
-          category.dishes.sort((a, b) => a.display_order - b.display_order);
+          category.dishes.sort((a: any, b: any) => a.display_order - b.display_order);
         }
       });
     }
 
     // Trier les horaires par jour de la semaine
     if (restaurant.restaurant_hours) {
-      restaurant.restaurant_hours.sort((a, b) => a.day_of_week - b.day_of_week);
+      restaurant.restaurant_hours.sort((a: any, b: any) => a.day_of_week - b.day_of_week);
     }
 
     // Charger les avis si demandé

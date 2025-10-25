@@ -1,114 +1,100 @@
 import { useQuery } from '@tanstack/react-query';
 import { restaurantService } from '@/lib/services/restaurantService';
+import type { GetRestaurantsParams, GetRestaurantByIdParams } from '@/lib/services/restaurantService';
 
 /**
- * Hook React Query pour récupérer les restaurants
+ * Hook unifié pour gérer toutes les opérations liées aux restaurants
  *
  * @example
- * const { currentAddress } = useAddresses();
- * const { data: restaurants, isLoading, error } = useRestaurants({
- *   latitude: currentAddress?.latitude,
- *   longitude: currentAddress?.longitude,
- *   categoryId: 'pizza-category-id',
- *   search: 'pizza',
+ * const restaurant = useRestaurant();
+ *
+ * // Récupérer les restaurants
+ * const restaurantsQuery = restaurant.getRestaurants({
+ *   latitude: 48.8566,
+ *   longitude: 2.3522,
+ *   categoryId: 'pizza',
  * });
- */
-
-interface UseRestaurantsParams {
-  latitude?: number;
-  longitude?: number;
-  categoryId?: string;
-  search?: string;
-  maxDistance?: number;
-  minRating?: number;
-  priceRange?: 'low' | 'medium' | 'high';
-  isOpen?: boolean;
-  limit?: number;
-  offset?: number;
-}
-
-export function useRestaurants(params: UseRestaurantsParams = {}) {
-  return useQuery({
-    // La queryKey change quand les params changent → refetch automatique
-    queryKey: ['restaurants', params],
-
-    // La fonction qui fait l'appel API
-    queryFn: async () => {
-      return await restaurantService.getRestaurants(params);
-    },
-
-    // Désactiver la query si pas de coordonnées GPS (si tu veux filtrer par distance)
-    enabled: params.latitude !== undefined && params.longitude !== undefined,
-
-    // Cache pendant 5 minutes
-    staleTime: 5 * 60 * 1000,
-  });
-}
-
-/**
- * Hook pour récupérer un restaurant par ID avec tous ses détails
  *
- * @example
- * const { currentAddress } = useAddresses();
- * const { data: restaurant, isLoading } = useRestaurant({
- *   restaurantId: 'restaurant-id',
- *   latitude: currentAddress?.latitude,
- *   longitude: currentAddress?.longitude,
+ * // Récupérer un restaurant par ID
+ * const detailsQuery = restaurant.getRestaurantById({
+ *   restaurantId: 'abc-123',
+ *   latitude: 48.8566,
+ *   longitude: 2.3522,
  * });
- */
-interface UseRestaurantParams {
-  restaurantId: string | undefined;
-  latitude?: number;
-  longitude?: number;
-  includeReviews?: boolean;
-  reviewsLimit?: number;
-}
-
-export function useRestaurant(params: UseRestaurantParams | string | undefined) {
-  // Support de l'ancien format (juste l'ID en string) et du nouveau format (objet)
-  const normalizedParams = typeof params === 'string' || params === undefined
-    ? { restaurantId: params }
-    : params;
-
-  const { restaurantId, latitude, longitude, includeReviews, reviewsLimit } = normalizedParams;
-
-  return useQuery({
-    queryKey: ['restaurant', restaurantId, { latitude, longitude, includeReviews, reviewsLimit }],
-
-    queryFn: async () => {
-      if (!restaurantId) throw new Error('Restaurant ID required');
-
-      return await restaurantService.getRestaurantById({
-        restaurantId,
-        latitude,
-        longitude,
-        includeReviews,
-        reviewsLimit,
-      });
-    },
-
-    enabled: !!restaurantId,
-
-    // Cache plus long pour les détails (10 minutes)
-    staleTime: 10 * 60 * 1000,
-  });
-}
-
-/**
- * Hook pour récupérer les catégories de restaurants
  *
- * @example
- * const { data: categories } = useRestaurantCategories();
+ * // Récupérer les catégories
+ * const categoriesQuery = restaurant.getCategories();
  */
-export function useRestaurantCategories() {
-  return useQuery({
-    queryKey: ['restaurant-categories'],
+export function useRestaurant() {
+  /**
+   * Récupère la liste des restaurants avec filtres
+   *
+   * @param params - Paramètres de filtrage (coordonnées, catégorie, recherche, etc.)
+   * @param options - Options React Query (enabled, staleTime, etc.)
+   */
+  const getRestaurants = (
+    params: GetRestaurantsParams = {},
+    options?: {
+      enabled?: boolean;
+      staleTime?: number;
+    }
+  ) => {
+    return useQuery({
+      queryKey: ['restaurants', params],
+      queryFn: async () => await restaurantService.getRestaurants(params),
+      enabled: options?.enabled ?? (params.latitude !== undefined && params.longitude !== undefined),
+      staleTime: options?.staleTime ?? 5 * 60 * 1000, // 5 minutes par défaut
+    });
+  };
 
-    queryFn: async () => {
-      return await restaurantService.getCategories();
-    },
+  /**
+   * Récupère un restaurant par ID avec tous ses détails
+   *
+   * @param params - ID du restaurant et options (coordonnées, avis, etc.)
+   * @param options - Options React Query
+   */
+  const getRestaurantById = (
+    params: GetRestaurantByIdParams,
+    options?: {
+      enabled?: boolean;
+      staleTime?: number;
+    }
+  ) => {
+    return useQuery({
+      queryKey: ['restaurant', params.restaurantId, {
+        latitude: params.latitude,
+        longitude: params.longitude,
+        includeReviews: params.includeReviews,
+        reviewsLimit: params.reviewsLimit,
+      }],
+      queryFn: async () => await restaurantService.getRestaurantById(params),
+      enabled: options?.enabled ?? !!params.restaurantId,
+      staleTime: options?.staleTime ?? 10 * 60 * 1000, // 10 minutes par défaut
+    });
+  };
 
-    // Les catégories changent rarement → cache long (30 minutes)
-    staleTime: 30 * 60 * 1000,
-  });
+  /**
+   * Récupère toutes les catégories de restaurants
+   *
+   * @param options - Options React Query
+   */
+  const getCategories = (
+    options?: {
+      enabled?: boolean;
+      staleTime?: number;
+    }
+  ) => {
+    return useQuery({
+      queryKey: ['restaurant-categories'],
+      queryFn: async () => await restaurantService.getCategories(),
+      enabled: options?.enabled ?? true,
+      staleTime: options?.staleTime ?? 30 * 60 * 1000, // 30 minutes par défaut
+    });
+  };
+
+  return {
+    getRestaurants,
+    getRestaurantById,
+    getCategories,
+  };
 }
