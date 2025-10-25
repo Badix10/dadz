@@ -4,3 +4,4 @@
 
 export { useFavorites } from './useFavorites';
 export * from './useTranslation';
+export * from './useRestaurants';
