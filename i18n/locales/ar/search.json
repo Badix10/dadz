@@ -1,0 +1,32 @@
+{
+  "header": {
+    "placeholder": "ابحث عن المطاعم...",
+    "clear": "مسح"
+  },
+  "suggestions": {
+    "recent": "عمليات البحث الأخيرة",
+    "trending": "الأكثر بحثاً",
+    "browseCategories": "تصفح حسب الفئة",
+    "clearHistory": "مسح السجل",
+    "noHistory": "لا توجد عمليات بحث حديثة"
+  },
+  "empty": {
+    "title": "ماذا تبحث؟",
+    "subtitle": "ابحث عن مطعمك المفضل"
+  },
+  "noResults": {
+    "title": "لا توجد نتائج لـ \"{{query}}\"",
+    "suggestions": {
+      "title": "اقتراحات",
+      "tryAnother": "جرب مصطلح بحث آخر",
+      "checkSpelling": "تحقق من الإملاء",
+      "expandArea": "وسع منطقة البحث"
+    },
+    "resetFilters": "إعادة تعيين الفلاتر"
+  },
+  "results": {
+    "title": "تم العثور على {{count}} مطعم",
+    "title_plural": "تم العثور على {{count}} مطاعم"
+  },
+  "loading": "جاري البحث..."
+}

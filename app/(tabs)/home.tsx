@@ -20,6 +20,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StatusBar, ActivityIndicator, View, Text } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from 'nativewind';
+import { useRouter } from 'expo-router';
 
 /**
  * Home Screen - Main Food Delivery Page
@@ -27,6 +28,7 @@ import { useColorScheme } from 'nativewind';
  * Principes: DRY, KISS, Clean Code
  */
 export default function HomeScreen() {
+  const router = useRouter();
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -104,10 +106,10 @@ export default function HomeScreen() {
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
-  const handleSearch = useCallback((text: string) => {
-    // TODO: Implement search functionality
-    console.log('Searching for:', text);
-  }, []);
+  const handleSearch = useCallback(() => {
+    // Navigate to search page
+    router.push('/search');
+  }, [router]);
 
   const handleFilterPress = useCallback(() => {
     setFilterVisible(true);
@@ -192,9 +194,10 @@ export default function HomeScreen() {
           hasNotification={true}
         >
           <SearchBar
-            onSearch={handleSearch}
+            onPress={handleSearch}
             onFilterPress={handleFilterPress}
             placeholder={t('home:header.searchPlaceholder')}
+            editable={false}
           />
         </Header>
 

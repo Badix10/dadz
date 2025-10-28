@@ -55,7 +55,9 @@ export interface GetRestaurantsParams {
   search?: string;
   maxDistance?: number; // en km
   minRating?: number; // 0-5
-  priceRange?: 'low' | 'medium' | 'high';
+  priceRange?: 'low' | 'medium' | 'high'; // Deprecated: use priceRanges
+  priceRanges?: ('low' | 'medium' | 'high')[]; // Support multiple price ranges
+  maxDeliveryTime?: number; // en minutes (filtre côté client)
   isOpen?: boolean;
   limit?: number;
   offset?: number;
@@ -97,6 +99,8 @@ class RestaurantService {
       maxDistance = 10,
       minRating,
       priceRange,
+      priceRanges,
+      maxDeliveryTime,
       isOpen,
       limit = 20,
       offset = 0,
@@ -126,9 +130,10 @@ class RestaurantService {
       query = query.gte('rating', minRating);
     }
 
-    // Filtre par gamme de prix
-    if (priceRange) {
-      query = query.eq('price_range', priceRange);
+    // Filtre par gamme de prix (support multiple)
+    const effectivePriceRanges = priceRanges || (priceRange ? [priceRange] : null);
+    if (effectivePriceRanges && effectivePriceRanges.length > 0) {
+      query = query.in('price_range', effectivePriceRanges);
     }
 
     // Filtre par statut ouvert/fermé
@@ -150,9 +155,11 @@ class RestaurantService {
       return [];
     }
 
+    let processedRestaurants = restaurants;
+
     // Si des coordonnées sont fournies, calculer la distance et filtrer
     if (latitude !== undefined && longitude !== undefined) {
-      const restaurantsWithDistance = restaurants
+      processedRestaurants = restaurants
         .map((restaurant) => {
           if (restaurant.latitude && restaurant.longitude) {
             const distance = this.calculateDistance(
@@ -179,18 +186,26 @@ class RestaurantService {
           }
           return 0;
         });
-
-      return restaurantsWithDistance;
+    } else {
+      // Si pas de coordonnées, trier par note
+      processedRestaurants = restaurants
+        .map((restaurant) => ({ ...restaurant, distance: undefined }))
+        .sort((a, b) => {
+          const ratingA = Number(a.rating) || 0;
+          const ratingB = Number(b.rating) || 0;
+          return ratingB - ratingA;
+        });
     }
 
-    // Si pas de coordonnées, trier par note
-    return restaurants
-      .map((restaurant) => ({ ...restaurant, distance: undefined }))
-      .sort((a, b) => {
-        const ratingA = Number(a.rating) || 0;
-        const ratingB = Number(b.rating) || 0;
-        return ratingB - ratingA;
+    // Filtre par temps de livraison maximum (côté client)
+    if (maxDeliveryTime !== undefined) {
+      processedRestaurants = processedRestaurants.filter((restaurant) => {
+        const avgDeliveryTime = (restaurant.delivery_time_min + restaurant.delivery_time_max) / 2;
+        return avgDeliveryTime <= maxDeliveryTime;
       });
+    }
+
+    return processedRestaurants;
   }
 
   /**

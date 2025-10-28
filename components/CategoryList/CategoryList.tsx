@@ -6,6 +6,7 @@ import CategoryItem from './CategoryItem';
 interface CategoryListProps {
   categories: Category[];
   onCategoryPress?: (category: Category) => void;
+  selectedCategoryId?: string | null; // ID de la catégorie sélectionnée
 }
 
 /**
@@ -15,6 +16,7 @@ interface CategoryListProps {
 const CategoryList: React.FC<CategoryListProps> = memo(({
   categories,
   onCategoryPress,
+  selectedCategoryId,
 }) => {
   const handleCategoryPress = useCallback((category: Category) => {
     onCategoryPress?.(category);

@@ -1,0 +1,32 @@
+{
+  "header": {
+    "placeholder": "Rechercher des restaurants...",
+    "clear": "Effacer"
+  },
+  "suggestions": {
+    "recent": "Recherches récentes",
+    "trending": "Tendances",
+    "browseCategories": "Parcourir par catégorie",
+    "clearHistory": "Effacer l'historique",
+    "noHistory": "Aucune recherche récente"
+  },
+  "empty": {
+    "title": "Que recherchez-vous ?",
+    "subtitle": "Trouvez votre restaurant préféré"
+  },
+  "noResults": {
+    "title": "Aucun résultat pour \"{{query}}\"",
+    "suggestions": {
+      "title": "Suggestions",
+      "tryAnother": "Essayez un autre terme de recherche",
+      "checkSpelling": "Vérifiez l'orthographe",
+      "expandArea": "Élargissez votre zone de recherche"
+    },
+    "resetFilters": "Réinitialiser les filtres"
+  },
+  "results": {
+    "title": "{{count}} restaurant trouvé",
+    "title_plural": "{{count}} restaurants trouvés"
+  },
+  "loading": "Recherche en cours..."
+}

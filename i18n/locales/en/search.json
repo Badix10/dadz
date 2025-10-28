@@ -1,0 +1,32 @@
+{
+  "header": {
+    "placeholder": "Search for restaurants...",
+    "clear": "Clear"
+  },
+  "suggestions": {
+    "recent": "Recent searches",
+    "trending": "Trending",
+    "browseCategories": "Browse by category",
+    "clearHistory": "Clear history",
+    "noHistory": "No recent searches"
+  },
+  "empty": {
+    "title": "What are you looking for?",
+    "subtitle": "Find your favorite restaurant"
+  },
+  "noResults": {
+    "title": "No results for \"{{query}}\"",
+    "suggestions": {
+      "title": "Suggestions",
+      "tryAnother": "Try another search term",
+      "checkSpelling": "Check the spelling",
+      "expandArea": "Expand your search area"
+    },
+    "resetFilters": "Reset filters"
+  },
+  "results": {
+    "title": "{{count}} restaurant found",
+    "title_plural": "{{count}} restaurants found"
+  },
+  "loading": "Searching..."
+}
