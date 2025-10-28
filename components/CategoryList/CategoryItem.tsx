@@ -8,6 +8,7 @@ import type { Category } from '@/types';
 interface CategoryItemProps {
   category: Category;
   onPress?: (category: Category) => void;
+  isSelected?: boolean;
 }
 
 /**
@@ -18,6 +19,7 @@ interface CategoryItemProps {
 const CategoryItem: React.FC<CategoryItemProps> = memo(({
   category,
   onPress,
+  isSelected = false,
 }) => {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -29,15 +31,26 @@ const CategoryItem: React.FC<CategoryItemProps> = memo(({
   // Couleur de l'icône: noir en light, blanc en dark pour contraste sur primary
   const iconColor = isDark ? '#FFFFFF' : '#000000';
 
+  // Classes conditionnelles selon l'état sélectionné
+  const badgeClasses = isSelected
+    ? "w-16 h-16 rounded-full bg-primary items-center justify-center mb-2 shadow-lg border-2 border-primary"
+    : "w-16 h-16 rounded-full bg-primary items-center justify-center mb-2 shadow-md";
+
+  const textClasses = isSelected
+    ? `text-sm font-bold ${COLORS.text.primary} text-center`
+    : `text-sm font-medium ${COLORS.text.primary} text-center`;
+
   return (
     <TouchableOpacity
       className="items-center w-20"
       onPress={handlePress}
       accessibilityLabel={`${category.name} category`}
       accessibilityRole="button"
+      accessibilityState={{ selected: isSelected }}
+      style={isSelected ? { transform: [{ scale: 1.05 }] } : undefined}
     >
       {/* Badge avec couleur primary (reste jaune) */}
-      <View className="w-16 h-16 rounded-full bg-primary items-center justify-center mb-2 shadow-md">
+      <View className={badgeClasses}>
         <Ionicons
           name={category.icon as any}
           size={32}
@@ -47,7 +60,7 @@ const CategoryItem: React.FC<CategoryItemProps> = memo(({
       </View>
 
       {/* Texte avec support dark mode */}
-      <Text className={`text-sm font-medium ${COLORS.text.primary} text-center`} numberOfLines={1}>
+      <Text className={textClasses} numberOfLines={1}>
         {category.name}
       </Text>
     </TouchableOpacity>

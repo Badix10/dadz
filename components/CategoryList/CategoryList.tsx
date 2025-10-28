@@ -35,6 +35,7 @@ const CategoryList: React.FC<CategoryListProps> = memo(({
           key={category.id}
           category={category}
           onPress={handleCategoryPress}
+          isSelected={selectedCategoryId === category.id}
         />
       ))}
     </ScrollView>

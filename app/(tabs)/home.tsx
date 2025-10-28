@@ -40,6 +40,7 @@ export default function HomeScreen() {
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({});
   const [addressSheetVisible, setAddressSheetVisible] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
   // Hook pour gérer les adresses (avec persistance)
   const { addresses, currentAddress, setCurrentAddress, setTemporaryAddress } = useAddresses();
@@ -63,6 +64,7 @@ export default function HomeScreen() {
     latitude: currentAddress?.latitude ?? undefined,
     longitude: currentAddress?.longitude ?? undefined,
     maxDistance: 10, // 10km max
+    categoryId: selectedCategoryId ?? undefined, // Filtrer par catégorie si sélectionnée
   });
 
   // Filter configuration (YAGNI - Start simple)
@@ -141,8 +143,8 @@ export default function HomeScreen() {
   }, []);
 
   const handleCategoryPress = useCallback((category: Category) => {
-    // TODO: Filter restaurants by category
-    console.log('Category selected:', category.name);
+    // Toggle: si même catégorie, désélectionner. Sinon, sélectionner la nouvelle
+    setSelectedCategoryId((prev) => prev === category.id ? null : category.id);
   }, []);
 
   const handleRestaurantPress = useCallback((restaurant: Restaurant) => {
@@ -225,6 +227,7 @@ export default function HomeScreen() {
             <CategoryList
               categories={categories}
               onCategoryPress={handleCategoryPress}
+              selectedCategoryId={selectedCategoryId}
             />
           )}
 
