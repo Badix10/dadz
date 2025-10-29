@@ -11,6 +11,7 @@ import homeFr from './locales/fr/home.json';
 import offerFr from './locales/fr/offer.json';
 import orderFr from './locales/fr/order.json';
 import profileFr from './locales/fr/profile.json';
+import searchFr from './locales/fr/search.json';
 
 import authEn from './locales/en/auth.json';
 import chartEn from './locales/en/chart.json';
@@ -19,6 +20,7 @@ import homeEn from './locales/en/home.json';
 import offerEn from './locales/en/offer.json';
 import orderEn from './locales/en/order.json';
 import profileEn from './locales/en/profile.json';
+import searchEn from './locales/en/search.json';
 
 import authAr from './locales/ar/auth.json';
 import chartAr from './locales/ar/chart.json';
@@ -27,6 +29,7 @@ import homeAr from './locales/ar/home.json';
 import offerAr from './locales/ar/offer.json';
 import orderAr from './locales/ar/order.json';
 import profileAr from './locales/ar/profile.json';
+import searchAr from './locales/ar/search.json';
 
 // Clé de stockage pour la langue
 const STORAGE_KEY = '@app_language';
@@ -41,6 +44,7 @@ const resources = {
     order: orderFr,
     chart: chartFr,
     offer: offerFr,
+    search: searchFr,
   },
   en: {
     common: commonEn,
@@ -50,6 +54,7 @@ const resources = {
     order: orderEn,
     chart: chartEn,
     offer: offerEn,
+    search: searchEn,
   },
   ar: {
     common: commonAr,
@@ -59,6 +64,7 @@ const resources = {
     order: orderAr,
     chart: chartAr,
     offer: offerAr,
+    search: searchAr,
   },
 };
 
@@ -124,7 +130,7 @@ export const initI18n = async (): Promise<void> => {
         lng: initialLanguage,
         fallbackLng: 'fr',
         defaultNS: 'common',
-        ns: ['common', 'auth', 'home', 'profile', 'order', 'chart', 'offer'],
+        ns: ['common', 'auth', 'home', 'profile', 'order', 'chart', 'offer', 'search'],
         interpolation: {
           escapeValue: false, // React already escapes
         },

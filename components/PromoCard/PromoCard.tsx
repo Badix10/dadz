@@ -28,32 +28,32 @@ const PromoCard: React.FC<PromoCardProps> = memo(({
     onPress?.();
   }, [onPress]);
 
-  // Promo card garde le bg jaune (brand color), bouton devient responsive
-  const buttonBg = isDark ? 'bg-surface-dark' : 'bg-black';
-  const buttonTextClass = 'text-white';
-
   return (
-    <View className="mx-4 mt-6 mb-6 bg-primary rounded-2xl p-4 flex-row items-center shadow-lg">
-      <Image
-        source={{ uri: imageUrl }}
-        className="w-24 h-24"
-        resizeMode="contain"
-        accessibilityLabel={`${title} promotional image`}
-      />
+    <View className="mx-4 mt-6 mb-4">
+      <View className="bg-primary rounded-[24px] p-5 flex-row items-center shadow-lg">
+        <View className="bg-white rounded-2xl p-3 mr-4">
+          <Image
+            source={{ uri: imageUrl }}
+            className="w-16 h-16"
+            resizeMode="contain"
+            accessibilityLabel={`${title} promotional image`}
+          />
+        </View>
 
-      <View className="flex-1 ml-2">
-        <Text className="text-lg font-bold text-black">{title}</Text>
-        <Text className="text-sm text-black opacity-80 mb-3">
-          {description}
-        </Text>
-        <TouchableOpacity
-          className={`${buttonBg} px-4 py-2 rounded-lg self-start`}
-          onPress={handlePress}
-          accessibilityLabel={buttonText}
-          accessibilityRole="button"
-        >
-          <Text className={`${buttonTextClass} text-sm font-semibold`}>{buttonText}</Text>
-        </TouchableOpacity>
+        <View className="flex-1">
+          <Text className="text-2xl font-extrabold text-black mb-1">{title}</Text>
+          <Text className="text-sm text-black/70 mb-3">
+            {description}
+          </Text>
+          <TouchableOpacity
+            className="bg-black px-5 py-2.5 rounded-full self-start"
+            onPress={handlePress}
+            accessibilityLabel={buttonText}
+            accessibilityRole="button"
+          >
+            <Text className="text-white text-sm font-bold">{buttonText}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

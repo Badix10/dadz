@@ -17,7 +17,7 @@ import { useAddresses } from '@/hooks/useAddresses';
 import { useRestaurant } from '@/hooks/useRestaurants';
 import { mapCategoriesToUI, mapRestaurantsToUI } from '@/lib/mappers/restaurantMapper';
 import React, { useCallback, useMemo, useState } from 'react';
-import { ScrollView, StatusBar, ActivityIndicator, View, Text } from 'react-native';
+import { ScrollView, StatusBar, ActivityIndicator, View, Text, RefreshControl } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from 'nativewind';
 import { useRouter } from 'expo-router';
@@ -41,6 +41,7 @@ export default function HomeScreen() {
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({});
   const [addressSheetVisible, setAddressSheetVisible] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Hook pour gérer les adresses (avec persistance)
   const { addresses, currentAddress, setCurrentAddress, setTemporaryAddress } = useAddresses();
@@ -168,6 +169,21 @@ export default function HomeScreen() {
     setTemporaryAddress(address);
   }, [setTemporaryAddress]);
 
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    // Les queries React Query vont automatiquement refetch
+    await Promise.all([
+      restaurant.getCategories().refetch(),
+      restaurant.getRestaurants({
+        latitude: currentAddress?.latitude ?? undefined,
+        longitude: currentAddress?.longitude ?? undefined,
+        maxDistance: 10,
+        categoryId: selectedCategoryId ?? undefined,
+      }).refetch(),
+    ]);
+    setRefreshing(false);
+  }, [restaurant, currentAddress, selectedCategoryId]);
+
   // Mapper les catégories Supabase vers le format UI
   const categories = useMemo(() => {
     if (!categoriesData) return [];
@@ -197,21 +213,25 @@ export default function HomeScreen() {
         >
           <SearchBar
             onPress={handleSearch}
-            onFilterPress={handleFilterPress}
             placeholder={t('home:header.searchPlaceholder')}
             editable={false}
+            showFilterButton={false}
           />
         </Header>
 
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-          <PromoCard
-            imageUrl={promoData.imageUrl}
-            title={promoData.title}
-            description={promoData.description}
-            buttonText={promoData.buttonText}
-            onPress={handlePromoPress}
-          />
-
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              tintColor="#FFD700"
+              colors={['#FFD700']}
+            />
+          }
+        >
           {/* Catégories avec loading state */}
           {categoriesLoading ? (
             <View className="py-8 items-center">
@@ -256,6 +276,7 @@ export default function HomeScreen() {
               onFavoriteToggle={handleFavoriteToggle}
               onRestaurantPress={handleRestaurantPress}
               title={t('home:restaurants.title')}
+              horizontal={true}
             />
           )}
         </ScrollView>

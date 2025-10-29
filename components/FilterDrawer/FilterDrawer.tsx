@@ -33,7 +33,6 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
 
   // Colors adaptés au dark mode
   const iconColor = isDark ? '#FFFFFF' : '#1A1A1A';
-  const resetButtonBg = isDark ? 'bg-surface-dark-secondary' : 'bg-gray-200';
 
   // Handle checkbox toggle
   const handleCheckboxToggle = (filterId: string, optionValue: string) => {
@@ -68,55 +67,73 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View className="flex-1 justify-end bg-black/50">
+      <View className="flex-1 justify-end bg-black/60">
         <TouchableOpacity
           className="flex-1"
           activeOpacity={1}
           onPress={onClose}
         />
 
-        <View className={`${COLORS.surface.primary} h-[85vh] rounded-t-3xl`}>
+        <View className="bg-[#1A1A1A] h-[85vh] rounded-t-[32px]">
           {/* Header */}
-          <View className={`flex-row items-center justify-between p-4 border-b ${COLORS.border.default}`}>
-            <Text className={`text-xl font-bold ${COLORS.text.primary}`}>{t('home:filters.title')}</Text>
-            <TouchableOpacity onPress={onClose}>
-              <Ionicons name="close" size={24} color={iconColor} />
-            </TouchableOpacity>
+          <View className="flex-row items-center justify-between p-5 pb-4">
+            <View className="flex-1" />
+            <Text className="text-xl font-bold text-white text-center flex-1">Filter your search</Text>
+            <View className="flex-1 items-end">
+              <TouchableOpacity onPress={onClose} className="w-10 h-10 items-center justify-center">
+                <Ionicons name="close" size={28} color="#FFFFFF" />
+              </TouchableOpacity>
+            </View>
           </View>
+          <View className="h-px bg-gray-700" />
 
           {/* Filters List */}
-          <ScrollView className="flex-1 px-4 py-2" showsVerticalScrollIndicator={false}>
+          <ScrollView className="flex-1 px-5 py-4" showsVerticalScrollIndicator={false}>
             {filters.map((filter) => (
-              <View key={filter.id} className={`py-4 border-b ${COLORS.border.default}`}>
-                <Text className={`text-base font-bold ${COLORS.text.primary} mb-3`}>
+              <View key={filter.id} className="mb-6">
+                <Text className="text-base font-bold text-white mb-3">
                   {filter.title}
                 </Text>
 
                 {filter.type === 'checkbox' ? (
-                  // Checkbox options
-                  <View>
-                    {filter.options.map((option) => (
-                      <Checkbox
-                        key={option.id}
-                        label={option.label}
-                        checked={((tempFilters[filter.id] as string[]) || []).includes(option.value)}
-                        onPress={() => handleCheckboxToggle(filter.id, option.value)}
-                        containerClassName="mb-2"
-                      />
-                    ))}
+                  // Checkbox as chips
+                  <View className="flex-row flex-wrap gap-2">
+                    {filter.options.map((option) => {
+                      const isSelected = ((tempFilters[filter.id] as string[]) || []).includes(option.value);
+                      return (
+                        <TouchableOpacity
+                          key={option.id}
+                          onPress={() => handleCheckboxToggle(filter.id, option.value)}
+                          className={`px-4 py-2.5 rounded-full ${
+                            isSelected ? 'bg-primary' : 'bg-[#2A2A2A]'
+                          }`}
+                        >
+                          <Text className={`text-sm font-semibold ${isSelected ? 'text-black' : 'text-white'}`}>
+                            {option.label}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
                   </View>
                 ) : (
-                  // Radio options
-                  <View>
-                    {filter.options.map((option) => (
-                      <RadioButton
-                        key={option.id}
-                        label={option.label}
-                        selected={tempFilters[filter.id] === option.value}
-                        onPress={() => handleRadioSelect(filter.id, option.value)}
-                        containerClassName="mb-2"
-                      />
-                    ))}
+                  // Radio as chips
+                  <View className="flex-row flex-wrap gap-2">
+                    {filter.options.map((option) => {
+                      const isSelected = tempFilters[filter.id] === option.value;
+                      return (
+                        <TouchableOpacity
+                          key={option.id}
+                          onPress={() => handleRadioSelect(filter.id, option.value)}
+                          className={`px-4 py-2.5 rounded-full ${
+                            isSelected ? 'bg-primary' : 'bg-[#2A2A2A]'
+                          }`}
+                        >
+                          <Text className={`text-sm font-semibold ${isSelected ? 'text-black' : 'text-white'}`}>
+                            {option.label}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
                   </View>
                 )}
               </View>
@@ -124,19 +141,20 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </ScrollView>
 
           {/* Footer Actions */}
-          <View className={`flex-row gap-3 p-4 border-t ${COLORS.border.default}`}>
+          <View className="h-px bg-gray-700" />
+          <View className="flex-row gap-3 p-5">
             <TouchableOpacity
               onPress={handleReset}
-              className={`flex-1 h-12 items-center justify-center ${resetButtonBg} rounded-xl`}
+              className="flex-1 h-14 items-center justify-center bg-red-500/20 border border-red-500 rounded-full"
             >
-              <Text className={`text-base font-semibold ${COLORS.text.primary}`}>{t('home:filters.reset')}</Text>
+              <Text className="text-base font-bold text-red-500">{t('home:filters.reset')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleApply}
-              className="flex-1 h-12 items-center justify-center bg-primary rounded-xl"
+              className="flex-1 h-14 items-center justify-center bg-primary rounded-full"
             >
-              <Text className="text-base font-semibold text-black">{t('home:filters.apply')}</Text>
+              <Text className="text-base font-bold text-black">{t('home:filters.apply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

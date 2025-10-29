@@ -43,10 +43,11 @@ const SearchHeader: React.FC<SearchHeaderProps> = memo(({
 
   // Colors adaptés au dark mode
   const bgColor = isDark ? 'bg-surface-dark' : 'bg-white';
-  const inputBg = isDark ? 'bg-gray-700' : 'bg-gray-100';
+  const inputBg = isDark ? 'bg-gray-700' : 'bg-gray-50';
   const textColor = isDark ? 'text-white' : 'text-foreground';
   const iconColor = isDark ? '#9CA3AF' : '#6B7280';
   const placeholderColor = isDark ? '#9CA3AF' : '#9CA3AF';
+  const filterButtonBg = filterCount > 0 ? 'bg-primary' : (isDark ? 'bg-gray-700' : 'bg-gray-50');
 
   const handleTextChange = useCallback((text: string) => {
     setSearchText(text);
@@ -99,15 +100,15 @@ const SearchHeader: React.FC<SearchHeaderProps> = memo(({
 
         {/* Filter Button with Badge */}
         <TouchableOpacity
-          className={`relative h-12 w-12 items-center justify-center ${inputBg} rounded-xl`}
+          className={`relative h-12 w-12 items-center justify-center ${filterButtonBg} rounded-xl shadow-sm`}
           onPress={onFilterPress}
           accessibilityLabel={t('home:filters.title')}
           accessibilityRole="button"
         >
-          <Ionicons name="options-outline" size={24} color={isDark ? 'white' : '#1A1A1A'} />
+          <Ionicons name="options-outline" size={24} color={filterCount > 0 ? '#1A1A1A' : (isDark ? 'white' : '#1A1A1A')} />
           {filterCount > 0 && (
-            <View className="absolute -top-1 -right-1 h-5 w-5 items-center justify-center rounded-full bg-primary">
-              <Text className="text-xs font-bold text-black">{filterCount}</Text>
+            <View className="absolute -top-1 -right-1 h-5 w-5 items-center justify-center rounded-full bg-red-500">
+              <Text className="text-xs font-bold text-white">{filterCount}</Text>
             </View>
           )}
         </TouchableOpacity>

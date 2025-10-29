@@ -28,17 +28,22 @@ const CategoryItem: React.FC<CategoryItemProps> = memo(({
     onPress?.(category);
   }, [onPress, category]);
 
-  // Couleur de l'icône: noir en light, blanc en dark pour contraste sur primary
-  const iconColor = isDark ? '#FFFFFF' : '#000000';
+  // Couleur de l'icône et fond selon dark mode et état sélectionné
+  const iconColor = isDark
+    ? (isSelected ? '#000000' : '#FFFFFF')
+    : (isSelected ? '#FFFFFF' : '#000000');
 
-  // Classes conditionnelles selon l'état sélectionné
-  const badgeClasses = isSelected
-    ? "w-16 h-16 rounded-full bg-primary items-center justify-center mb-2 shadow-lg border-2 border-primary"
-    : "w-16 h-16 rounded-full bg-primary items-center justify-center mb-2 shadow-md";
+  const bgColor = isDark
+    ? (isSelected ? 'bg-white' : 'bg-[#2A2A2A]')
+    : (isSelected ? 'bg-black' : 'bg-white');
+
+  const borderClass = isSelected
+    ? 'border-2 border-primary'
+    : 'border-2 border-transparent';
 
   const textClasses = isSelected
     ? `text-sm font-bold ${COLORS.text.primary} text-center`
-    : `text-sm font-medium ${COLORS.text.primary} text-center`;
+    : `text-sm font-medium ${COLORS.text.secondary} text-center`;
 
   return (
     <TouchableOpacity
@@ -47,13 +52,12 @@ const CategoryItem: React.FC<CategoryItemProps> = memo(({
       accessibilityLabel={`${category.name} category`}
       accessibilityRole="button"
       accessibilityState={{ selected: isSelected }}
-      style={isSelected ? { transform: [{ scale: 1.05 }] } : undefined}
     >
-      {/* Badge avec couleur primary (reste jaune) */}
-      <View className={badgeClasses}>
+      {/* Badge avec fond blanc/noir et border jaune si sélectionné */}
+      <View className={`w-16 h-16 rounded-full ${bgColor} ${borderClass} items-center justify-center mb-2 shadow-md`}>
         <Ionicons
           name={category.icon as any}
-          size={32}
+          size={28}
           color={iconColor}
           accessibilityLabel={category.name}
         />

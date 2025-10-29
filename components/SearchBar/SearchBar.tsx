@@ -10,6 +10,7 @@ interface SearchBarProps {
   onPress?: () => void; // Appelé quand on tap sur la SearchBar (pour navigation)
   placeholder?: string;
   editable?: boolean; // Si false, la SearchBar devient un bouton
+  showFilterButton?: boolean; // Afficher ou non le bouton filter
 }
 
 /**
@@ -22,16 +23,17 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
   onPress,
   placeholder = 'Search here...',
   editable = true,
+  showFilterButton = true,
 }) => {
   const [searchText, setSearchText] = useState('');
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Colors adaptés au dark mode - contraste avec header sombre
-  const inputBg = isDark ? 'bg-gray-700' : 'bg-gray-100';
-  const textColor = isDark ? 'text-white' : 'text-foreground';
-  const iconColor = isDark ? '#9CA3AF' : '#6B7280';
-  const placeholderColor = isDark ? '#9CA3AF' : '#9CA3AF';
+  // Colors adaptés - fond gris sombre
+  const inputBg = 'bg-[#2A2A2A]';
+  const textColor = 'text-white';
+  const iconColor = '#9CA3AF';
+  const placeholderColor = '#6B7280';
 
   const handleTextChange = useCallback((text: string) => {
     setSearchText(text);
@@ -47,7 +49,7 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
   }, [onPress]);
 
   return (
-    <View className="flex-row items-center gap-3 px-4 pb-6">
+    <View className="flex-row items-center gap-3">
       {editable ? (
         // Mode normal: Input éditable
         <View className={`flex-1 flex-row items-center ${inputBg} rounded-xl h-12 px-4`}>
@@ -77,14 +79,16 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity
-        className={`h-12 w-12 items-center justify-center ${inputBg} rounded-xl`}
-        onPress={handleFilterPress}
-        accessibilityLabel="Filter options"
-        accessibilityRole="button"
-      >
-        <Ionicons name="options-outline" size={24} color={isDark ? 'white' : '#1A1A1A'} />
-      </TouchableOpacity>
+      {showFilterButton && (
+        <TouchableOpacity
+          className="h-12 w-12 items-center justify-center bg-primary rounded-xl"
+          onPress={handleFilterPress}
+          accessibilityLabel="Filter options"
+          accessibilityRole="button"
+        >
+          <Ionicons name="options-outline" size={24} color="#1A1A1A" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 });

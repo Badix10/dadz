@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = memo(({
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Icon et texte colors - toujours light car fond sombre
+  // Icon et texte colors - toujours light car fond noir
   const iconColor = '#FFFFFF';
   const textColor = 'text-white';
 
@@ -49,47 +49,34 @@ const Header: React.FC<HeaderProps> = memo(({
   }, [onLocationPress]);
 
   return (
-    <View className="bg-black dark:bg-surface-dark rounded-b-3xl px-4 pt-4 pb-6">
+    <View className="bg-[#1A1A1A] px-5 pt-6 pb-8 rounded-b-[32px]">
       <View
-        className="items-center justify-between mb-4"
+        className="items-center justify-between mb-5"
         style={{ flexDirection: flexDirection('row') }}
       >
 
-        <View className='w-2/3'>
+        <View className='flex-1'>
             <LocationSelector address={address} onPress={handleLocationPress} />
         </View>
-        <View
-          className="items-center gap-2"
-          style={{ flexDirection: flexDirection('row') }}
-        >
-          <TouchableOpacity
-            className="relative h-10 w-10 items-center justify-center"
-            onPress={handleCartPress}
-            accessibilityLabel={t('home:header.cart')}
-            accessibilityRole="button"
-          >
-            <Ionicons name="cart-outline" size={24} color={iconColor} />
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            className="relative h-10 w-10 items-center justify-center"
-            onPress={handleNotificationPress}
-            accessibilityLabel={t('home:header.notifications')}
-            accessibilityRole="button"
-          >
-            <Ionicons name="notifications-outline" size={24} color={iconColor} />
-            {hasNotification && (
-              <View
-                className="absolute top-1 h-2.5 w-2.5 rounded-full bg-primary"
-                style={isRTL ? { left: 4 } : { right: 4 }}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          className="relative h-12 w-12 items-center justify-center ml-3"
+          onPress={handleNotificationPress}
+          accessibilityLabel={t('home:header.notifications')}
+          accessibilityRole="button"
+        >
+          <Ionicons name="notifications-outline" size={26} color={iconColor} />
+          {hasNotification && (
+            <View
+              className="absolute top-2 h-2.5 w-2.5 rounded-full bg-primary"
+              style={isRTL ? { left: 7 } : { right: 7 }}
+            />
+          )}
+        </TouchableOpacity>
       </View>
 
       <Text
-        className={`text-3xl font-bold ${textColor} mb-4`}
+        className={`text-[34px] font-extrabold ${textColor} mb-6 leading-tight`}
         style={{ textAlign: isRTL ? 'right' : 'left' }}
       >
         {t('home:header.greeting')}
