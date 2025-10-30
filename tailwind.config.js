@@ -55,6 +55,7 @@ module.exports = {
           DEFAULT: '#f9c500',      // Light mode - jaune vif
           foreground: '#000000',   // Texte noir sur jaune
           dark: '#ffcb05',         // Dark mode - jaune légèrement plus clair
+          'dark-foreground': '#000000', // Dark mode text (noir sur jaune)
         },
 
         // Secondary (couleur secondaire - ORANGE)
@@ -80,7 +81,9 @@ module.exports = {
         // Destructive (erreur/suppression)
         destructive: {
           DEFAULT: '#e74c3c',      // Light mode - rouge
+          foreground: '#ffffff',   // Texte blanc sur rouge
           dark: '#ff6246',         // Dark mode - rouge orangé
+          'dark-foreground': '#ffffff', // Dark mode text
         },
 
         // Border (bordures)

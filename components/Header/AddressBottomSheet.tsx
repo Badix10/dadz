@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface AddressBottomSheetProps {
   visible: boolean;
@@ -157,10 +158,10 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
           onPress={onClose}
         />
 
-        <View className="bg-white dark:bg-surface-dark rounded-t-3xl max-h-[70%]">
+        <View className="bg-card dark:bg-card-dark rounded-t-3xl max-h-[70%]">
           {/* Header */}
-          <View className="flex-row items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <Text className="text-xl font-bold text-black dark:text-white">
+          <View className="flex-row items-center justify-between px-6 py-4 border-b border-border dark:border-border-dark">
+            <Text className="text-xl font-bold text-foreground dark:text-foreground-dark">
               {t('home:addressSheet.title')}
             </Text>
             <TouchableOpacity
@@ -171,7 +172,7 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
               <Ionicons
                 name="close"
                 size={24}
-                color={isDark ? '#FFFFFF' : '#000000'}
+                color={isDark ? themeColors.foregroundDark : themeColors.foreground}
               />
             </TouchableOpacity>
           </View>
@@ -180,20 +181,20 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
           <TouchableOpacity
             onPress={handleUseCurrentLocation}
             disabled={isLoadingGPS}
-            className="flex-row items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+            className="flex-row items-center px-6 py-4 border-b border-border dark:border-border-dark"
           >
-            <View className="w-10 h-10 rounded-full bg-blue-500/20 items-center justify-center mr-3">
+            <View className="w-10 h-10 rounded-full bg-info/20 dark:bg-info/30 items-center justify-center mr-3">
               {isLoadingGPS ? (
-                <ActivityIndicator size="small" color="#3B82F6" />
+                <ActivityIndicator size="small" color={themeColors.info} />
               ) : (
-                <Ionicons name="navigate" size={20} color="#3B82F6" />
+                <Ionicons name="navigate" size={20} color={themeColors.info} />
               )}
             </View>
             <View className="flex-1">
-              <Text className="text-base font-semibold text-black dark:text-white">
+              <Text className="text-base font-semibold text-foreground dark:text-foreground-dark">
                 {t('home:addressSheet.useCurrentLocation')}
               </Text>
-              <Text className="text-xs text-gray-500 dark:text-gray-400">
+              <Text className="text-xs text-muted-foreground dark:text-muted-dark-foreground">
                 {t('home:addressSheet.gpsHint')}
               </Text>
             </View>
@@ -205,16 +206,16 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
               <Ionicons
                 name="location-outline"
                 size={64}
-                color={isDark ? '#666666' : '#CCCCCC'}
+                color={isDark ? themeColors.mutedDarkForeground : themeColors.muted}
               />
-              <Text className="text-center text-gray-500 dark:text-gray-400 mt-4 mb-6">
+              <Text className="text-center text-muted-foreground dark:text-muted-dark-foreground mt-4 mb-6">
                 {t('home:addressSheet.noAddresses')}
               </Text>
               <TouchableOpacity
                 onPress={handleManageAddresses}
                 className="bg-primary px-6 py-3 rounded-full"
               >
-                <Text className="text-black font-semibold">
+                <Text className="text-primary-foreground font-semibold">
                   {t('home:addressSheet.addFirstAddress')}
                 </Text>
               </TouchableOpacity>
@@ -235,13 +236,13 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
                     >
                       <View
                         className={`w-10 h-10 rounded-full items-center justify-center mr-3 ${
-                          isSelected ? 'bg-primary' : 'bg-gray-200 dark:bg-gray-700'
+                          isSelected ? 'bg-primary' : 'bg-muted dark:bg-muted-dark'
                         }`}
                       >
                         <Ionicons
                           name={getAddressIcon(item.address_type) as any}
                           size={20}
-                          color={isSelected ? '#000000' : isDark ? '#FFFFFF' : '#666666'}
+                          color={isSelected ? themeColors.primaryForeground : (isDark ? themeColors.foregroundDark : themeColors.mutedForeground)}
                         />
                       </View>
                       <View className="flex-1">
@@ -250,7 +251,7 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
                             className={`text-base font-semibold ${
                               isSelected
                                 ? 'text-primary'
-                                : 'text-black dark:text-white'
+                                : 'text-foreground dark:text-foreground-dark'
                             }`}
                           >
                             {item.address_type}
@@ -263,22 +264,22 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
                             </View>
                           )}
                           {item.id.startsWith('temp-') && (
-                            <View className="bg-blue-100 dark:bg-blue-900/30 px-2 py-0.5 rounded-full">
-                              <Text className="text-xs font-medium text-blue-600 dark:text-blue-400">
+                            <View className="bg-info/20 dark:bg-info/30 px-2 py-0.5 rounded-full">
+                              <Text className="text-xs font-medium text-info dark:text-info">
                                 {t('home:addressSheet.temporary')}
                               </Text>
                             </View>
                           )}
                         </View>
                         <Text
-                          className="text-sm text-gray-600 dark:text-gray-400"
+                          className="text-sm text-muted-foreground dark:text-muted-dark-foreground"
                           numberOfLines={1}
                         >
                           {item.street}, {item.city}
                         </Text>
                       </View>
                       {isSelected && (
-                        <Ionicons name="checkmark-circle" size={24} color="#FFC700" />
+                        <Ionicons name="checkmark-circle" size={24} color={themeColors.primary} />
                       )}
                     </TouchableOpacity>
                   );
@@ -287,7 +288,7 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
               />
 
               {/* Footer - Gérer les adresses */}
-              <View className="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+              <View className="px-6 py-4 border-t border-border dark:border-border-dark">
                 <TouchableOpacity
                   onPress={handleManageAddresses}
                   className="flex-row items-center justify-center py-3"
@@ -295,9 +296,9 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = memo(({
                   <Ionicons
                     name="settings-outline"
                     size={20}
-                    color={isDark ? '#FFFFFF' : '#000000'}
+                    color={isDark ? themeColors.foregroundDark : themeColors.foreground}
                   />
-                  <Text className="text-base font-semibold text-black dark:text-white ml-2">
+                  <Text className="text-base font-semibold text-foreground dark:text-foreground-dark ml-2">
                     {t('home:addressSheet.manageAddresses')}
                   </Text>
                 </TouchableOpacity>

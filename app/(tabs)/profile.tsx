@@ -11,6 +11,7 @@ import React from 'react';
 import { ActivityIndicator, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from 'nativewind';
+import { themeColors } from '@/lib/utils/themeColors';
 
 /**
  * Profile Screen
@@ -26,22 +27,22 @@ export default function ProfileScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-background-dark items-center justify-center">
+      <SafeAreaView className="flex-1 bg-background dark:bg-background-dark items-center justify-center">
         <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
-        <ActivityIndicator size="large" color="#FFC700" />
+        <ActivityIndicator size="large" color={isDark ? themeColors.primaryDark : themeColors.primary} />
       </SafeAreaView>
     );
   }
 
   if (!user) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-background-dark items-center justify-center px-4">
+      <SafeAreaView className="flex-1 bg-background dark:bg-background-dark items-center justify-center px-4">
         <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
-        <Ionicons name="person-circle-outline" size={120} color="#9CA3AF" />
-        <Text className="text-2xl font-bold text-black dark:text-white mt-6 mb-2">
+        <Ionicons name="person-circle-outline" size={120} color={isDark ? themeColors.mutedDarkForeground : themeColors.mutedForeground} />
+        <Text className="text-2xl font-bold text-foreground dark:text-foreground-dark mt-6 mb-2">
           {t('profile:notLoggedIn.title')}
         </Text>
-        <Text className="text-gray-500 dark:text-text-light text-center mb-6">
+        <Text className="text-muted-foreground dark:text-muted-dark-foreground text-center mb-6">
           {t('profile:notLoggedIn.message')}
         </Text>
         <PrimaryButton
@@ -73,23 +74,23 @@ export default function ProfileScreen() {
         <PageHeader title={t('profile:title')} subtitle={t('profile:subtitle')} />
 
         {/* User Info Card */}
-        <View className="mx-4 mb-6 bg-white dark:bg-surface-dark rounded-2xl p-4 flex-row items-center shadow-soft">
+        <View className="mx-4 mb-6 bg-card dark:bg-card-dark rounded-2xl p-4 flex-row items-center shadow-soft">
           <View className="w-16 h-16 rounded-full bg-primary items-center justify-center">
-            <Ionicons name="person" size={32} color="black" />
+            <Ionicons name="person" size={32} color={themeColors.primaryForeground} />
           </View>
           <View className="ml-4 flex-1">
-            <Text className="text-xl font-bold text-black dark:text-white">
+            <Text className="text-xl font-bold text-foreground dark:text-foreground-dark">
               {user?.user_metadata?.first_name && user?.user_metadata?.last_name
                 ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}`
                 : t('profile:user')}
             </Text>
-            <Text className="text-gray-500 dark:text-text-light">{user?.email || ''}</Text>
+            <Text className="text-muted-foreground dark:text-muted-dark-foreground">{user?.email || ''}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={24} color="#9CA3AF" />
+          <Ionicons name="chevron-forward" size={24} color={isDark ? themeColors.mutedDarkForeground : themeColors.mutedForeground} />
         </View>
 
         {/* Settings Section */}
-        <View className="mx-4 mb-6 bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-soft">
+        <View className="mx-4 mb-6 bg-card dark:bg-card-dark rounded-2xl overflow-hidden shadow-soft">
           {/* Dark Mode Toggle */}
           <SettingsItem
             icon="moon-outline"
@@ -100,19 +101,19 @@ export default function ProfileScreen() {
           />
 
           {/* Divider */}
-          <View className="h-px bg-gray-100 dark:bg-gray-800 mx-4" />
+          <View className="h-px bg-border dark:bg-border-dark mx-4" />
 
           {/* Language Selector */}
           <View className="px-4 py-3">
             <View className="flex-row items-center gap-4 mb-3">
-              <View className="bg-background-light dark:bg-background-dark rounded-lg items-center justify-center w-10 h-10">
-                <Ionicons name="language-outline" size={20} color={isDark ? '#FFFFFF' : '#1A1A1A'} />
+              <View className="bg-muted dark:bg-muted-dark rounded-lg items-center justify-center w-10 h-10">
+                <Ionicons name="language-outline" size={20} color={isDark ? themeColors.foregroundDark : themeColors.foreground} />
               </View>
               <View className="flex-1">
-                <Text className="text-base font-normal text-black dark:text-white">
+                <Text className="text-base font-normal text-foreground dark:text-foreground-dark">
                   {t('profile:language.title')}
                 </Text>
-                <Text className="text-sm text-gray-500 dark:text-text-light">
+                <Text className="text-sm text-muted-foreground dark:text-muted-dark-foreground">
                   {t('profile:language.subtitle')}
                 </Text>
               </View>
@@ -122,7 +123,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* Menu Items */}
-        <View className="mx-4 mb-6 bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-soft">
+        <View className="mx-4 mb-6 bg-card dark:bg-card-dark rounded-2xl overflow-hidden shadow-soft">
           {menuItems.map((item, index) => (
             <React.Fragment key={index}>
               <SettingsItem
@@ -141,7 +142,7 @@ export default function ProfileScreen() {
                 }}
               />
               {index < menuItems.length - 1 && (
-                <View className="h-px bg-gray-100 dark:bg-gray-800 mx-4" />
+                <View className="h-px bg-border dark:bg-border-dark mx-4" />
               )}
             </React.Fragment>
           ))}
@@ -151,10 +152,10 @@ export default function ProfileScreen() {
         <View className="px-4 py-6">
           <TouchableOpacity
             onPress={logout}
-            className="bg-red-50 dark:bg-red-900/20 rounded-full py-4 flex-row items-center justify-center shadow-soft"
+            className="bg-destructive/20 dark:bg-destructive/30 rounded-full py-4 flex-row items-center justify-center shadow-soft"
           >
-            <Ionicons name="log-out-outline" size={24} color="#EF4444" />
-            <Text className="text-red-500 font-bold ml-2">{t('profile:logout')}</Text>
+            <Ionicons name="log-out-outline" size={24} color={themeColors.destructive} />
+            <Text className="text-destructive font-bold ml-2">{t('profile:logout')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

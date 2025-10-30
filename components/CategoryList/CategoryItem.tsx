@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 import type { Category } from '@/types';
 
 interface CategoryItemProps {
@@ -29,21 +29,21 @@ const CategoryItem: React.FC<CategoryItemProps> = memo(({
   }, [onPress, category]);
 
   // Couleur de l'icône et fond selon dark mode et état sélectionné
-  const iconColor = isDark
-    ? (isSelected ? '#000000' : '#FFFFFF')
-    : (isSelected ? '#FFFFFF' : '#000000');
+  const iconColor = isSelected
+    ? themeColors.primaryForeground
+    : (isDark ? themeColors.foregroundDark : themeColors.foreground);
 
-  const bgColor = isDark
-    ? (isSelected ? 'bg-white' : 'bg-[#2A2A2A]')
-    : (isSelected ? 'bg-black' : 'bg-white');
+  const bgColor = isSelected
+    ? 'bg-primary'
+    : 'bg-card dark:bg-card-dark';
 
   const borderClass = isSelected
     ? 'border-2 border-primary'
-    : 'border-2 border-transparent';
+    : 'border-2 border-border dark:border-border-dark';
 
   const textClasses = isSelected
-    ? `text-sm font-bold ${COLORS.text.primary} text-center`
-    : `text-sm font-medium ${COLORS.text.secondary} text-center`;
+    ? 'text-sm font-bold text-foreground dark:text-foreground-dark text-center'
+    : 'text-sm font-medium text-muted-foreground dark:text-muted-dark-foreground text-center';
 
   return (
     <TouchableOpacity

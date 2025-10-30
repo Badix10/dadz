@@ -18,12 +18,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   return (
     <View className={`px-4 min-w-32 pt-4 pb-4 items-center ${containerClassName}`}>
-      <View className="bg-field-light dark:bg-field-dark rounded-full px-6 py-3 items-center">
-        <Text className="text-xl font-bold text-text-primary dark:text-background-light mb-1">
+      <View className="bg-card dark:bg-card-dark rounded-full px-6 py-3 items-center shadow-sm">
+        <Text className="text-xl font-bold text-foreground dark:text-foreground-dark mb-1">
           {title}
         </Text>
         {subtitle && (
-          <Text className="text-xs text-subtext-light">{subtitle}</Text>
+          <Text className="text-xs text-muted-foreground dark:text-muted-dark-foreground">{subtitle}</Text>
         )}
       </View>
     </View>

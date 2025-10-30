@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { memo, useCallback, useState } from 'react';
 import { TextInput, TouchableOpacity, View, Text } from 'react-native';
 import { useColorScheme } from 'nativewind';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface SearchBarProps {
   onSearch?: (text: string) => void;
@@ -29,11 +29,11 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Colors adaptés - fond gris sombre
-  const inputBg = 'bg-[#2A2A2A]';
-  const textColor = 'text-white';
-  const iconColor = '#9CA3AF';
-  const placeholderColor = '#6B7280';
+  // Colors adaptés au theme
+  const inputBg = 'bg-input dark:bg-input-dark';
+  const textColor = 'text-foreground dark:text-foreground-dark';
+  const iconColor = isDark ? themeColors.mutedDarkForeground : themeColors.mutedForeground;
+  const placeholderColor = isDark ? themeColors.mutedDark : themeColors.muted;
 
   const handleTextChange = useCallback((text: string) => {
     setSearchText(text);
@@ -86,7 +86,7 @@ const SearchBar: React.FC<SearchBarProps> = memo(({
           accessibilityLabel="Filter options"
           accessibilityRole="button"
         >
-          <Ionicons name="options-outline" size={24} color="#1A1A1A" />
+          <Ionicons name="options-outline" size={24} color={themeColors.primaryForeground} />
         </TouchableOpacity>
       )}
     </View>

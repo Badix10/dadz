@@ -8,6 +8,7 @@ import {
   getAddressTypeBadgeColor,
   getAddressTypeIcon,
 } from '@/lib/utils/addressHelpers';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface AddressCardProps {
   address: Address;
@@ -54,7 +55,7 @@ export const AddressCard: React.FC<AddressCardProps> = ({
   };
 
   return (
-    <View className="bg-white dark:bg-surface-dark rounded-2xl p-4 mb-3 shadow-soft">
+    <View className="bg-card dark:bg-card-dark rounded-2xl p-4 mb-3 shadow-soft">
       {/* Header: Type + Badge par défaut */}
       <View className="flex-row items-center justify-between mb-3">
         {/* Type d'adresse */}
@@ -68,7 +69,7 @@ export const AddressCard: React.FC<AddressCardProps> = ({
         {/* Badge "Par défaut" */}
         {address.is_default && (
           <View className="flex-row items-center bg-primary/20 px-3 py-1.5 rounded-full">
-            <Ionicons name="star" size={14} color="#FFC700" />
+            <Ionicons name="star" size={14} color={themeColors.primary} />
             <Text className="text-xs font-semibold text-primary ml-1">
               {t('addresses:labels.default')}
             </Text>
@@ -81,7 +82,7 @@ export const AddressCard: React.FC<AddressCardProps> = ({
         {addressLines.map((line, index) => (
           <Text
             key={index}
-            className="text-base text-black dark:text-white mb-1"
+            className="text-base text-foreground dark:text-foreground-dark mb-1"
           >
             {line}
           </Text>
@@ -89,7 +90,7 @@ export const AddressCard: React.FC<AddressCardProps> = ({
       </View>
 
       {/* Actions */}
-      <View className="flex-row items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-3">
+      <View className="flex-row items-center justify-between border-t border-border dark:border-border-dark pt-3">
         {/* Bouton Modifier */}
         <TouchableOpacity
           onPress={() => onEdit(address)}
@@ -98,9 +99,9 @@ export const AddressCard: React.FC<AddressCardProps> = ({
           <Ionicons
             name="pencil-outline"
             size={18}
-            color="#6B7280"
+            color={themeColors.mutedForeground}
           />
-          <Text className="text-sm text-gray-600 dark:text-text-light ml-2">
+          <Text className="text-sm text-muted-foreground dark:text-muted-dark-foreground ml-2">
             {t('addresses:actions.edit')}
           </Text>
         </TouchableOpacity>
@@ -113,9 +114,9 @@ export const AddressCard: React.FC<AddressCardProps> = ({
           <Ionicons
             name="trash-outline"
             size={18}
-            color="#EF4444"
+            color={themeColors.destructive}
           />
-          <Text className="text-sm text-red-500 ml-2">
+          <Text className="text-sm text-destructive ml-2">
             {t('addresses:actions.delete')}
           </Text>
         </TouchableOpacity>
@@ -129,7 +130,7 @@ export const AddressCard: React.FC<AddressCardProps> = ({
             <Ionicons
               name="star-outline"
               size={18}
-              color="#FFC700"
+              color={themeColors.primary}
             />
             <Text className="text-sm text-primary ml-2">
               {t('addresses:actions.setAsDefault')}

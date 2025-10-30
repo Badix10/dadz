@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { CustomInput, CustomInputProps } from './CustomInput';
+import { useThemeColors } from '@/lib/utils/themeColors';
 
 export interface PasswordInputProps extends Omit<CustomInputProps, 'secureTextEntry' | 'rightIcon'> {
   label?: string;
@@ -19,6 +20,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { getForegroundColor } = useThemeColors();
 
   return (
     <CustomInput
@@ -40,7 +42,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
           <Ionicons
             name={showPassword ? 'eye-off-outline' : 'eye-outline'}
             size={24}
-            color="#9E9047"
+            color={getForegroundColor()}
           />
         </TouchableOpacity>
       }

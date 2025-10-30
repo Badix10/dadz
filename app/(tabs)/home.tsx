@@ -14,13 +14,14 @@ import type { Category, FavoritesMap, Restaurant } from '@/types';
 import type { Address } from '@/lib/services/addressService';
 import { useTranslation } from '@/hooks';
 import { useAddresses } from '@/hooks/useAddresses';
-import { useRestaurant } from '@/hooks/useRestaurants';
+import { useRestaurants, useRestaurantCategories } from '@/hooks/useRestaurants';
 import { mapCategoriesToUI, mapRestaurantsToUI } from '@/lib/mappers/restaurantMapper';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StatusBar, ActivityIndicator, View, Text, RefreshControl } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from 'nativewind';
 import { useRouter } from 'expo-router';
+import { themeColors } from '@/lib/utils/themeColors';
 
 /**
  * Home Screen - Main Food Delivery Page
@@ -46,22 +47,21 @@ export default function HomeScreen() {
   // Hook pour gérer les adresses (avec persistance)
   const { addresses, currentAddress, setCurrentAddress, setTemporaryAddress } = useAddresses();
 
-  // Hook pour gérer les restaurants
-  const restaurant = useRestaurant();
-
   // Charger les catégories depuis Supabase
   const {
     data: categoriesData,
     isLoading: categoriesLoading,
-    error: categoriesError
-  } = restaurant.getCategories();
+    error: categoriesError,
+    refetch: refetchCategories
+  } = useRestaurantCategories();
 
   // Charger les restaurants depuis Supabase basés sur l'adresse actuelle
   const {
     data: restaurantsData,
     isLoading: restaurantsLoading,
-    error: restaurantsError
-  } = restaurant.getRestaurants({
+    error: restaurantsError,
+    refetch: refetchRestaurants
+  } = useRestaurants({
     latitude: currentAddress?.latitude ?? undefined,
     longitude: currentAddress?.longitude ?? undefined,
     maxDistance: 10, // 10km max
@@ -173,16 +173,11 @@ export default function HomeScreen() {
     setRefreshing(true);
     // Les queries React Query vont automatiquement refetch
     await Promise.all([
-      restaurant.getCategories().refetch(),
-      restaurant.getRestaurants({
-        latitude: currentAddress?.latitude ?? undefined,
-        longitude: currentAddress?.longitude ?? undefined,
-        maxDistance: 10,
-        categoryId: selectedCategoryId ?? undefined,
-      }).refetch(),
+      refetchCategories(),
+      refetchRestaurants(),
     ]);
     setRefreshing(false);
-  }, [restaurant, currentAddress, selectedCategoryId]);
+  }, [refetchCategories, refetchRestaurants]);
 
   // Mapper les catégories Supabase vers le format UI
   const categories = useMemo(() => {
@@ -227,19 +222,19 @@ export default function HomeScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={handleRefresh}
-              tintColor="#FFD700"
-              colors={['#FFD700']}
+              tintColor={isDark ? themeColors.primaryDark : themeColors.primary}
+              colors={[isDark ? themeColors.primaryDark : themeColors.primary]}
             />
           }
         >
           {/* Catégories avec loading state */}
           {categoriesLoading ? (
             <View className="py-8 items-center">
-              <ActivityIndicator size="small" color="#FFD700" />
+              <ActivityIndicator size="small" color={isDark ? themeColors.primaryDark : themeColors.primary} />
             </View>
           ) : categoriesError ? (
             <View className="py-4 px-4">
-              <Text className="text-red-500 text-center">
+              <Text className="text-destructive text-center">
                 {t('home:errors.categories', { defaultValue: 'Erreur lors du chargement des catégories' })}
               </Text>
             </View>
@@ -254,18 +249,18 @@ export default function HomeScreen() {
           {/* Restaurants avec loading state */}
           {restaurantsLoading ? (
             <View className="py-8 items-center">
-              <ActivityIndicator size="large" color="#FFD700" />
-              <Text className="text-gray-500 mt-4">{t('home:loading.restaurants', { defaultValue: 'Chargement des restaurants...' })}</Text>
+              <ActivityIndicator size="large" color={isDark ? themeColors.primaryDark : themeColors.primary} />
+              <Text className="text-muted-foreground dark:text-muted-dark-foreground mt-4">{t('home:loading.restaurants', { defaultValue: 'Chargement des restaurants...' })}</Text>
             </View>
           ) : restaurantsError ? (
             <View className="py-4 px-4">
-              <Text className="text-red-500 text-center">
+              <Text className="text-destructive text-center">
                 {t('home:errors.restaurants', { defaultValue: 'Erreur lors du chargement des restaurants' })}
               </Text>
             </View>
           ) : !currentAddress ? (
             <View className="py-8 px-4">
-              <Text className="text-gray-500 text-center">
+              <Text className="text-muted-foreground dark:text-muted-dark-foreground text-center">
                 {t('home:errors.noAddress', { defaultValue: 'Veuillez sélectionner une adresse pour voir les restaurants' })}
               </Text>
             </View>

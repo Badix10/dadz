@@ -22,6 +22,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { themeColors } from '@/lib/utils/themeColors';
 
 /**
  * Screen de gestion des adresses
@@ -186,20 +187,20 @@ export default function AddressesScreen() {
       <View className="flex-row items-center justify-between px-4 py-2">
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-10 h-10 rounded-full bg-white dark:bg-surface-dark items-center justify-center"
+          className="w-10 h-10 rounded-full bg-card dark:bg-card-dark items-center justify-center"
         >
           <Ionicons
             name="arrow-back"
             size={24}
-            color={isDark ? '#FFFFFF' : '#000000'}
+            color={isDark ? themeColors.foregroundDark : themeColors.foreground}
           />
         </TouchableOpacity>
 
         <View className="flex-1 ml-4">
-          <Text className="text-2xl font-bold text-black dark:text-white">
+          <Text className="text-2xl font-bold text-foreground dark:text-foreground-dark">
             {t('addresses:title')}
           </Text>
-          <Text className="text-sm text-gray-500 dark:text-text-light">
+          <Text className="text-sm text-muted-foreground dark:text-muted-dark-foreground">
             {t('addresses:subtitle')}
           </Text>
         </View>
@@ -219,8 +220,8 @@ export default function AddressesScreen() {
       {/* Liste des adresses */}
       {loading && addresses.length === 0 ? (
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#FFC700" />
-          <Text className="text-gray-500 dark:text-text-light mt-4">
+          <ActivityIndicator size="large" color={isDark ? themeColors.primaryDark : themeColors.primary} />
+          <Text className="text-muted-foreground dark:text-muted-dark-foreground mt-4">
             {t('common:loading')}
           </Text>
         </View>
@@ -243,7 +244,7 @@ export default function AddressesScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={handleRefresh}
-              tintColor={isDark ? '#FFFFFF' : '#000000'}
+              tintColor={isDark ? themeColors.foregroundDark : themeColors.foreground}
             />
           }
         />
@@ -262,7 +263,7 @@ export default function AddressesScreen() {
             elevation: 8,
           }}
         >
-          <Ionicons name="add" size={32} color="#000000" />
+          <Ionicons name="add" size={32} color={themeColors.primaryForeground} />
         </TouchableOpacity>
       )}
 

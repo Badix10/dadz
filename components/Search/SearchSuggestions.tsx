@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
 import React, { memo } from 'react';
 import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 import { useTranslation } from '@/hooks';
 import type { SearchHistoryItem, Category } from '@/types';
 
@@ -38,7 +38,7 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const iconColor = isDark ? '#9CA3AF' : '#6B7280';
+  const iconColor = isDark ? themeColors.mutedDarkForeground : themeColors.mutedForeground;
   const hasHistory = history && history.length > 0;
 
   return (
@@ -47,7 +47,7 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
       {hasHistory && (
         <View className="mb-6">
           <View className="flex-row items-center justify-between mb-4">
-            <Text className={`text-lg font-bold ${COLORS.text.primary}`}>
+            <Text className="text-lg font-bold text-foreground dark:text-foreground-dark">
               {t('search:suggestions.recent')}
             </Text>
             <TouchableOpacity
@@ -65,7 +65,7 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
             {history.map((item) => (
               <View
                 key={item.id}
-                className={`flex-row items-center justify-between py-3 px-4 rounded-xl ${isDark ? 'bg-surface-dark-secondary' : 'bg-gray-50'}`}
+                className="flex-row items-center justify-between py-3 px-4 rounded-xl bg-card dark:bg-card-dark"
               >
                 <TouchableOpacity
                   onPress={() => onSuggestionPress(item.query)}
@@ -75,11 +75,11 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
                 >
                   <Ionicons name="time-outline" size={20} color={iconColor} />
                   <View className="flex-1 ml-3">
-                    <Text className={`text-base ${COLORS.text.primary}`} numberOfLines={1}>
+                    <Text className="text-base text-foreground dark:text-foreground-dark" numberOfLines={1}>
                       {item.query}
                     </Text>
                     {item.resultCount > 0 && (
-                      <Text className={`text-xs ${COLORS.text.secondary} mt-0.5`}>
+                      <Text className="text-xs text-muted-foreground dark:text-muted-dark-foreground mt-0.5">
                         {t('search:results.title', { count: item.resultCount })}
                       </Text>
                     )}
@@ -104,7 +104,7 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
       {!hasHistory && (
         <View className="py-8 items-center">
           <Ionicons name="time-outline" size={48} color={iconColor} />
-          <Text className={`text-base ${COLORS.text.secondary} mt-4 text-center`}>
+          <Text className="text-base text-muted-foreground dark:text-muted-dark-foreground mt-4 text-center">
             {t('search:suggestions.noHistory')}
           </Text>
         </View>
@@ -113,7 +113,7 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
       {/* Parcourir par catégorie */}
       {categories && categories.length > 0 && onCategoryPress && (
         <View className="mb-6">
-          <Text className={`text-lg font-bold ${COLORS.text.primary} mb-4`}>
+          <Text className="text-lg font-bold text-foreground dark:text-foreground-dark mb-4">
             {t('search:suggestions.browseCategories')}
           </Text>
 
@@ -122,11 +122,11 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = memo(({
               <TouchableOpacity
                 key={category.id}
                 onPress={() => onCategoryPress(category.id)}
-                className={`px-4 py-2 rounded-full ${isDark ? 'bg-surface-dark-secondary' : 'bg-gray-100'}`}
+                className="px-4 py-2 rounded-full bg-card dark:bg-card-dark"
                 accessibilityLabel={`Browse ${category.name}`}
                 accessibilityRole="button"
               >
-                <Text className={`text-sm ${COLORS.text.primary}`}>
+                <Text className="text-sm text-foreground dark:text-foreground-dark">
                   {category.icon} {category.name}
                 </Text>
               </TouchableOpacity>

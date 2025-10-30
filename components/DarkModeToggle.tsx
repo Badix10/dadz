@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
 import { usePersistColorScheme } from '@/contexts/ColorSchemeProvider';
+import { themeColors } from '@/lib/utils/themeColors';
 
 /**
  * Toggle switch pour le dark mode
@@ -31,12 +32,13 @@ export const DarkModeToggle: React.FC = () => {
       activeOpacity={0.8}
       className="relative w-11 h-6 rounded-full justify-center"
       style={{
-        backgroundColor: isDark ? '#FFC700' : '#E5E7EB',
+        backgroundColor: isDark ? themeColors.primary : themeColors.muted,
       }}
     >
       <Animated.View
-        className="absolute w-5 h-5 rounded-full bg-white shadow-sm"
+        className="absolute w-5 h-5 rounded-full shadow-sm"
         style={{
+          backgroundColor: isDark ? themeColors.primaryForeground : themeColors.card,
           transform: [{ translateX }],
         }}
       />

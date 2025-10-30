@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { IoniconsName } from './types';
+import { useThemeColors } from '@/lib/utils/themeColors';
 
 export interface SocialButtonProps {
   title: string;
@@ -22,11 +23,13 @@ export const SocialButton: React.FC<SocialButtonProps> = ({
   disabled = false,
   containerClassName = '',
 }) => {
+  const { getForegroundColor } = useThemeColors();
+
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      className={`w-full h-button rounded-xl bg-field-light dark:bg-field-dark flex-row items-center justify-center border border-gray-200 dark:border-gray-700 ${
+      className={`w-full h-button rounded-xl bg-input dark:bg-input-dark flex-row items-center justify-center border border-border dark:border-border-dark ${
         disabled ? 'opacity-50' : ''
       } ${containerClassName}`}
       activeOpacity={0.8}
@@ -42,12 +45,12 @@ export const SocialButton: React.FC<SocialButtonProps> = ({
           <Ionicons
             name={iconName}
             size={24}
-            color="#9CA3AF"
+            color={getForegroundColor()}
           />
         </View>
       ) : null}
 
-      <Text className="text-base font-bold text-text-primary dark:text-background-light">
+      <Text className="text-base font-bold text-foreground dark:text-foreground-dark">
         {title}
       </Text>
     </TouchableOpacity>

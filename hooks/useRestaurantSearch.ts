@@ -22,7 +22,7 @@
 
 import { useState, useMemo } from 'react';
 import { useDebounce } from './useDebounce';
-import { useRestaurant } from './useRestaurants';
+import { useRestaurants } from './useRestaurants';
 import { useAddresses } from './useAddresses';
 import { mapSearchStateToAPIParams, countActiveFilters } from '@/lib/utils/filterMapper';
 import type { SearchState, SearchFilters } from '@/types';
@@ -53,12 +53,11 @@ export function useRestaurantSearch() {
   }, [debouncedQuery, searchState.categoryId, searchState.filters, currentAddress]);
 
   // Query React Query avec tous les params combinés
-  const restaurant = useRestaurant();
   const {
     data: restaurants,
     isLoading,
     error,
-  } = restaurant.getRestaurants(apiParams, {
+  } = useRestaurants(apiParams, {
     // Désactiver si pas d'adresse (pour éviter les erreurs)
     enabled: currentAddress !== null,
   });

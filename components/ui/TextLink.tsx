@@ -20,11 +20,11 @@ export const TextLink: React.FC<TextLinkProps> = ({
 }) => {
   return (
     <View className={`items-center py-3 ${containerClassName}`}>
-      <Text className={`text-sm font-medium text-subtext-light ${textClassName}`}>
+      <Text className={`text-sm font-medium text-muted-foreground dark:text-muted-dark-foreground ${textClassName}`}>
         {text}{' '}
         <Text
           onPress={onPress}
-          className={`font-bold text-primary ${linkClassName}`}
+          className={`font-bold text-primary underline ${linkClassName}`}
         >
           {linkText}
         </Text>

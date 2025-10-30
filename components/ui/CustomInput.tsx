@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TextInput, TextInputProps, View } from 'react-native';
 import { useColorScheme } from 'nativewind';
 import { cn } from '@/utils/cn';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 
 export interface CustomInputProps extends Omit<TextInputProps, 'onChange'> {
   label?: string;
@@ -49,13 +49,13 @@ export const CustomInput: React.FC<CustomInputProps> = ({
   const isDark = colorScheme === 'dark';
 
   // Placeholder color adapté au mode
-  const placeholderColor = isDark ? '#A1A1A1' : '#9E9047';
+  const placeholderColor = isDark ? themeColors.mutedDark : themeColors.muted;
 
   return (
     <View className={cn('w-full mb-4', containerClassName)}>
       {/* Label */}
       {label && (
-        <Text className={cn(COLORS.text.primary, 'text-base font-medium pb-2', labelClassName)}>
+        <Text className={cn('text-foreground dark:text-foreground-dark', 'text-base font-medium pb-2', labelClassName)}>
           {label}
         </Text>
       )}
@@ -74,12 +74,12 @@ export const CustomInput: React.FC<CustomInputProps> = ({
           className={cn(
             'w-full rounded-xl text-base',
             multiline ? 'min-h-input py-4' : 'h-input',
-            COLORS.input.background,
-            COLORS.input.text,
+            'bg-input dark:bg-input-dark',
+            'text-foreground dark:text-foreground-dark',
             'px-4',
             leftIcon ? 'pl-12' : undefined,
             rightIcon ? 'pr-12' : undefined,
-            error ? 'border-2 border-error' : undefined,
+            error ? 'border-2 border-destructive' : 'border-2 border-border dark:border-border-dark',
             disabled ? 'opacity-50' : undefined,
             inputClassName
           )}
@@ -109,7 +109,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
 
       {/* Error Message */}
       {error && (
-        <Text className={cn(COLORS.status.error, 'text-sm mt-1 px-1')}>
+        <Text className={cn('text-destructive', 'text-sm mt-1 px-1')}>
           {error}
         </Text>
       )}

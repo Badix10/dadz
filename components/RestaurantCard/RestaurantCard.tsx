@@ -4,7 +4,7 @@ import React, { memo, useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import type { Restaurant } from '@/types';
 import { useColorScheme } from 'nativewind';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
@@ -30,7 +30,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
   const isDark = colorScheme === 'dark';
 
   // Colors adaptés au dark mode
-  const favoriteBgColor = isDark ? 'bg-surface-dark/80' : 'bg-white/80';
+  const favoriteBgColor = 'bg-card/80 dark:bg-card-dark/80';
   const [isPressed, setIsPressed] = React.useState(false);
 
   const handleFavoritePress = useCallback(() => {
@@ -45,7 +45,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
     // Mode horizontal avec grande image (comme dans la maquette "Fastest Near You")
     return (
       <TouchableOpacity
-        className={`bg-white dark:bg-card-dark rounded-2xl ${isPressed ? 'shadow-lg' : 'shadow-md'} overflow-hidden mb-4`}
+        className={`bg-card dark:bg-card-dark rounded-2xl ${isPressed ? 'shadow-lg' : 'shadow-md'} overflow-hidden mb-4`}
         style={{ width: 200 }}
         onPress={handleCardPress}
         onPressIn={() => setIsPressed(true)}
@@ -70,14 +70,14 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
             <Ionicons
               name={isFavorite ? 'heart' : 'heart-outline'}
               size={16}
-              color={isFavorite ? '#EF4444' : '#FFD700'}
+              color={isFavorite ? themeColors.destructive : themeColors.warning}
             />
           </TouchableOpacity>
 
           {restaurant.deliveryTimeMin && restaurant.deliveryTimeMax && (
-            <View className="absolute bottom-2 left-2 bg-black/70 rounded-full px-2 py-1 flex-row items-center gap-1">
-              <Ionicons name="time-outline" size={12} color="#FFD700" />
-              <Text className="text-white text-xs font-semibold">
+            <View className="absolute bottom-2 left-2 bg-foreground/70 dark:bg-foreground-dark/70 rounded-full px-2 py-1 flex-row items-center gap-1">
+              <Ionicons name="time-outline" size={12} color={themeColors.warning} />
+              <Text className="text-background dark:text-background-dark text-xs font-semibold">
                 {restaurant.deliveryTimeMin}-{restaurant.deliveryTimeMax} min
               </Text>
             </View>
@@ -85,14 +85,14 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
         </View>
 
         <View className="p-3">
-          <Text className={`${COLORS.text.primary} font-bold text-sm mb-1`} numberOfLines={1}>
+          <Text className="text-foreground dark:text-foreground-dark font-bold text-sm mb-1" numberOfLines={1}>
             {restaurant.name}
           </Text>
 
           <View className="flex-row items-center gap-1">
-            <Ionicons name="star" size={12} color="#FFD700" />
-            <Text className={`${COLORS.text.primary} font-semibold text-xs`}>{restaurant.rating}</Text>
-            <Text className="text-gray-500 text-[10px]">({restaurant.reviews}+)</Text>
+            <Ionicons name="star" size={12} color={themeColors.warning} />
+            <Text className="text-foreground dark:text-foreground-dark font-semibold text-xs">{restaurant.rating}</Text>
+            <Text className="text-muted-foreground dark:text-muted-dark-foreground text-[10px]">({restaurant.reviews}+)</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -102,7 +102,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
   // Mode grille (vertical) - existant
   return (
     <TouchableOpacity
-      className={`bg-white dark:bg-card-dark rounded-2xl ${isPressed ? 'shadow-lg' : 'shadow-md'} overflow-hidden`}
+      className={`bg-card dark:bg-card-dark rounded-2xl ${isPressed ? 'shadow-lg' : 'shadow-md'} overflow-hidden`}
       style={{ width: '47%' }}
       onPress={handleCardPress}
       onPressIn={() => setIsPressed(true)}
@@ -127,32 +127,32 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
           <Ionicons
             name={isFavorite ? 'heart' : 'heart-outline'}
             size={18}
-            color={isFavorite ? '#EF4444' : '#FFD700'}
+            color={isFavorite ? themeColors.destructive : themeColors.warning}
           />
         </TouchableOpacity>
       </View>
 
       <View className="p-4">
-        <Text className={`${COLORS.text.primary} font-bold text-base mb-1`} numberOfLines={1}>
+        <Text className="text-foreground dark:text-foreground-dark font-bold text-base mb-1" numberOfLines={1}>
           {restaurant.name}
         </Text>
 
         <View className="flex-row items-center gap-1 mb-1">
-          <Ionicons name="star" size={14} color="#FFD700" />
-          <Text className={`${COLORS.text.primary} font-semibold text-sm`}>{restaurant.rating}</Text>
-          <Text className="text-gray-500 text-xs">({restaurant.reviews}+)</Text>
+          <Ionicons name="star" size={14} color={themeColors.warning} />
+          <Text className="text-foreground dark:text-foreground-dark font-semibold text-sm">{restaurant.rating}</Text>
+          <Text className="text-muted-foreground dark:text-muted-dark-foreground text-xs">({restaurant.reviews}+)</Text>
         </View>
 
         {/* Category name if available */}
         {restaurant.categoryName && (
-          <Text className="text-gray-600 dark:text-gray-400 text-xs mb-1" numberOfLines={1}>
+          <Text className="text-muted-foreground dark:text-muted-dark-foreground text-xs mb-1" numberOfLines={1}>
             {restaurant.categoryName}
           </Text>
         )}
 
         {/* Delivery info if available */}
         {(restaurant.deliveryTimeMin || restaurant.distance || restaurant.deliveryFee) && (
-          <Text className="text-gray-600 dark:text-gray-400 text-xs" numberOfLines={1}>
+          <Text className="text-muted-foreground dark:text-muted-dark-foreground text-xs" numberOfLines={1}>
             {restaurant.deliveryTimeMin && restaurant.deliveryTimeMax &&
               `${restaurant.deliveryTimeMin}-${restaurant.deliveryTimeMax} min`}
             {restaurant.distance && ` • ${restaurant.distance.toFixed(1)} km`}

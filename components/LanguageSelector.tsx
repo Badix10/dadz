@@ -49,7 +49,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               px-4 py-3 rounded-lg border-2
               ${isActive
                 ? 'bg-primary border-primary'
-                : 'bg-field-light dark:bg-field-dark border-transparent'
+                : 'bg-input dark:bg-input-dark border-transparent'
               }
             `}
             activeOpacity={0.7}
@@ -59,8 +59,8 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               className={`
                 text-sm font-semibold
                 ${isActive
-                  ? 'text-black'
-                  : 'text-text-primary dark:text-white'
+                  ? 'text-primary-foreground'
+                  : 'text-foreground dark:text-foreground-dark'
                 }
               `}
             >

@@ -16,9 +16,9 @@ export const Card: React.FC<CardProps> = ({
   containerClassName = '',
 }) => {
   const variants: Record<CardVariant, string> = {
-    default: 'bg-white dark:bg-field-dark',
-    elevated: 'bg-white dark:bg-field-dark shadow-lg',
-    outlined: 'bg-transparent border-2 border-field-light dark:border-field-dark',
+    default: 'bg-card dark:bg-card-dark',
+    elevated: 'bg-card dark:bg-card-dark shadow-lg',
+    outlined: 'bg-transparent border-2 border-border dark:border-border-dark',
   };
 
   const Component = onPress ? TouchableOpacity : View;

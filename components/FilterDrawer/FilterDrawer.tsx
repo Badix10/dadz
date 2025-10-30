@@ -5,7 +5,7 @@ import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Checkbox, RadioButton } from '../ui';
 import type { FilterConfig, SelectedFilters } from './types';
 import { useColorScheme } from 'nativewind';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface FilterDrawerProps {
   visible: boolean;
@@ -32,7 +32,7 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
   const [tempFilters, setTempFilters] = useState<SelectedFilters>(selectedFilters);
 
   // Colors adaptés au dark mode
-  const iconColor = isDark ? '#FFFFFF' : '#1A1A1A';
+  const iconColor = isDark ? themeColors.foregroundDark : themeColors.foreground;
 
   // Handle checkbox toggle
   const handleCheckboxToggle = (filterId: string, optionValue: string) => {
@@ -74,24 +74,24 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           onPress={onClose}
         />
 
-        <View className="bg-[#1A1A1A] h-[85vh] rounded-t-[32px]">
+        <View className="bg-card dark:bg-card-dark h-[85vh] rounded-t-[32px]">
           {/* Header */}
           <View className="flex-row items-center justify-between p-5 pb-4">
             <View className="flex-1" />
-            <Text className="text-xl font-bold text-white text-center flex-1">Filter your search</Text>
+            <Text className="text-xl font-bold text-foreground dark:text-foreground-dark text-center flex-1">Filter your search</Text>
             <View className="flex-1 items-end">
               <TouchableOpacity onPress={onClose} className="w-10 h-10 items-center justify-center">
-                <Ionicons name="close" size={28} color="#FFFFFF" />
+                <Ionicons name="close" size={28} color={iconColor} />
               </TouchableOpacity>
             </View>
           </View>
-          <View className="h-px bg-gray-700" />
+          <View className="h-px bg-border dark:bg-border-dark" />
 
           {/* Filters List */}
           <ScrollView className="flex-1 px-5 py-4" showsVerticalScrollIndicator={false}>
             {filters.map((filter) => (
               <View key={filter.id} className="mb-6">
-                <Text className="text-base font-bold text-white mb-3">
+                <Text className="text-base font-bold text-foreground dark:text-foreground-dark mb-3">
                   {filter.title}
                 </Text>
 
@@ -105,10 +105,10 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
                           key={option.id}
                           onPress={() => handleCheckboxToggle(filter.id, option.value)}
                           className={`px-4 py-2.5 rounded-full ${
-                            isSelected ? 'bg-primary' : 'bg-[#2A2A2A]'
+                            isSelected ? 'bg-primary' : 'bg-input dark:bg-input-dark'
                           }`}
                         >
-                          <Text className={`text-sm font-semibold ${isSelected ? 'text-black' : 'text-white'}`}>
+                          <Text className={`text-sm font-semibold ${isSelected ? 'text-primary-foreground' : 'text-foreground dark:text-foreground-dark'}`}>
                             {option.label}
                           </Text>
                         </TouchableOpacity>
@@ -125,10 +125,10 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
                           key={option.id}
                           onPress={() => handleRadioSelect(filter.id, option.value)}
                           className={`px-4 py-2.5 rounded-full ${
-                            isSelected ? 'bg-primary' : 'bg-[#2A2A2A]'
+                            isSelected ? 'bg-primary' : 'bg-input dark:bg-input-dark'
                           }`}
                         >
-                          <Text className={`text-sm font-semibold ${isSelected ? 'text-black' : 'text-white'}`}>
+                          <Text className={`text-sm font-semibold ${isSelected ? 'text-primary-foreground' : 'text-foreground dark:text-foreground-dark'}`}>
                             {option.label}
                           </Text>
                         </TouchableOpacity>
@@ -141,20 +141,20 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </ScrollView>
 
           {/* Footer Actions */}
-          <View className="h-px bg-gray-700" />
+          <View className="h-px bg-border dark:bg-border-dark" />
           <View className="flex-row gap-3 p-5">
             <TouchableOpacity
               onPress={handleReset}
-              className="flex-1 h-14 items-center justify-center bg-red-500/20 border border-red-500 rounded-full"
+              className="flex-1 h-14 items-center justify-center bg-destructive/20 border border-destructive rounded-full"
             >
-              <Text className="text-base font-bold text-red-500">{t('home:filters.reset')}</Text>
+              <Text className="text-base font-bold text-destructive">{t('home:filters.reset')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleApply}
               className="flex-1 h-14 items-center justify-center bg-primary rounded-full"
             >
-              <Text className="text-base font-bold text-black">{t('home:filters.apply')}</Text>
+              <Text className="text-base font-bold text-primary-foreground">{t('home:filters.apply')}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -10,6 +10,8 @@ import { addressSchema, type AddressFormData } from '@/lib/validations/addressSc
 import type { Address } from '@/lib/services/addressService';
 import { geocodingService } from '@/lib/services/geocodingService';
 import { Picker } from '@react-native-picker/picker';
+import { useColorScheme } from 'nativewind';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface AddressFormProps {
   initialData?: Address;
@@ -29,6 +31,8 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   mode = 'create',
 }) => {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
   const { getCurrentAddress, loading: locationLoading, error: locationError } = useLocation();
   const [submitting, setSubmitting] = useState(false);
 
@@ -155,7 +159,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
     >
       <View className="px-4 py-4">
         {/* Titre */}
-        <Text className="text-2xl font-bold text-black dark:text-white mb-6">
+        <Text className="text-2xl font-bold text-foreground dark:text-foreground-dark mb-6">
           {mode === 'create'
             ? t('addresses:form.title.create')
             : t('addresses:form.title.edit')}
@@ -239,18 +243,18 @@ export const AddressForm: React.FC<AddressFormProps> = ({
 
         {/* Champ Type d'adresse */}
         <View className="mb-4">
-          <Text className="text-sm font-medium text-black dark:text-white mb-2">
+          <Text className="text-sm font-medium text-foreground dark:text-foreground-dark mb-2">
             {t('addresses:form.fields.addressType.label')}
           </Text>
           <Controller
             control={control}
             name="address_type"
             render={({ field: { onChange, value } }) => (
-              <View className="bg-background-light dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-700">
+              <View className="bg-input dark:bg-input-dark rounded-xl border border-border dark:border-border-dark">
                 <Picker
                   selectedValue={value}
                   onValueChange={onChange}
-                  style={{ color: '#000' }}
+                  style={{ color: isDark ? themeColors.foregroundDark : themeColors.foreground }}
                 >
                   <Picker.Item
                     label={t('addresses:addressTypes.home')}
@@ -269,7 +273,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             )}
           />
           {errors.address_type && (
-            <Text className="text-red-500 text-sm mt-1">
+            <Text className="text-destructive text-sm mt-1">
               {t(errors.address_type.message as string)}
             </Text>
           )}
@@ -277,12 +281,12 @@ export const AddressForm: React.FC<AddressFormProps> = ({
 
         {/* Toggle Adresse par défaut */}
         <View className="mb-6">
-          <View className="flex-row items-center justify-between bg-background-light dark:bg-background-dark rounded-xl p-4">
+          <View className="flex-row items-center justify-between bg-input dark:bg-input-dark rounded-xl p-4">
             <View className="flex-1 mr-4">
-              <Text className="text-base font-medium text-black dark:text-white mb-1">
+              <Text className="text-base font-medium text-foreground dark:text-foreground-dark mb-1">
                 {t('addresses:form.fields.isDefault.label')}
               </Text>
-              <Text className="text-sm text-gray-500 dark:text-text-light">
+              <Text className="text-sm text-muted-foreground dark:text-muted-dark-foreground">
                 {t('addresses:form.fields.isDefault.helper')}
               </Text>
             </View>
@@ -293,8 +297,8 @@ export const AddressForm: React.FC<AddressFormProps> = ({
                 <Switch
                   value={value}
                   onValueChange={onChange}
-                  trackColor={{ false: '#D1D5DB', true: '#FFC700' }}
-                  thumbColor={value ? '#000000' : '#F3F4F6'}
+                  trackColor={{ false: themeColors.muted, true: themeColors.primary }}
+                  thumbColor={value ? themeColors.primaryForeground : themeColors.card}
                 />
               )}
             />

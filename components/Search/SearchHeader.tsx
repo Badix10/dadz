@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
 import React, { memo, useCallback, useState } from 'react';
 import { TextInput, TouchableOpacity, View, Text } from 'react-native';
-import { COLORS } from '@/constants/classNames';
+import { themeColors } from '@/lib/utils/themeColors';
 import { useTranslation } from '@/hooks';
 
 interface SearchHeaderProps {
@@ -42,12 +42,12 @@ const SearchHeader: React.FC<SearchHeaderProps> = memo(({
   const [searchText, setSearchText] = useState(initialQuery);
 
   // Colors adaptés au dark mode
-  const bgColor = isDark ? 'bg-surface-dark' : 'bg-white';
-  const inputBg = isDark ? 'bg-gray-700' : 'bg-gray-50';
-  const textColor = isDark ? 'text-white' : 'text-foreground';
-  const iconColor = isDark ? '#9CA3AF' : '#6B7280';
-  const placeholderColor = isDark ? '#9CA3AF' : '#9CA3AF';
-  const filterButtonBg = filterCount > 0 ? 'bg-primary' : (isDark ? 'bg-gray-700' : 'bg-gray-50');
+  const bgColor = 'bg-background dark:bg-background-dark';
+  const inputBg = 'bg-input dark:bg-input-dark';
+  const textColor = 'text-foreground dark:text-foreground-dark';
+  const iconColor = isDark ? themeColors.mutedDarkForeground : themeColors.mutedForeground;
+  const placeholderColor = isDark ? themeColors.mutedDark : themeColors.muted;
+  const filterButtonBg = filterCount > 0 ? 'bg-primary' : 'bg-input dark:bg-input-dark';
 
   const handleTextChange = useCallback((text: string) => {
     setSearchText(text);
@@ -69,7 +69,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = memo(({
           accessibilityLabel={t('common:back')}
           accessibilityRole="button"
         >
-          <Ionicons name="arrow-back" size={24} color={isDark ? 'white' : '#1A1A1A'} />
+          <Ionicons name="arrow-back" size={24} color={isDark ? themeColors.foregroundDark : themeColors.foreground} />
         </TouchableOpacity>
 
         {/* Search Input */}
@@ -105,10 +105,14 @@ const SearchHeader: React.FC<SearchHeaderProps> = memo(({
           accessibilityLabel={t('home:filters.title')}
           accessibilityRole="button"
         >
-          <Ionicons name="options-outline" size={24} color={filterCount > 0 ? '#1A1A1A' : (isDark ? 'white' : '#1A1A1A')} />
+          <Ionicons
+            name="options-outline"
+            size={24}
+            color={filterCount > 0 ? themeColors.primaryForeground : (isDark ? themeColors.foregroundDark : themeColors.foreground)}
+          />
           {filterCount > 0 && (
-            <View className="absolute -top-1 -right-1 h-5 w-5 items-center justify-center rounded-full bg-red-500">
-              <Text className="text-xs font-bold text-white">{filterCount}</Text>
+            <View className="absolute -top-1 -right-1 h-5 w-5 items-center justify-center rounded-full bg-destructive">
+              <Text className="text-xs font-bold text-destructive-foreground">{filterCount}</Text>
             </View>
           )}
         </TouchableOpacity>

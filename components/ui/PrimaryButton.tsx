@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { ButtonSize, ButtonVariant } from './types';
+import { themeColors } from '@/lib/utils/themeColors';
 
 export interface PrimaryButtonProps {
   title: string;
@@ -29,16 +30,16 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 }) => {
   const variants: Record<ButtonVariant, string> = {
     primary: 'bg-primary',
-    secondary: 'bg-field-light dark:bg-field-dark',
-    outline: 'bg-transparent border-2 border-primary',
-    danger: 'bg-error',
+    secondary: 'bg-secondary',
+    outline: 'bg-transparent border-2 border-border dark:border-border-dark',
+    danger: 'bg-destructive dark:bg-destructive-dark',
   };
 
   const textColors: Record<ButtonVariant, string> = {
-    primary: 'text-white',
-    secondary: 'text-text-primary dark:text-background-light',
-    outline: 'text-primary',
-    danger: 'text-white',
+    primary: 'text-primary-foreground',
+    secondary: 'text-secondary-foreground',
+    outline: 'text-foreground dark:text-foreground-dark',
+    danger: 'text-destructive-foreground',
   };
 
   const sizes: Record<ButtonSize, string> = {
@@ -65,7 +66,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       activeOpacity={0.8}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'primary' ? 'white' : '#9CA3AF'} />
+        <ActivityIndicator color={variant === 'primary' ? themeColors.primaryForeground : themeColors.foreground} />
       ) : (
         <>
           {leftIcon && <View className="mr-2">{leftIcon}</View>}

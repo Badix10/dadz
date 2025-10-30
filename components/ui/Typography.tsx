@@ -44,8 +44,8 @@ export const Typography: React.FC<TypographyProps> = ({
 }) => {
   const variants: Record<TypographyVariant, string> = {
     primary: 'text-foreground dark:text-foreground-dark',
-    secondary: 'text-foreground-secondary dark:text-foreground-dark-secondary',
-    tertiary: 'text-foreground-tertiary dark:text-foreground-dark-tertiary',
+    secondary: 'text-muted-foreground dark:text-muted-dark-foreground',
+    tertiary: 'text-muted-foreground dark:text-muted-dark-foreground opacity-70',
   };
 
   return (

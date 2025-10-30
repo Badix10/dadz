@@ -1,11 +1,11 @@
 /**
- * Tests pour le hook useRestaurant unifié
- * Ce fichier montre comment tester un hook utilisant @tanstack/react-query
+ * Tests pour les hooks useRestaurants
+ * Ce fichier montre comment tester des hooks utilisant @tanstack/react-query
  */
 
 import { renderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useRestaurant } from '../useRestaurants';
+import { useRestaurants, useRestaurantById, useRestaurantCategories } from '../useRestaurants';
 import { restaurantService } from '@/lib/services/restaurantService';
 import React from 'react';
 
@@ -36,7 +36,7 @@ const createWrapper = () => {
   );
 };
 
-describe('useRestaurant Hook - getRestaurants', () => {
+describe('useRestaurants Hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -48,10 +48,7 @@ describe('useRestaurant Hook - getRestaurants', () => {
 
   it('should be disabled when no coordinates provided', () => {
     const { result } = renderHook(
-      () => {
-        const restaurant = useRestaurant();
-        return restaurant.getRestaurants({});
-      },
+      () => useRestaurants({}),
       { wrapper: createWrapper() }
     );
 
@@ -75,10 +72,7 @@ describe('useRestaurant Hook - getRestaurants', () => {
     };
 
     const { result, waitForNextUpdate } = renderHook(
-      () => {
-        const restaurant = useRestaurant();
-        return restaurant.getRestaurants(params);
-      },
+      () => useRestaurants(params),
       { wrapper: createWrapper() }
     );
 
@@ -108,10 +102,7 @@ describe('useRestaurant Hook - getRestaurants', () => {
     };
 
     const { result, rerender, waitForNextUpdate } = renderHook(
-      ({ params }) => {
-        const restaurant = useRestaurant();
-        return restaurant.getRestaurants(params);
-      },
+      ({ params }) => useRestaurants(params),
       {
         wrapper: createWrapper(),
         initialProps: { params: initialParams },
@@ -140,7 +131,7 @@ describe('useRestaurant Hook - getRestaurants', () => {
   });
 });
 
-describe('useRestaurant Hook - getRestaurantById', () => {
+describe('useRestaurantById Hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -151,10 +142,7 @@ describe('useRestaurant Hook - getRestaurantById', () => {
 
   it('should be disabled when no id provided', () => {
     const { result } = renderHook(
-      () => {
-        const restaurant = useRestaurant();
-        return restaurant.getRestaurantById({ restaurantId: '' });
-      },
+      () => useRestaurantById({ restaurantId: '' }),
       { wrapper: createWrapper() }
     );
 
@@ -176,10 +164,7 @@ describe('useRestaurant Hook - getRestaurantById', () => {
     (restaurantService.getRestaurantById as jest.Mock).mockResolvedValue(mockRestaurant);
 
     const { result, waitForNextUpdate } = renderHook(
-      () => {
-        const restaurant = useRestaurant();
-        return restaurant.getRestaurantById({ restaurantId: '1' });
-      },
+      () => useRestaurantById({ restaurantId: '1' }),
       { wrapper: createWrapper() }
     );
 
@@ -204,15 +189,12 @@ describe('useRestaurant Hook - getRestaurantById', () => {
     (restaurantService.getRestaurantById as jest.Mock).mockResolvedValue(mockRestaurant);
 
     const { result, waitForNextUpdate } = renderHook(
-      () => {
-        const restaurant = useRestaurant();
-        return restaurant.getRestaurantById({
-          restaurantId: '1',
-          latitude: 48.8566,
-          longitude: 2.3522,
-          includeReviews: false,
-        });
-      },
+      () => useRestaurantById({
+        restaurantId: '1',
+        latitude: 48.8566,
+        longitude: 2.3522,
+        includeReviews: false,
+      }),
       { wrapper: createWrapper() }
     );
 
@@ -228,7 +210,7 @@ describe('useRestaurant Hook - getRestaurantById', () => {
   });
 });
 
-describe('useRestaurant Hook - getCategories', () => {
+describe('useRestaurantCategories Hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -246,10 +228,7 @@ describe('useRestaurant Hook - getCategories', () => {
     (restaurantService.getCategories as jest.Mock).mockResolvedValue(mockCategories);
 
     const { result, waitForNextUpdate } = renderHook(
-      () => {
-        const restaurant = useRestaurant();
-        return restaurant.getCategories();
-      },
+      () => useRestaurantCategories(),
       { wrapper: createWrapper() }
     );
 

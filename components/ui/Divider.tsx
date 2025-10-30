@@ -16,13 +16,13 @@ export const Divider: React.FC<DividerProps> = ({
 }) => {
   return (
     <View className={`flex-row items-center gap-4 py-3 ${containerClassName}`}>
-      <View className={`flex-1 h-[1px] bg-field-light dark:bg-field-dark ${lineClassName}`} />
+      <View className={`flex-1 h-[1px] bg-border dark:bg-border-dark ${lineClassName}`} />
       {text && (
-        <Text className={`text-sm font-medium text-subtext-light ${textClassName}`}>
+        <Text className={`text-sm font-medium text-muted-foreground dark:text-muted-dark-foreground ${textClassName}`}>
           {text}
         </Text>
       )}
-      <View className={`flex-1 h-[1px] bg-field-light dark:bg-field-dark ${lineClassName}`} />
+      <View className={`flex-1 h-[1px] bg-border dark:bg-border-dark ${lineClassName}`} />
     </View>
   );
 };

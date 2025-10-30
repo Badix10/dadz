@@ -27,10 +27,11 @@ import {
 import { useTranslation } from '@/hooks';
 import { useRestaurantSearch } from '@/hooks/useRestaurantSearch';
 import { useSearchHistory } from '@/hooks/useSearchHistory';
-import { useRestaurant } from '@/hooks/useRestaurants';
+import { useRestaurantCategories } from '@/hooks/useRestaurants';
 import { mapCategoriesToUI, mapRestaurantsToUI } from '@/lib/mappers/restaurantMapper';
 import { convertDrawerFiltersToSearchFilters } from '@/lib/utils/filterMapper';
 import type { Category, FavoritesMap, Restaurant } from '@/types';
+import { themeColors } from '@/lib/utils/themeColors';
 
 export default function RestaurantSearchScreen() {
   const router = useRouter();
@@ -73,12 +74,11 @@ export default function RestaurantSearchScreen() {
   } = useSearchHistory();
 
   // Charger les catégories
-  const restaurant = useRestaurant();
   const {
     data: categoriesData,
     isLoading: categoriesLoading,
     error: categoriesError,
-  } = restaurant.getCategories();
+  } = useRestaurantCategories();
 
   // Mapper les catégories pour l'UI
   const categories = useMemo(() => {
@@ -221,8 +221,8 @@ export default function RestaurantSearchScreen() {
           {/* État: Chargement */}
           {isLoading && (
             <View className="py-12 items-center">
-              <ActivityIndicator size="large" color="#FFD700" />
-              <Text className="text-gray-500 mt-4">
+              <ActivityIndicator size="large" color={isDark ? themeColors.primaryDark : themeColors.primary} />
+              <Text className="text-muted-foreground dark:text-muted-dark-foreground mt-4">
                 {t('search:loading')}
               </Text>
             </View>
@@ -268,7 +268,7 @@ export default function RestaurantSearchScreen() {
           {/* État: Erreur */}
           {error && (
             <View className="py-8 px-4">
-              <Text className="text-red-500 text-center">
+              <Text className="text-destructive dark:text-destructive-dark text-center">
                 {t('home:errors.restaurants', {
                   defaultValue: 'Erreur lors du chargement des restaurants',
                 })}

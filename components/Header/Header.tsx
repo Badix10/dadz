@@ -5,6 +5,7 @@ import { useColorScheme } from 'nativewind';
 import React, { memo, useCallback } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import LocationSelector from './LocationSelector';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface HeaderProps {
   address: Address | null;
@@ -32,9 +33,9 @@ const Header: React.FC<HeaderProps> = memo(({
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Icon et texte colors - toujours light car fond noir
-  const iconColor = '#FFFFFF';
-  const textColor = 'text-white';
+  // Icon et texte colors dynamiques
+  const iconColor = isDark ? themeColors.foregroundDark : themeColors.foreground;
+  const textColor = 'text-foreground dark:text-foreground-dark';
 
   const handleCartPress = useCallback(() => {
     onCartPress?.();
@@ -49,7 +50,7 @@ const Header: React.FC<HeaderProps> = memo(({
   }, [onLocationPress]);
 
   return (
-    <View className="bg-[#1A1A1A] px-5 pt-6 pb-8 rounded-b-[32px]">
+    <View className="bg-surface dark:bg-surface-dark px-5 pt-6 pb-8 rounded-b-[32px]">
       <View
         className="items-center justify-between mb-5"
         style={{ flexDirection: flexDirection('row') }}

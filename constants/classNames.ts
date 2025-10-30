@@ -1,201 +1,119 @@
 /**
- * Design Tokens - Classes Tailwind Réutilisables
- * Thème extrait : Noir (#000000), Jaune (#FFD100), Blanc (#FFFFFF), Gris (#F2F2F2),
- * Rouge orangé (#E24E2A), Vert (#A4C639)
+ * Design Tokens - Tailwind Theme Helpers
  *
- * Usage:
- * import { COLORS, LAYOUTS, COMPONENTS, combineClasses } from '@/constants/classNames';
+ * This file provides helpers and mappings to Tailwind design tokens.
+ * All colors are now centralized in tailwind.config.js.
+ *
+ * MIGRATION NOTE:
+ * The old COLORS object has been removed. Use Tailwind classes directly:
+ * - OLD: className={COLORS.text.primary}
+ * - NEW: className="text-foreground dark:text-foreground-dark"
+ *
+ * For non-className use cases (ActivityIndicator, StatusBar, etc.),
+ * use the themeColors helper from '@/lib/utils/themeColors'
  */
 
- // ==================== COULEURS ====================
+// ==================== THEME TOKEN MAPPINGS ====================
 
-export const COLORS = {
-  /**
-   * Background (arrière-plan principal)
-   */
-  background: {
-    primary: 'bg-black dark:bg-black',
-  },
+/**
+ * Semantic token mappings to Tailwind classes
+ * Use these for common patterns to ensure consistency
+ */
+export const THEME_TOKENS = {
+  // Backgrounds
+  background: 'bg-background dark:bg-background-dark',
+  surface: 'bg-surface dark:bg-surface-dark',
+  card: 'bg-card dark:bg-card-dark',
 
-  /**
-   * Surfaces
-   */
-  surface: {
-    primary: 'bg-black dark:bg-black',
-    secondary: 'bg-[#F2F2F2] dark:bg-[#111111]',
-    card: 'bg-white dark:bg-[#111111]',
-  },
+  // Text
+  text: 'text-foreground dark:text-foreground-dark',
+  textMuted: 'text-muted-foreground dark:text-muted-dark-foreground',
+  textOnPrimary: 'text-primary-foreground dark:text-primary-dark-foreground',
 
-  /**
-   * Texte (foreground)
-   */
-  text: {
-    primary: 'text-white dark:text-white',
-    secondary: 'text-[#F2F2F2] dark:text-[#F2F2F2]',
-    muted: 'text-gray-400 dark:text-gray-400',
-    inverse: 'text-black dark:text-white',
-    onPrimary: 'text-black', // sur jaune
-    onSecondary: 'text-black dark:text-white',
-  },
+  // Interactive
+  primary: 'bg-primary text-primary-foreground',
+  secondary: 'bg-secondary text-secondary-foreground',
+  destructive: 'bg-destructive text-destructive-foreground',
 
-  /**
-   * Bordures
-   */
-  border: {
-    default: 'border-gray-200 dark:border-gray-700',
-  },
+  // Borders
+  border: 'border-border dark:border-border-dark',
 
-  /**
-   * Inputs/Fields
-   */
-  input: {
-    background: 'bg-white dark:bg-[#151515]',
-    text: 'text-white dark:text-white',
-    border: 'border-gray-200 dark:border-gray-700',
-  },
-
-  /**
-   * Cards
-   */
-  card: {
-    background: 'bg-white dark:bg-[#111111]',
-    foreground: 'text-black dark:text-white',
-  },
-
-  /**
-   * Status colors (sémantiques)
-   */
-  status: {
-    success: 'text-[#A4C639]',
-    error: 'text-[#E24E2A]',
-    warning: 'text-[#FFD100]',
-    info: 'text-gray-400',
-  },
-
-  /**
-   * Accents
-   */
-  accent: {
-    primary: 'text-[#FFD100]',
-    primaryBg: 'bg-[#FFD100]',
-    primaryBorder: 'border-[#FFD100]',
-  },
+  // Input
+  input: 'bg-input dark:bg-input-dark',
 } as const;
 
-// ==================== LAYOUTS ====================
+// ==================== LAYOUT PATTERNS ====================
 
+/**
+ * Common layout patterns using Tailwind tokens
+ */
 export const LAYOUTS = {
-  /**
-   * Screens
-   */
-  screen: `flex-1 ${COLORS.surface.primary}`,
+  // Screens
+  screen: 'flex-1 bg-background dark:bg-background-dark',
 
-  /**
-   * Cards
-   */
-  card: `rounded-2xl ${COLORS.surface.card} shadow-soft`,
-  cardWithPadding: `rounded-2xl ${COLORS.surface.card} shadow-soft p-4`,
+  // Cards
+  card: 'rounded-2xl bg-card dark:bg-card-dark shadow-md',
+  cardWithPadding: 'rounded-2xl bg-card dark:bg-card-dark shadow-md p-4',
 
-  /**
-   * Sections
-   */
+  // Sections
   section: 'px-4 mb-6',
-  sectionTitle: `text-xl font-bold ${COLORS.text.primary} mb-3`,
+  sectionTitle: 'text-xl font-bold text-foreground dark:text-foreground-dark mb-3',
 
-  /**
-   * Dividers
-   */
-  divider: 'h-px bg-gray-100 dark:bg-gray-800',
-  dividerWithMargin: 'h-px bg-gray-100 dark:bg-gray-800 my-4',
+  // Dividers
+  divider: 'h-px bg-border dark:bg-border-dark',
+  dividerWithMargin: 'h-px bg-border dark:bg-border-dark my-4',
 } as const;
 
-// ==================== COMPOSANTS COMMUNS ====================
+// ==================== COMPONENT PATTERNS ====================
 
+/**
+ * Reusable component class combinations
+ * These are convenience helpers - prefer composing Tailwind classes directly when possible
+ */
 export const COMPONENTS = {
-  /**
-   * Boutons
-   */
+  // Buttons (prefer using PrimaryButton component)
   button: {
-    primary: `bg-[#FFD100] rounded-full py-4 px-6 text-black`,
-    secondary: `${COLORS.surface.secondary} rounded-full py-4 px-6 ${COLORS.text.primary}`,
-    outline: `border ${COLORS.border.default} rounded-full py-4 px-6 ${COLORS.text.primary}`,
+    primary: 'bg-primary text-primary-foreground rounded-full py-4 px-6 font-bold',
+    secondary: 'bg-secondary text-secondary-foreground rounded-full py-4 px-6 font-bold',
+    outline: 'border-2 border-border dark:border-border-dark bg-transparent rounded-full py-4 px-6',
+    destructive: 'bg-destructive text-destructive-foreground rounded-full py-4 px-6 font-bold',
   },
 
-  /**
-   * Inputs
-   */
+  // Inputs (prefer using CustomInput component)
   input: {
-    base: `${COLORS.input.background} ${COLORS.input.text} rounded-xl px-4 py-3 border ${COLORS.input.border}`,
-    focused: 'border-[#FFD100]',
-    error: 'border-[#E24E2A]',
+    base: 'bg-input dark:bg-input-dark text-foreground dark:text-foreground-dark rounded-xl px-4 py-3 border border-border dark:border-border-dark',
+    focused: 'border-primary',
+    error: 'border-destructive',
   },
 
-  /**
-   * Badges
-   */
+  // Badges
   badge: {
-    primary: 'bg-[#FFD100]/15 text-[#FFD100] rounded-full px-3 py-1 text-sm font-medium',
-    success: 'bg-[#A4C639]/15 text-[#A4C639] rounded-full px-3 py-1 text-sm font-medium',
-    error: 'bg-[#E24E2A]/15 text-[#E24E2A] rounded-full px-3 py-1 text-sm font-medium',
-    warning: 'bg-[#FFD100]/15 text-[#FFD100] rounded-full px-3 py-1 text-sm font-medium',
-  },
-
-  /**
-   * Cards modernes
-   */
-  restaurantCard: {
-    container: 'bg-white dark:bg-[#111111] rounded-2xl shadow-md overflow-hidden',
-    containerPressed: 'bg-white dark:bg-[#111111] rounded-2xl shadow-lg overflow-hidden',
-    image: 'w-full h-40 rounded-t-2xl',
-    content: 'p-4',
-  },
-
-  /**
-   * Category Items
-   */
-  category: {
-    badge: 'w-16 h-16 rounded-full bg-[#FFD100] items-center justify-center mb-2 shadow-md',
-    badgeSelected: 'w-16 h-16 rounded-full bg-[#FFD100] items-center justify-center mb-2 shadow-xl border-white border-[3px]',
-    text: `text-sm font-medium ${COLORS.text.primary} text-center`,
-    textSelected: `text-sm font-bold ${COLORS.text.primary} text-center`,
-  },
-
-  /**
-   * Header
-   */
-  header: {
-    container: 'px-4 pt-4 pb-3 bg-transparent',
-    searchBar: 'bg-white dark:bg-[#151515] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700',
-    filterButton: 'h-12 w-12 items-center justify-center bg-[#FFD100] rounded-xl shadow-sm',
-    filterButtonDefault: 'h-12 w-12 items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-xl',
-  },
-
-  /**
-   * PromoCard
-   */
-  promo: {
-    container: 'mx-4 rounded-[20px] overflow-hidden shadow-lg',
-    gradient: 'bg-gradient-to-br from-[#FFD100] to-[#FFC700]',
-    button: 'bg-black text-white font-bold py-3 px-6 rounded-full shadow-md',
-  },
-
-  /**
-   * FilterDrawer
-   */
-  filter: {
-    overlay: 'bg-black/40',
-    drawer: 'bg-white dark:bg-[#111111] rounded-t-[24px]',
-    title: 'text-xl font-bold text-center',
-    divider: 'h-px bg-gray-100 dark:bg-gray-700 my-4',
-    radioSelected: 'border-[#FFD100] bg-yellow-50 dark:bg-yellow-900/20',
-    checkboxSelected: 'bg-[#FFD100]',
-    buttonReset: 'text-[#FFD100] font-semibold',
-    buttonApply: 'bg-[#FFD100] text-black font-bold py-4 rounded-full shadow-md',
+    primary: 'bg-primary/15 text-primary rounded-full px-3 py-1 text-sm font-medium',
+    success: 'bg-success/15 text-success rounded-full px-3 py-1 text-sm font-medium',
+    error: 'bg-destructive/15 text-destructive rounded-full px-3 py-1 text-sm font-medium',
+    warning: 'bg-warning/15 text-warning rounded-full px-3 py-1 text-sm font-medium',
   },
 } as const;
 
 // ==================== HELPERS ====================
 
+/**
+ * Combines multiple class names, filtering out falsy values
+ * Useful for conditional classes
+ *
+ * @example
+ * combineClasses('base-class', isActive && 'active-class', 'another-class')
+ */
 export function combineClasses(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(' ');
+}
+
+/**
+ * Type-safe helper to get theme token classes
+ *
+ * @example
+ * const bgClass = getThemeToken('background') // 'bg-background dark:bg-background-dark'
+ */
+export function getThemeToken(token: keyof typeof THEME_TOKENS): string {
+  return THEME_TOKENS[token];
 }

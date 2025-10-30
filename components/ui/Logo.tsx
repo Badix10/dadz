@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View } from 'react-native';
 import { IoniconsName } from './types';
+import { themeColors } from '@/lib/utils/themeColors';
 
 export interface LogoProps {
   size?: number;
@@ -30,7 +31,7 @@ export const Logo: React.FC<LogoProps> = ({
         <Ionicons
           name={icon}
           size={calculatedIconSize}
-          color="white"
+          color={themeColors.primaryForeground}
         />
       </View>
     </View>

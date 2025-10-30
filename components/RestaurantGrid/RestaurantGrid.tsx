@@ -31,7 +31,7 @@ const RestaurantGrid: React.FC<RestaurantGridProps> = memo(({
   if (horizontal) {
     return (
       <View className="mt-2 pb-6">
-        <Text className="text-xl font-bold text-black dark:text-white mb-4 px-4">{title}</Text>
+        <Text className="text-xl font-bold text-foreground dark:text-foreground-dark mb-4 px-4">{title}</Text>
 
         <ScrollView
           horizontal
@@ -59,7 +59,7 @@ const RestaurantGrid: React.FC<RestaurantGridProps> = memo(({
 
   return (
     <View className="px-4 mt-2 pb-24">
-      <Text className="text-xl font-bold text-black mb-4">{title}</Text>
+      <Text className="text-xl font-bold text-foreground dark:text-foreground-dark mb-4">{title}</Text>
 
       <View className="flex-row flex-wrap gap-4">
         {restaurants.map((restaurant) => (

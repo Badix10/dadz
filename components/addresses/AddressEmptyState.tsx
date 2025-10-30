@@ -3,6 +3,8 @@ import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { PrimaryButton } from '@/components/ui';
 import { useTranslation } from '@/hooks';
+import { useColorScheme } from 'nativewind';
+import { themeColors } from '@/lib/utils/themeColors';
 
 interface AddressEmptyStateProps {
   onAddAddress: () => void;
@@ -16,25 +18,29 @@ export const AddressEmptyState: React.FC<AddressEmptyStateProps> = ({
   onAddAddress,
 }) => {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  const iconColor = isDark ? themeColors.mutedDarkForeground : themeColors.mutedForeground;
 
   return (
     <View className="flex-1 items-center justify-center px-8 py-12">
       {/* Icône */}
-      <View className="w-24 h-24 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center mb-6">
+      <View className="w-24 h-24 rounded-full bg-muted dark:bg-muted-dark items-center justify-center mb-6">
         <Ionicons
           name="location-outline"
           size={48}
-          color="#9CA3AF"
+          color={iconColor}
         />
       </View>
 
       {/* Titre */}
-      <Text className="text-2xl font-bold text-black dark:text-white mb-3 text-center">
+      <Text className="text-2xl font-bold text-foreground dark:text-foreground-dark mb-3 text-center">
         {t('addresses:emptyState.title')}
       </Text>
 
       {/* Message */}
-      <Text className="text-base text-gray-500 dark:text-text-light text-center mb-8">
+      <Text className="text-base text-muted-foreground dark:text-muted-dark-foreground text-center mb-8">
         {t('addresses:emptyState.message')}
       </Text>
 
