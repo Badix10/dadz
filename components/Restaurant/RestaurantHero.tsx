@@ -38,9 +38,12 @@ export const RestaurantHero: React.FC<RestaurantHeroProps> = ({
   };
 
   // Default placeholder image
-  const imageSource = coverImageUrl
-    ? { uri: coverImageUrl }
-    : require('@/assets/images/restaurant-placeholder.jpg');
+  // const imageSource = coverImageUrl
+  //   ? { uri: coverImageUrl }
+  //   : require('@/assets/images/restaurant-placeholder.jpg');
+
+      // Default placeholder image
+  const imageSource = require('@/assets/images/restaurant-placeholder.jpg');
 
   return (
     <View className="relative">
@@ -48,6 +51,7 @@ export const RestaurantHero: React.FC<RestaurantHeroProps> = ({
       <Image
         source={imageSource}
         className="w-full h-64 rounded-b-3xl"
+        style={{ width: '100%', height: 256 }}
         resizeMode="cover"
       />
 

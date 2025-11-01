@@ -19,10 +19,11 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onAddPress }) => {
   const isDark = colorScheme === 'dark';
 
   // Default placeholder
-  const imageSource = dish.imageUrl
-    ? { uri: dish.imageUrl }
-    : require('@/assets/images/dish-placeholder.jpg');
+  // const imageSource = dish.imageUrl
+  //   ? { uri: dish.imageUrl }
+  //   : require('@/assets/images/dish-placeholder.jpg');
 
+    const imageSource = require('@/assets/images/dish-placeholder.jpg');
   return (
     <View className="flex-row items-center py-3 px-4">
       {/* Dish Image */}

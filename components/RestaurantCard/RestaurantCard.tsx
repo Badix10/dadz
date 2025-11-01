@@ -1,10 +1,10 @@
 import { useTranslation } from '@/hooks';
+import { themeColors } from '@/lib/utils/themeColors';
+import type { Restaurant } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from 'nativewind';
 import React, { memo, useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import type { Restaurant } from '@/types';
-import { useColorScheme } from 'nativewind';
-import { themeColors } from '@/lib/utils/themeColors';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
@@ -28,6 +28,8 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+
+  const imageSource = require('@/assets/images/restaurant-placeholder.jpg');
 
   // Colors adaptés au dark mode
   const favoriteBgColor = 'bg-card/80 dark:bg-card-dark/80';
@@ -55,7 +57,8 @@ const RestaurantCard: React.FC<RestaurantCardProps> = memo(({
       >
         <View className="relative">
           <Image
-            source={{ uri: restaurant.image }}
+            //source={{ uri: restaurant.image }}
+            source={imageSource}
             className="w-full h-32 rounded-t-2xl"
             resizeMode="cover"
             accessibilityLabel={`${restaurant.name} image`}
