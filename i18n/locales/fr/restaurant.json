@@ -1,0 +1,71 @@
+{
+  "loading": {
+    "title": "Chargement...",
+    "message": "Chargement du restaurant..."
+  },
+  "error": {
+    "title": "Erreur",
+    "invalidId": "ID de restaurant invalide",
+    "notFound": "Restaurant non trouvé",
+    "notFoundMessage": "Ce restaurant n'existe pas ou a été supprimé.",
+    "loadFailed": "Erreur de chargement",
+    "message": "Impossible de charger le restaurant",
+    "retry": "Réessayer"
+  },
+  "noDescription": "Aucune description disponible",
+  "rating": "Note",
+  "reviews": "avis",
+  "distance": "Distance",
+  "deliveryFee": "Frais de livraison",
+  "deliveryTime": "Temps de livraison",
+  "minimumOrder": "Commande minimum",
+  "menu": {
+    "title": "Notre Menu",
+    "empty": "Aucun plat disponible",
+    "noResults": "Aucun plat trouvé pour \"{searchTerm}\"",
+    "search": "Rechercher un plat..."
+  },
+  "reviews": {
+    "title": "Avis clients",
+    "empty": "Aucun avis pour le moment",
+    "seeAll": "Voir tous les avis"
+  },
+  "hours": {
+    "title": "Horaires",
+    "open": "Ouvert",
+    "closed": "Fermé",
+    "opensAt": "Ouvre à {{time}}",
+    "closesAt": "Ferme à {{time}}",
+    "days": {
+      "0": "Dimanche",
+      "1": "Lundi",
+      "2": "Mardi",
+      "3": "Mercredi",
+      "4": "Jeudi",
+      "5": "Vendredi",
+      "6": "Samedi"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "Email"
+  },
+  "delivery": {
+    "outOfRange": "Hors zone de livraison",
+    "outOfRangeMessage": "Ce restaurant ne livre pas à votre adresse",
+    "inRange": "Livraison disponible"
+  },
+  "dish": {
+    "addToCart": "Ajouter",
+    "unavailable": "Indisponible",
+    "popular": "Populaire",
+    "allergens": "Allergènes",
+    "calories": "{{count}} kcal",
+    "prepTime": "{{time}} min"
+  },
+  "categories": {
+    "all": "Tous"
+  }
+}

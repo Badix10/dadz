@@ -10,6 +10,8 @@ type Restaurant = Database['public']['Tables']['restaurants']['Row'];
 type RestaurantCategory = Database['public']['Tables']['restaurant_categories']['Row'];
 type Dish = Database['public']['Tables']['dishes']['Row'];
 type DishCategory = Database['public']['Tables']['dish_categories']['Row'];
+type DishOption = Database['public']['Tables']['dish_options']['Row'];
+type DishOptionValue = Database['public']['Tables']['dish_option_values']['Row'];
 type RestaurantHours = Database['public']['Tables']['restaurant_hours']['Row'];
 type RestaurantReview = Database['public']['Tables']['restaurant_reviews']['Row'];
 
@@ -20,7 +22,11 @@ export interface RestaurantDetails extends Restaurant {
   distance?: number;
   category?: RestaurantCategory | null;
   dish_categories?: (DishCategory & {
-    dishes: Dish[];
+    dishes: (Dish & {
+      dish_options?: (DishOption & {
+        dish_option_values?: DishOptionValue[];
+      })[];
+    })[];
   })[];
   restaurant_hours?: RestaurantHours[];
   restaurant_reviews?: (RestaurantReview & {
@@ -279,7 +285,13 @@ class RestaurantService {
         category:restaurant_categories(*),
         dish_categories(
           *,
-          dishes(*)
+          dishes(
+            *,
+            dish_options(
+              *,
+              dish_option_values(*)
+            )
+          )
         ),
         restaurant_hours(*)
       `)
@@ -307,6 +319,19 @@ class RestaurantService {
       restaurant.dish_categories.forEach((category: any) => {
         if (category.dishes) {
           category.dishes.sort((a: any, b: any) => a.display_order - b.display_order);
+
+          // Trier les options et valeurs d'options pour chaque plat
+          category.dishes.forEach((dish: any) => {
+            if (dish.dish_options) {
+              dish.dish_options.sort((a: any, b: any) => a.display_order - b.display_order);
+
+              dish.dish_options.forEach((option: any) => {
+                if (option.dish_option_values) {
+                  option.dish_option_values.sort((a: any, b: any) => a.display_order - b.display_order);
+                }
+              });
+            }
+          });
         }
       });
     }

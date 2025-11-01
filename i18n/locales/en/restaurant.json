@@ -1,0 +1,66 @@
+{
+  "loading": {
+    "title": "Loading...",
+    "message": "Loading restaurant..."
+  },
+  "error": {
+    "title": "Error",
+    "notFound": "Restaurant not found",
+    "message": "Unable to load restaurant"
+  },
+  "noDescription": "No description available",
+  "rating": "Rating",
+  "reviews": "reviews",
+  "distance": "Distance",
+  "deliveryFee": "Delivery fee",
+  "deliveryTime": "Delivery time",
+  "minimumOrder": "Minimum order",
+  "menu": {
+    "title": "Our Menu",
+    "empty": "No dishes available",
+    "search": "Search for a dish..."
+  },
+  "reviews": {
+    "title": "Customer Reviews",
+    "empty": "No reviews yet",
+    "seeAll": "See all reviews"
+  },
+  "hours": {
+    "title": "Opening Hours",
+    "open": "Open",
+    "closed": "Closed",
+    "opensAt": "Opens at {{time}}",
+    "closesAt": "Closes at {{time}}",
+    "days": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email"
+  },
+  "delivery": {
+    "outOfRange": "Out of delivery range",
+    "outOfRangeMessage": "This restaurant doesn't deliver to your address",
+    "inRange": "Delivery available"
+  },
+  "dish": {
+    "addToCart": "Add",
+    "unavailable": "Unavailable",
+    "popular": "Popular",
+    "allergens": "Allergens",
+    "calories": "{{count}} kcal",
+    "prepTime": "{{time}} min"
+  },
+  "categories": {
+    "all": "All"
+  }
+}

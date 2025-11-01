@@ -174,9 +174,8 @@ export default function RestaurantSearchScreen() {
   }, []);
 
   const handleRestaurantPress = useCallback((restaurant: Restaurant) => {
-    // TODO: Navigate to restaurant details
-    console.log('Restaurant selected:', restaurant.name);
-  }, []);
+    router.push(`/restaurant/${restaurant.id}`);
+  }, [router]);
 
   const handleSuggestionPress = useCallback((query: string) => {
     setQuery(query);
